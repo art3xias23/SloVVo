@@ -7,7 +7,14 @@ namespace SloVVo.ViewModels.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+
+        public MainViewModel()
+        {
+            SwitchView = SwitchViewEnum.View1;
+        }
         private readonly TextConverter _textConverter = new TextConverter(s => s.ToUpper());
+        private string _someText;
+        private readonly ObservableCollection<string> _history = new ObservableCollection<string>();
 
         public enum SwitchViewEnum
         {
@@ -15,15 +22,9 @@ namespace SloVVo.ViewModels.ViewModels
             View2 = 2
         }
 
-        public SwitchViewEnum _switchView;
-        private string _someText;
-        private readonly ObservableCollection<string> _history = new ObservableCollection<string>();
 
-        public SwitchViewEnum SwitchView
-        {
-            get => _switchView;
-            set => _switchView = value;
-        }
+        public SwitchViewEnum SwitchView { get; set; }
+
         public string SomeText
         {
             get => _someText;

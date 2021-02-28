@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using SloVVo.App.Spinners;
 
 namespace SloVVo.App
 {
@@ -32,6 +33,22 @@ namespace SloVVo.App
             //        mainWindow.Show();
             //    });
             //});
+        }
+
+        private void App_OnStartup(object sender, StartupEventArgs e)
+        {
+            var splash = new Splash();
+            splash.Show();
+
+            Task.Delay(3000).ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    splash.Close();
+                });
+            });
         }
     }
 }
