@@ -1,0 +1,14 @@
+﻿<Window x:Class="SloVVo.App.Spinners.Splash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SloVVo.App"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Title="Splash" Height="450" Width="800">
+    <StackPanel>
+        <Image Source="/Images/SloVVo_Logo.JPG" Width="500" />
+        <fa:ImageAwesome Icon="Refresh " Spin="True" SpinDuration="5" Width="100" Foreground="Crimson"/>
+    </StackPanel>
+</Window>
