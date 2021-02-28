@@ -6,11 +6,22 @@
              xmlns:local="clr-namespace:SloVVo.App"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    <StackPanel Name="MainStackPanel" >
-            <Button Name="SearchButton" Background="#E81619"/>
-            <Button Name="UploadButton" Background="#E81619"/>
-            <Button Name="Button1" Background="#E81619"/>
-            <Button Name="Button2" Background="#E81619"/>
-            <Button Name="Button3" Background="#E81619"/>
+    <StackPanel Name="MainStackPanel" Orientation="Horizontal" >
+        <Button VerticalAlignment="Top"  Name="SearchButton" Background="#E81619" Width="200" Height="50" FontSize="16" FontWeight="Bold" >Качи книга</Button>
+        <TextBox TextAlignment="Center"  Width="300" Height="50" VerticalAlignment="Top"  Margin="30,0,0,0" FontSize="16">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Text" Value="Търсете тук" />
+                <Setter Property="Foreground" Value="Gray"></Setter>
+                    <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Text" Value=""/>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+                    
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
     </StackPanel>
 </UserControl>
