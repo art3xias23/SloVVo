@@ -5,14 +5,13 @@ using SloVVo.ViewModels.Command;
 
 namespace SloVVo.ViewModels.ViewModels
 {
-    public class MainViewModel : ObservableObject
+    public class MainWindowViewModel : ObservableObject
     {
 
-        public MainViewModel()
+        public MainWindowViewModel()
         {
             SwitchView = SwitchViewEnum.SearchWindow;
         }
-        private readonly TextConverter _textConverter = new TextConverter(s => s.ToUpper());
         private string _someText;
         private readonly ObservableCollection<string> _history = new ObservableCollection<string>();
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B3D694C0-4790-4454-8959-4DDDF4D0C864}</ProjectGuid>
+    <ProjectGuid>{A401D283-6BB8-4844-90C7-E2938AF6ED39}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SloVVo.ViewModels</RootNamespace>
-    <AssemblyName>SloVVo.ViewModels</AssemblyName>
+    <RootNamespace>SloVVo.Models</RootNamespace>
+    <AssemblyName>SloVVo.Models</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,19 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\RelayCommand.cs" />
-    <Compile Include="Command\RelayCommandEmpty.cs" />
+    <Compile Include="Data\Book.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ObservableObject.cs" />
-    <Compile Include="ViewModels\SearchWindowViewModel.cs" />
-    <Compile Include="ViewModels\UploadBookViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SloVVo.Models\SloVVo.Models.csproj">
-      <Project>{A401D283-6BB8-4844-90C7-E2938AF6ED39}</Project>
-      <Name>SloVVo.Models</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

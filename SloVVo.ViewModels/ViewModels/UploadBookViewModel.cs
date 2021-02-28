@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SloVVo.ViewModels
+namespace SloVVo.ViewModels.ViewModels
 {
-    public class MainViewModel
+    public class UploadBookViewModel
     {
     }
 }

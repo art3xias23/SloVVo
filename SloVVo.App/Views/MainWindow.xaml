@@ -7,17 +7,17 @@
         xmlns:viewModels="clr-namespace:SloVVo.ViewModels.ViewModels;assembly=SloVVo.ViewModels"
         xmlns:views="clr-namespace:SloVVo.App.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="850">
     <Window.DataContext>
-        <viewModels:MainViewModel />
+        <viewModels:MainWindowViewModel />
     </Window.DataContext>
 
     <Window.Resources>
-        <DataTemplate x:Key="View1" DataType="{x:Type viewModels:MainViewModel}">
+        <DataTemplate x:Key="View1" DataType="{x:Type viewModels:MainWindowViewModel}">
             <views:SearchWindow/>
         </DataTemplate>
 
-        <DataTemplate x:Key="View2" DataType="{x:Type viewModels:MainViewModel}">
+        <DataTemplate x:Key="View2" DataType="{x:Type viewModels:MainWindowViewModel}">
             <views:UploadBook/>
         </DataTemplate>
     </Window.Resources>
