@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:SloVVo.App"
              xmlns:viewModels="clr-namespace:SloVVo.ViewModels.ViewModels;assembly=SloVVo.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300" Background="#8C2A27">
+             d:DesignHeight="450" d:DesignWidth="300" Background="#8C2A27" 
+             Width="300" Height="450" 
+             WindowStartupLocation="CenterOwner"
+             Left="637">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="0,10"></Setter>

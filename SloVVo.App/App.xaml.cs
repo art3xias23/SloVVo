@@ -63,7 +63,6 @@ namespace SloVVo.App
         {
             _uploadBookWindow = new UploadBook();
             _uploadBookWindow.Show();
-            _mainWindow.Close();
             ViewEventHandler.ShowUploadScreenEvent -= ShowUploadScreen;
         }
     }

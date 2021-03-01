@@ -7,32 +7,13 @@
         xmlns:viewModels="clr-namespace:SloVVo.ViewModels.ViewModels;assembly=SloVVo.ViewModels"
         xmlns:views="clr-namespace:SloVVo.App.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="850">
+        Title="MainWindow" Height="450" Width="850"
+        WindowStartupLocation="CenterOwner"
+        Left="637">
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
     </Window.DataContext>
-
-    <Window.Resources>
-        <DataTemplate x:Key="View1" DataType="{x:Type viewModels:MainWindowViewModel}">
-            <views:SearchWindow/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="View2" DataType="{x:Type viewModels:MainWindowViewModel}">
-            <views:UploadBook/>
-        </DataTemplate>
-    </Window.Resources>
     <Grid>
-        <ContentControl Content="{Binding }">
-            <ContentControl.Style>
-                <Style TargetType="{x:Type ContentControl}">
-                    <Setter Property="ContentTemplate" Value="{StaticResource View1}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SwitchView}" Value="2">
-                            <Setter Property="ContentTemplate" Value="{StaticResource View2}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
+        <views:SearchWindow></views:SearchWindow>
     </Grid>
 </Window>
