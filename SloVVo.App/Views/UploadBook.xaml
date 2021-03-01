@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:SloVVo.App"
              xmlns:viewModels="clr-namespace:SloVVo.ViewModels.ViewModels;assembly=SloVVo.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300" Background="#8C2A27" 
-             Width="300" Height="450" 
+             d:DesignHeight="450" d:DesignWidth="375" Background="#8C2A27" 
+             Width="400" Height="450" 
              WindowStartupLocation="CenterOwner"
              Left="637">
     <Window.Resources>
@@ -22,7 +22,7 @@
         <viewModels:UploadBookViewModel/>
     </Window.DataContext>
     <StackPanel Orientation="Vertical">
-        <TextBlock HorizontalAlignment="Center" Background="#8c4427">Добавяне на Книга</TextBlock>
+        <TextBlock HorizontalAlignment="Center" Background="#8c4427" FontStyle="Italic" FontWeight="Bold">Добавяне на Книга</TextBlock>
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical" >
                 <TextBlock Text="Номер на Библиотека" Height="19"></TextBlock>
@@ -30,6 +30,7 @@
                 <TextBlock Text="Номер на Книга" Height="17.96"></TextBlock>
                 <TextBlock Text="Име на Книга" Height="17.96"></TextBlock>
                 <TextBlock Text="Автор" Height="17.96"></TextBlock>
+                <TextBlock Text="Раздел" Height="17.96"></TextBlock>
                 <TextBlock Text="Година" Height="17.96"></TextBlock>
             </StackPanel>
 
@@ -40,9 +41,14 @@
                 <TextBox  Width="100"></TextBox>
                 <TextBox Width="100"></TextBox>
                 <TextBox Width="100"></TextBox>
+                <TextBox Width="100"></TextBox>
+            </StackPanel>
+            <StackPanel Height="250">
+                <Button Content="Добави Автор" Margin="0,150" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium"></Button>
+                <Button Content="Добави Раздел" Margin="0,-250,0,0" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium"></Button>
             </StackPanel>
         </StackPanel>
-        <Button Content="Добави" Background="#538c27"/>
+        <Button Content="Добави Книга" Background="#538c27" FontWeight="Medium"/>
     </StackPanel>
 </Window>
 

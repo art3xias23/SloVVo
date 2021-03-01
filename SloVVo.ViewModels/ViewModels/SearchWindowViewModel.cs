@@ -33,11 +33,11 @@ namespace SloVVo.ViewModels.ViewModels
         {
             BooksList.Add(new Book()
             {
-                Author = "Todor",
+                AuthorId = 1,
                 BibioId = 1,
                 BookId = 1,
                 BookName = "Some Book Name",
-                Section = "Some Section",
+                SectionId = 2,
                 ShelfId = 1,
                 YearOfPublication = 1994
             });
