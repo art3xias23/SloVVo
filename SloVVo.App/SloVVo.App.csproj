@@ -25,4 +25,11 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\AddContent - Copy.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>AddContentWindow.xaml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -17,13 +17,6 @@ namespace SloVVo.ViewModels.Command
            _canExecute = canExecute;
         }
 
-        public RelayCommand(Action execute) : this(execute, null) { }
-
-        public RelayCommand(Action execute, Predicate<object> canExecute)
-        {
-            _executeNull = execute ?? throw new ArgumentNullException("execute");
-            _canExecute = canExecute;
-        }
         public bool CanExecute(object parameter)
         {
             return _canExecute?.Invoke(parameter) ?? true;

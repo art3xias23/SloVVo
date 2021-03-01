@@ -18,33 +18,36 @@ namespace SloVVo.App
     {
         private MainWindow _mainWindow;
         private UploadBook _uploadBookWindow;
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            ////var splashScreen = new Splash();
-            ////this.MainWindow = splashScreen;
-            ////splashScreen.Show();
-
-            //Task.Factory.StartNew(() =>
-            //{
-            //    System.Threading.Thread.Sleep(3000);
-
-            //    this.Dispatcher.Invoke(() =>
-            //    {
-            //        var mainWindow = new MainWindow();
-            //        this.MainWindow = mainWindow;
-            //        mainWindow.Show();
-            //    });
-            //});
-        }
+        private AddAuthorWindow _addAuthorWindow;
+        private AddContentWindow _addContentWindow;
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            if (!ViewEventHandler.HasEventListeners)
+            if (!ViewEventHandler.HasShowUploadScreenEventListeners)
             {
                 ViewEventHandler.ShowUploadScreenEvent += ShowUploadScreen;
             }
+
+            if (!ViewEventHandler.HasShowAddAuthorScreenEventListeners)
+            {
+                ViewEventHandler.ShowAddAuthorScreenEvent += ShowAddAuthorScreenEvent;
+            }
+
+            if (!ViewEventHandler.HasCloseAddAuthorScreenEventListeners)
+            {
+                ViewEventHandler.CloseAddAuthorScreenEvent += CloseAddAuthorScreen;
+            }
+
+            if (!ViewEventHandler.HasShowAddContentScreenEventListeners)
+            {
+                ViewEventHandler.ShowAddContentScreenEvent += ShowAddContentScreenEvent;
+            }
+
+            if (!ViewEventHandler.HasCloseAddContentScreenEventListeners)
+            {
+                ViewEventHandler.CloseAddContentScreenEvent += CloseAddContentScreen;
+            }
+
             var splash = new Splash();
             splash.Show();
 
@@ -57,6 +60,32 @@ namespace SloVVo.App
                     splash.Close();
                 });
             });
+        }
+
+        private void CloseAddContentScreen(object sender, EventArgs e)
+        {
+            _addContentWindow.Close();
+            ViewEventHandler.CloseAddContentScreenEvent -= CloseAddContentScreen;
+        }
+
+        private void ShowAddContentScreenEvent(object sender, EventArgs e)
+        {
+            _addContentWindow = new AddContentWindow();
+            _addContentWindow.Show();
+            ViewEventHandler.ShowAddContentScreenEvent -= CloseAddContentScreen;
+        }
+
+        private void ShowAddAuthorScreenEvent(object sender, EventArgs e)
+        {
+            _addAuthorWindow = new AddAuthorWindow();
+            _addAuthorWindow.Show();
+            ViewEventHandler.ShowAddAuthorScreenEvent -= ShowAddAuthorScreenEvent;
+        }
+
+        private void CloseAddAuthorScreen(object sender, EventArgs e)
+        {
+            _addAuthorWindow.Close();
+            ViewEventHandler.CloseAddAuthorScreenEvent -= CloseAddAuthorScreen;
         }
 
         private void ShowUploadScreen(object s, EventArgs e)

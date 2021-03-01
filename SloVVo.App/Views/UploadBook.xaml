@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SloVVo.App"
              xmlns:viewModels="clr-namespace:SloVVo.ViewModels.ViewModels;assembly=SloVVo.ViewModels"
+             xmlns:validationRules="clr-namespace:SloVVo.App.ValidationRules"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="375" Background="#8C2A27" 
              Width="400" Height="450" 
@@ -17,6 +19,7 @@
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="10,10"></Setter>
         </Style>
+
     </Window.Resources>
     <Window.DataContext>
         <viewModels:UploadBookViewModel/>
@@ -25,8 +28,8 @@
         <TextBlock HorizontalAlignment="Center" Background="#8c4427" FontStyle="Italic" FontWeight="Bold">Добавяне на Книга</TextBlock>
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical" >
-                <TextBlock Text="Номер на Библиотека" Height="19"></TextBlock>
-                <TextBlock Text="Номер на Рафт" Height="19"></TextBlock>
+                <TextBlock Text="Номер на Библиотека" Height="17.96"></TextBlock>
+                <TextBlock Text="Номер на Рафт" Height="17.96"></TextBlock>
                 <TextBlock Text="Номер на Книга" Height="17.96"></TextBlock>
                 <TextBlock Text="Име на Книга" Height="17.96"></TextBlock>
                 <TextBlock Text="Автор" Height="17.96"></TextBlock>
@@ -34,21 +37,88 @@
                 <TextBlock Text="Година" Height="17.96"></TextBlock>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" >
-                <TextBox  Width="100"></TextBox>
-                <TextBox HorizontalAlignment="Right" Width="100"></TextBox>
-                <TextBox  Width="100"></TextBox>
-                <TextBox  Width="100"></TextBox>
-                <TextBox Width="100"></TextBox>
-                <TextBox Width="100"></TextBox>
-                <TextBox Width="100"></TextBox>
+            <StackPanel Orientation="Vertical" Margin="0,10" >
+                <TextBox x:Name="BiblioIdTxt"  Width="100" 
+                         Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,0,8,15">
+                    <Binding Path="Book.BibioId" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
+                <TextBox x:Name="RaftIdText"  Width="100" Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,7,8,8">
+                    <Binding Path="Book.ShelfId" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+
+                </TextBox>
+                <TextBox x:Name="BookIdText"  Width="100"  Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,10,8,8">
+                    <Binding Path="Book.BookId" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
+                <TextBox x:Name="BookName" Width="100"  Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8">
+                    <Binding Path="Book.BookName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
+                <ComboBox x:Name="AuthorText" ItemsSource="{Binding Authors}" SelectedValue="{Binding Book.Author}" Width="100" Margin="10,12,10,10"/>
+                <ComboBox x:Name="RazdelText" Width="100" Margin="0,8,0,0" IsEditable="false"/>
+                <TextBox x:Name="YearText" Width="100" Margin="10,17,10,10">
+                    <Binding Path="Book.BookName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
             </StackPanel>
             <StackPanel Height="250">
-                <Button Content="Добави Автор" Margin="0,150" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium"></Button>
-                <Button Content="Добави Раздел" Margin="0,-250,0,0" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium"></Button>
+                <Button Content="Добави Автор" Margin="0,150" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding AddAuthor}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Добави Раздел" Margin="0,-250,0,0" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding AddContent}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </StackPanel>
         </StackPanel>
-        <Button Content="Добави Книга" Background="#538c27" FontWeight="Medium"/>
+        <Button Content="Добави Книга" Background="#538c27" FontWeight="Medium">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#E81619"/>
+                    <Setter Property="Width" Value="120"/>
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=BiblioIdTxt}" Value="False"></Condition>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=RaftIdText}" Value="False"></Condition>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=BookIdText}" Value="False"></Condition>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=YearText}" Value="False"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </StackPanel>
 </Window>
 
