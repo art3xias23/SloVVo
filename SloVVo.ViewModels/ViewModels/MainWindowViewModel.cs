@@ -12,7 +12,6 @@ namespace SloVVo.ViewModels.ViewModels
         {
             SwitchView = SwitchViewEnum.SearchWindow;
         }
-        private string _someText;
         private readonly ObservableCollection<string> _history = new ObservableCollection<string>();
 
         public enum SwitchViewEnum

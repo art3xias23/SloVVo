@@ -7,18 +7,26 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SloVVo.Models.Data;
 using SloVVo.ViewModels.Command;
+using SloVVo.ViewModels.Event;
 
 namespace SloVVo.ViewModels.ViewModels
 {
     public class SearchWindowViewModel : ObservableObject
     {
         public ICommand SearchUserControlLoadedCommand { get; set; }
+        public ICommand ShowUploadScreenCommand { get; set; }
 
         public ObservableCollection<Book> BooksList { get; set; }
         public SearchWindowViewModel()
         {
             SearchUserControlLoadedCommand = new RelayCommandEmpty(SearchUserControlLoaded); 
+            ShowUploadScreenCommand = new RelayCommandEmpty(ShowUplaodScreen);
             BooksList = new ObservableCollection<Book>();
+        }
+
+        private void ShowUplaodScreen()
+        {
+            ViewEventHandler.RaiseShowUploadView();
         }
 
         private void SearchUserControlLoaded()

@@ -19,7 +19,14 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <StackPanel Name="MainStackPanel" Orientation="Horizontal" Width="400" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" >
-                <Button VerticalAlignment="Top"  Name="SearchButton">Качи книга</Button>
+                <Button Content="Качи" VerticalAlignment="Top"  Name="SearchButton">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding ShowUploadScreenCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                </Button>
+
                 <TextBox TextAlignment="Center"  Width="250" Height="40" VerticalAlignment="Top"  Margin="30,0,0,0" FontSize="16" BorderBrush="Black" BorderThickness="2">
                     <TextBox.Style>
                         <Style TargetType="{x:Type TextBox}">
