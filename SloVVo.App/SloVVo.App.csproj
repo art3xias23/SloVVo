@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SloVVo.ViewModels\SloVVo.ViewModels.csproj" />
+    <ProjectReference Include="..\SloVVo.Logic\SloVVo.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
