@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:SloVVo.App"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Splash" Height="450" Width="800">
+        Title="Splash" Height="450" Width="800"
+        Left="637">
     <StackPanel>
         <Image Source="/Images/SloVVo_Logo.JPG" Width="500" />
-        <fa:ImageAwesome Icon="Refresh " Spin="True" SpinDuration="5" Width="100" Foreground="Crimson"/>
+        <fa:ImageAwesome Icon="Refresh " Spin="True" SpinDuration="5" Width="100" Foreground="#E81619"/>
     </StackPanel>
 </Window>

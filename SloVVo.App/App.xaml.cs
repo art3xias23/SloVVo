@@ -5,6 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using SloVVo.App.Spinners;
+using SloVVo.App.Views;
+using SloVVo.ViewModels.Event;
 
 namespace SloVVo.App
 {
@@ -13,6 +16,8 @@ namespace SloVVo.App
     /// </summary>
     public partial class App : Application
     {
+        private MainWindow _mainWindow;
+        private UploadBook _uploadBookWindow;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -32,6 +37,33 @@ namespace SloVVo.App
             //        mainWindow.Show();
             //    });
             //});
+        }
+
+        private void App_OnStartup(object sender, StartupEventArgs e)
+        {
+            if (!ViewEventHandler.HasEventListeners)
+            {
+                ViewEventHandler.ShowUploadScreenEvent += ShowUploadScreen;
+            }
+            var splash = new Splash();
+            splash.Show();
+
+            Task.Delay(3000).ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    _mainWindow = new MainWindow();
+                    _mainWindow.Show();
+                    splash.Close();
+                });
+            });
+        }
+
+        private void ShowUploadScreen(object s, EventArgs e)
+        {
+            _uploadBookWindow = new UploadBook();
+            _uploadBookWindow.Show();
+            ViewEventHandler.ShowUploadScreenEvent -= ShowUploadScreen;
         }
     }
 }

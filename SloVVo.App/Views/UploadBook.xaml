@@ -1,0 +1,48 @@
+﻿<Window x:Class="SloVVo.App.Views.UploadBook"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SloVVo.App"
+             xmlns:viewModels="clr-namespace:SloVVo.ViewModels.ViewModels;assembly=SloVVo.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300" Background="#8C2A27" 
+             Width="300" Height="450" 
+             WindowStartupLocation="CenterOwner"
+             Left="637">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,10"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="10,10"></Setter>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <viewModels:UploadBookViewModel/>
+    </Window.DataContext>
+    <StackPanel Orientation="Vertical">
+        <TextBlock HorizontalAlignment="Center" Background="#8c4427">Добавяне на Книга</TextBlock>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical" >
+                <TextBlock Text="Номер на Библиотека" Height="19"></TextBlock>
+                <TextBlock Text="Номер на Рафт" Height="19"></TextBlock>
+                <TextBlock Text="Номер на Книга" Height="17.96"></TextBlock>
+                <TextBlock Text="Име на Книга" Height="17.96"></TextBlock>
+                <TextBlock Text="Автор" Height="17.96"></TextBlock>
+                <TextBlock Text="Година" Height="17.96"></TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" >
+                <TextBox  Width="100"></TextBox>
+                <TextBox HorizontalAlignment="Right" Width="100"></TextBox>
+                <TextBox  Width="100"></TextBox>
+                <TextBox  Width="100"></TextBox>
+                <TextBox Width="100"></TextBox>
+                <TextBox Width="100"></TextBox>
+            </StackPanel>
+        </StackPanel>
+        <Button Content="Добави" Background="#538c27"/>
+    </StackPanel>
+</Window>
+
