@@ -11,15 +11,26 @@ namespace SloVVo.Logic.Event
             OnRaiseShowUploadView();
         }
 
+        private static void OnRaiseCloseUploadView()
+        {
+            CloseUploadScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
+        }
+
+        public static event EventHandler CloseUploadScreenEvent;
+
+        public static void RaiseCloseUploadView()
+        {
+            OnRaiseCloseUploadView();
+        }
+
+        public static bool HasCloseUploadScreenEventListeners => CloseUploadScreenEvent != null;
+
         private static void OnRaiseShowUploadView()
         {
             ShowUploadScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
         }
 
         public static bool HasShowUploadScreenEventListeners => ShowUploadScreenEvent != null;
-
-
-
 
         public static event EventHandler ShowAddContentScreenEvent;
 
@@ -35,9 +46,6 @@ namespace SloVVo.Logic.Event
 
         public static bool HasShowAddContentScreenEventListeners => ShowAddContentScreenEvent != null;
 
-
-
-
         public static event EventHandler CloseAddContentScreenEvent;
 
         public static void RaiseCloseAddContentView()
@@ -51,9 +59,6 @@ namespace SloVVo.Logic.Event
         }
 
         public static bool HasCloseAddContentScreenEventListeners => CloseAddContentScreenEvent != null;
-
-
-
 
         public static event EventHandler ShowAddAuthorScreenEvent;
 

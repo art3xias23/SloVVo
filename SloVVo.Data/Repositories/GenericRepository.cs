@@ -41,10 +41,5 @@ namespace SloVVo.Data.Repositories
             var currentItem = _context.Set<T>().Find(id);
             _context.Set<T>().Remove(currentItem);
         }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
-        }
     }
 }

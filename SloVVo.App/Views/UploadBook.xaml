@@ -24,7 +24,6 @@
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="10,10"></Setter>
         </Style>
-
     </Window.Resources>
     <Window.DataContext>
         <viewModels:UploadBookViewModel/>
@@ -43,16 +42,16 @@
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Margin="0,10" >
-                <TextBox x:Name="BiblioIdTxt"  Width="100" 
+                <TextBox Name="BiblioIdText"  Width="100" 
                          Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,0,8,15">
-                    <Binding Path="Book.BibioId" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Book.BibioId" Mode="OneWayToSource"  UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" FallbackValue="0">
                         <Binding.ValidationRules>
                             <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
                 <TextBox x:Name="RaftIdText"  Width="100" Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,7,8,8">
-                    <Binding Path="Book.ShelfId" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Book.ShelfId" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged" FallbackValue="0">
                         <Binding.ValidationRules>
                             <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
@@ -60,47 +59,51 @@
 
                 </TextBox>
                 <TextBox x:Name="BookIdText"  Width="100"  Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,10,8,8">
-                    <Binding Path="Book.BookId" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Book.BookId" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged" FallbackValue="0">
                         <Binding.ValidationRules>
                             <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
-                <TextBox x:Name="BookName" Width="100"  Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8">
-                    <Binding Path="Book.BookName" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-                <ComboBox x:Name="AuthorText" ItemsSource="{Binding Authors}" SelectedValue="{Binding Book.Author}" Width="100" Margin="10,12,10,10"/>
-                <ComboBox x:Name="RazdelText" Width="100" Margin="0,8,0,0" IsEditable="false"/>
-                <TextBox x:Name="YearText" Width="100" Margin="10,17,10,10">
-                    <Binding Path="Book.BookName" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
+                <TextBox x:Name="BookNameText" Width="100" Text="{Binding Book.BookName, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8"/>
+                <ComboBox x:Name="AuthorText"  Width="100" Margin="10,12,10,10"
+                          DisplayMemberPath="AuthorName"
+                          SelectedValuePath="AuthorId" 
+                    SelectedItem="{Binding Book.AuthorId}"
+                          ItemsSource="{Binding Authors, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox x:Name="SectionText" Width="100" Margin="0,8,0,0" IsEditable="false"
+                    DisplayMemberPath="SectionName"
+                    SelectedValuePath="SectionId" 
+                    SelectedItem="{Binding Book.SectionId}"
+                    ItemsSource="{Binding Sections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="YearText" Width="100" Margin="10,17,10,10" >
+                    <Binding Path="Book.YearOfPublication" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged"/>
                 </TextBox>
             </StackPanel>
             <StackPanel Height="250">
                 <Button Content="Добави Автор" Margin="0,150" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding AddAuthor}"></i:InvokeCommandAction>
+                            <i:InvokeCommandAction Command="{Binding AddAuthorCommand}"></i:InvokeCommandAction>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Content="Добави Раздел" Margin="0,-250,0,0" Height="25" Width="100" Background="White" FontSize="12" FontWeight="Medium">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding AddContent}"></i:InvokeCommandAction>
+                            <i:InvokeCommandAction Command="{Binding AddContentCommand}"></i:InvokeCommandAction>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
         </StackPanel>
         <Button Content="Добави Книга" Background="#538c27" FontWeight="Medium">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding UploadBookCommand}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#E81619"/>
@@ -113,10 +116,9 @@
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=BiblioIdTxt}" Value="False"></Condition>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=BiblioIdText}" Value="False"></Condition>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=RaftIdText}" Value="False"></Condition>
                                 <Condition Binding="{Binding Path=(Validation.HasError), ElementName=BookIdText}" Value="False"></Condition>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=YearText}" Value="False"></Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>
                         </MultiDataTrigger>

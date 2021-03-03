@@ -44,10 +44,15 @@ namespace SloVVo.App
                 ViewEventHandler.CloseAddContentScreenEvent += CloseAddContentScreen;
             }
 
+            if (!ViewEventHandler.HasCloseUploadScreenEventListeners)
+            {
+                ViewEventHandler.CloseUploadScreenEvent += CloseUplaodScreen;
+            }
+
             var splash = new Splash();
             splash.Show();
 
-            Task.Delay(3000).ContinueWith(_ =>
+            Task.Delay(1000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -58,37 +63,37 @@ namespace SloVVo.App
             });
         }
 
+        private void CloseUplaodScreen(object sender, EventArgs e)
+        {
+            _uploadBookWindow.Close();
+        }
+
         private void CloseAddContentScreen(object sender, EventArgs e)
         {
             _addContentWindow.Close();
-            ViewEventHandler.CloseAddContentScreenEvent -= CloseAddContentScreen;
         }
 
         private void ShowAddContentScreenEvent(object sender, EventArgs e)
         {
             _addContentWindow = new AddContentWindow();
             _addContentWindow.Show();
-            ViewEventHandler.ShowAddContentScreenEvent -= CloseAddContentScreen;
         }
 
         private void ShowAddAuthorScreenEvent(object sender, EventArgs e)
         {
             _addAuthorWindow = new AddAuthorWindow();
             _addAuthorWindow.Show();
-            ViewEventHandler.ShowAddAuthorScreenEvent -= ShowAddAuthorScreenEvent;
         }
 
         private void CloseAddAuthorScreen(object sender, EventArgs e)
         {
             _addAuthorWindow.Close();
-            ViewEventHandler.CloseAddAuthorScreenEvent -= CloseAddAuthorScreen;
         }
 
         private void ShowUploadScreen(object s, EventArgs e)
         {
             _uploadBookWindow = new UploadBook();
             _uploadBookWindow.Show();
-            ViewEventHandler.ShowUploadScreenEvent -= ShowUploadScreen;
         }
     }
 }

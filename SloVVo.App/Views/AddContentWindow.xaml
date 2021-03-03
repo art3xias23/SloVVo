@@ -14,7 +14,7 @@
     <Grid>
        <StackPanel Orientation=" Vertical">
             <TextBlock HorizontalAlignment="Center" Background="White">Добави Раздел</TextBlock>
-            <TextBox Width="200" Margin="0,20,0,20"></TextBox>
+            <TextBox Width="200" Margin="0,20,0,20" Text="{Binding SectionName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Button Content="Добави" Height="30">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">

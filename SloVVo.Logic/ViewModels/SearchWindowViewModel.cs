@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using SloVVo.Data.Models;
+using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
 
@@ -8,15 +10,25 @@ namespace SloVVo.Logic.ViewModels
 {
     public class SearchWindowViewModel : ObservableObject
     {
-        public ICommand SearchUserControlLoadedCommand { get; set; }
+        private UnitOfWork _uow;
+
+        public ICommand LoadBookCollectionCommand { get; set; }
         public ICommand ShowUploadScreenCommand { get; set; }
 
         public ObservableCollection<Book> BooksList { get; set; }
         public SearchWindowViewModel()
         {
-            SearchUserControlLoadedCommand = new RelayCommandEmpty(SearchUserControlLoaded); 
+            EventAggregator.BookUpdateTransmitted += BookUpdate;
+            LoadBookCollectionCommand = new RelayCommandEmpty(LoadBookCollection); 
             ShowUploadScreenCommand = new RelayCommandEmpty(ShowUplaodScreen);
             BooksList = new ObservableCollection<Book>();
+
+            _uow = new UnitOfWork();
+        }
+
+        private void BookUpdate()
+        {
+            LoadBookCollection();
         }
 
         private void ShowUplaodScreen()
@@ -24,18 +36,9 @@ namespace SloVVo.Logic.ViewModels
             ViewEventHandler.RaiseShowUploadView();
         }
 
-        private void SearchUserControlLoaded()
+        private void LoadBookCollection()
         {
-            BooksList.Add(new Book()
-            {
-                AuthorId = 1,
-                BibioId = 1,
-                BookId = 1,
-                BookName = "Some Book Name",
-                SectionId = 2,
-                ShelfId = 1,
-                YearOfPublication = 1994
-            });
+            BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAll()); 
         }
     }
 }

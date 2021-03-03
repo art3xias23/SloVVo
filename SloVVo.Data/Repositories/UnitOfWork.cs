@@ -22,8 +22,13 @@ namespace SloVVo.Data.Repositories
            _context = new SloVVoDataContext(); 
         }
 
-        public AuthorRepository AuthorRepository => _authorRepository ?? new AuthorRepository(_context);
-        public SectionRepository SectionRepository => _sectionRepository ?? new SectionRepository(_context);
-        public BookRepository BookRepository => _bookRepository ?? new BookRepository(_context);
+        public AuthorRepository AuthorRepository => _authorRepository ?? (_authorRepository = new AuthorRepository(_context));
+        public SectionRepository SectionRepository => _sectionRepository ?? ( _sectionRepository = new SectionRepository(_context));
+        public BookRepository BookRepository => _bookRepository ?? (_bookRepository = new BookRepository(_context));
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
     }
 }

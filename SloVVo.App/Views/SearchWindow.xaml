@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:SloVVo.App"
-             xmlns:viewModels="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.ViewModels"
              xmlns:viewModels1="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="850" Background="#8C2A27">
@@ -14,7 +13,7 @@
     </UserControl.DataContext>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding SearchUserControlLoadedCommand}"></i:InvokeCommandAction>
+            <i:InvokeCommandAction Command="{Binding LoadBookCollectionCommand}"></i:InvokeCommandAction>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <StackPanel Orientation="Vertical">
