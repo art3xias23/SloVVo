@@ -47,7 +47,7 @@ namespace SloVVo.Data.Mappings
 
             Property(x => x.YearOfPublication)
                 .IsOptional()
-                .HasColumnType("int");
+                .HasColumnType("nvarchar");
 
             HasOptional(x => x.Author)
                 .WithMany(x => x.Books);

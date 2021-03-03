@@ -51,6 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202103030019479_01.Initial.cs" />
+    <Compile Include="Migrations\202103030019479_01.Initial.designer.cs">
+      <DependentUpon>202103030019479_01.Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103030021202_02. Change YearOfPublication to Nvarchar.cs" />
+    <Compile Include="Migrations\202103030021202_02. Change YearOfPublication to Nvarchar.designer.cs">
+      <DependentUpon>202103030021202_02. Change YearOfPublication to Nvarchar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Section.cs" />
@@ -58,10 +66,6 @@
     <Compile Include="Mappings\AuthorMapping.cs" />
     <Compile Include="Mappings\BookMapping.cs" />
     <Compile Include="Mappings\SectionMapping.cs" />
-    <Compile Include="Migrations\202103011336463_01. Initial Migration.cs" />
-    <Compile Include="Migrations\202103011336463_01. Initial Migration.designer.cs">
-      <DependentUpon>202103011336463_01. Initial Migration.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuthorRepository.cs" />
@@ -75,11 +79,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202103011336463_01. Initial Migration.resx">
-      <DependentUpon>202103011336463_01. Initial Migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202103030019479_01.Initial.resx">
+      <DependentUpon>202103030019479_01.Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103030021202_02. Change YearOfPublication to Nvarchar.resx">
+      <DependentUpon>202103030021202_02. Change YearOfPublication to Nvarchar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -8,9 +8,9 @@
         public string BookName { get; set; }
         public int? AuthorId { get; set; }
         public int? SectionId { get; set; }
-        public int? YearOfPublication { get; set; }
+        public string YearOfPublication { get; set; }
 
-        public Author Author { get; set; }
-        public Section Section { get; set; }
+        public virtual Author Author { get; set; }
+        public virtual Section Section { get; set; }
     }
 }

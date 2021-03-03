@@ -11,11 +11,17 @@ namespace SloVVo.Logic.ViewModels
     public class SearchWindowViewModel : ObservableObject
     {
         private UnitOfWork _uow;
+        private ObservableCollection<Book> _booksList;
+        public ObservableCollection<Book> BooksList
+        {
+            get => _booksList;
+            set { _booksList = value;OnPropertyChanged(nameof(BooksList)); }
+        }
 
         public ICommand LoadBookCollectionCommand { get; set; }
         public ICommand ShowUploadScreenCommand { get; set; }
 
-        public ObservableCollection<Book> BooksList { get; set; }
+
         public SearchWindowViewModel()
         {
             EventAggregator.BookUpdateTransmitted += BookUpdate;

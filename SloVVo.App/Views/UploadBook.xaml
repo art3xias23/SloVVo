@@ -70,12 +70,12 @@
                 <ComboBox x:Name="AuthorText"  Width="100" Margin="10,12,10,10"
                           DisplayMemberPath="AuthorName"
                           SelectedValuePath="AuthorId" 
-                    SelectedItem="{Binding Book.AuthorId}"
+                    SelectedItem="{Binding Book.Author}"
                           ItemsSource="{Binding Authors, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <ComboBox x:Name="SectionText" Width="100" Margin="0,8,0,0" IsEditable="false"
                     DisplayMemberPath="SectionName"
                     SelectedValuePath="SectionId" 
-                    SelectedItem="{Binding Book.SectionId}"
+                    SelectedItem="{Binding Book.Section}"
                     ItemsSource="{Binding Sections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBox x:Name="YearText" Width="100" Margin="10,17,10,10" >
                     <Binding Path="Book.YearOfPublication" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged"/>

@@ -1,9 +1,9 @@
-﻿namespace SloVVo.Models.Migrations
+﻿namespace SloVVo.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _01InitialMigration : DbMigration
+    public partial class _01Initial : DbMigration
     {
         public override void Up()
         {

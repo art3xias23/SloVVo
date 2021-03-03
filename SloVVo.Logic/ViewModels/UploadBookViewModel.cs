@@ -56,8 +56,8 @@ namespace SloVVo.Logic.ViewModels
                     ShelfId = Book.ShelfId,
                     BookId = Book.BookId,
                     BookName = Book.BookName,
-                    AuthorId = Book.AuthorId,
-                    SectionId = Book.SectionId,
+                    Author = Book.Author,
+                    Section = Book.Section,
                     YearOfPublication = Book.YearOfPublication
                 });
 

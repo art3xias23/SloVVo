@@ -55,14 +55,16 @@
                 <Button Content="Търси"></Button>
             </StackPanel>
         </StackPanel>
-        <DataGrid Height="500" VerticalAlignment="Top" Margin="0,25" ItemsSource="{Binding BooksList }" AutoGenerateColumns="False">
+        <DataGrid Height="500" VerticalAlignment="Top" Margin="0,25" 
+                  ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" 
+                  AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер на Библиотека" Binding="{Binding BibioId}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Номер на Рафт" Binding="{Binding ShelfId}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Номер на Книга" Binding="{Binding BookId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Име на Книга" Binding="{Binding BookName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Автор" Binding="{Binding Author}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Секция" Binding="{Binding Section}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Име на Книга" Binding="{Binding BookName}" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Автор" Binding="{Binding Author.AuthorName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Секция" Binding="{Binding Section.SectionName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Година" Binding="{Binding YearOfPublication}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
