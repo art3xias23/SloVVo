@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
+using SloVVo.Logic.Caching;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
 
@@ -75,35 +79,35 @@ namespace SloVVo.Logic.ViewModels
 
         private void Search(object obj)
         {
+            BooksList=  new ObservableCollection<Book>(GetBooksList());
+        }
+
+        private List<Book> GetBooksList()
+        {
+            var booksList = new List<Book>();
+
             if (IsBookChecked)
             {
-
-                BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAll()
-                    .Where(x => x.BookName.ToLower().Contains(SearchText.ToLower())));
-                return;
+                return booksList = _uow.BookRepository.GetAll()
+                    .Where(x => x.BookName.ToLower().Contains(SearchText.ToLower())).ToList();
             }
             else if (IsAuthorChecked)
             {
-
-                BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAll()
-                    .Where(x => x.Author.AuthorName.ToLower().Contains(SearchText.ToLower())));
-                return;
+                return booksList = _uow.BookRepository.GetAll()
+                    .Where(x => x.Author.AuthorName.ToLower().Contains(SearchText.ToLower())).ToList();
             }
             else if (IsSectionChecked)
             {
-
-                BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAll()
-                    .Where(x => x.Section.SectionName.ToLower().Contains(SearchText.ToLower())));
-                return;
+                return booksList = _uow.BookRepository.GetAll()
+                    .Where(x => x.Section.SectionName.ToLower().Contains(SearchText.ToLower())).ToList();
             }
             else if (IsYearChecked)
             {
-
-                BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAll()
-                    .Where(x => x.YearOfPublication.Contains(SearchText.ToLower())));
-                return;
+                return booksList = _uow.BookRepository.GetAll()
+                    .Where(x => x.YearOfPublication.ToLower().Contains(SearchText.ToLower())).ToList();
             }
-            BooksList = new ObservableCollection<Book>();
+
+            return booksList;
         }
 
         private void BookUpdate()
@@ -118,7 +122,10 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadBookCollection()
         {
-            BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAll());
+             ObservableCollection<Book> books = new ObservableCollection<Book>(Cache.DefaultCache["AllBooks"] as List<Book>);
+             BooksList = books?.Count > 0
+                 ? books
+                 : new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
         }
     }
 }

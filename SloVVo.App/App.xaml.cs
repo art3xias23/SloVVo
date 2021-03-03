@@ -3,7 +3,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using SloVVo.App.Spinners;
 using SloVVo.App.Views;
+using SloVVo.Data.Repositories;
 using SloVVo.Logic.Event;
+using System.Runtime.Caching;
+using SloVVo.Logic.Caching;
 
 namespace SloVVo.App
 {
@@ -19,6 +22,8 @@ namespace SloVVo.App
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
+            Task.Run(CacheBooksData);
+
             if (!ViewEventHandler.HasShowUploadScreenEventListeners)
             {
                 ViewEventHandler.ShowUploadScreenEvent += ShowUploadScreen;
@@ -52,7 +57,7 @@ namespace SloVVo.App
             var splash = new Splash();
             splash.Show();
 
-            Task.Delay(1000).ContinueWith(_ =>
+            Task.Delay(3000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -61,6 +66,13 @@ namespace SloVVo.App
                     splash.Close();
                 });
             });
+        }
+
+        private void CacheBooksData()
+        {
+            var books =  new UnitOfWork().BookRepository.GetAll();
+            //var books = Task.Run(() =>  new UnitOfWork().BookRepository.GetAll());
+            Cache.DefaultCache.Set("AllBooks", books, new CacheItemPolicy() {AbsoluteExpiration = DateTimeOffset.MaxValue});
         }
 
         private void CloseUplaodScreen(object sender, EventArgs e)

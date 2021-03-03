@@ -25,6 +25,11 @@ namespace SloVVo.Data.Repositories
             return _context.Set<T>().ToList();
         }
 
+        public IQueryable<T> GetAllQueryable()
+        {
+            return _context.Set<T>();
+        }
+
         public T GetById(object id)
         {
             return _context.Set<T>().Find(id);
