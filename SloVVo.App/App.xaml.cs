@@ -7,6 +7,11 @@ using SloVVo.Data.Repositories;
 using SloVVo.Logic.Event;
 using System.Runtime.Caching;
 using SloVVo.Logic.Caching;
+using System.Configuration;
+using System.Windows.Navigation;
+using SloVVo.Logic.Squirrel;
+using NLog;
+using MessageBox = System.Windows.MessageBox;
 
 namespace SloVVo.App
 {
@@ -19,9 +24,34 @@ namespace SloVVo.App
         private UploadBook _uploadBookWindow;
         private AddAuthorWindow _addAuthorWindow;
         private AddContentWindow _addContentWindow;
+        private SquirrelApplication squirrelApp;
+
+        private ILogger _logger = LogManager.GetCurrentClassLogger();
+
+        public Task<(bool success, string message)> SquirrelUpdateInProgress;
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
+            _logger.Debug("Starting App");
+//#if !DEBUG 
+            var squirrelUpdateLocation = ConfigurationManager.AppSettings["SquirrelUpdateLocation"];
+            squirrelApp = new SquirrelApplication(squirrelUpdateLocation);
+            SquirrelUpdateInProgress = squirrelApp.CheckForUpdates();
+            SquirrelUpdateInProgress.ContinueWith(
+                //Sub(x)
+                //    Dim result As(success As Boolean, message As String) = x.Result
+                //    HandleUpdate(result.success, result.message)
+                //End Sub)
+                (x =>
+                {
+                    _logger.Trace("Checking for squirrel result");
+                    var result = x.Result;
+                    _logger.Trace("Got squirrel result");
+                    HandleUpdate(result.success, result.message);
+                })); 
+
+//#endif 
+            _logger.Debug("Passes Squirrel Check Update");
             Task.Run(CacheBooksData);
 
             if (!ViewEventHandler.HasShowUploadScreenEventListeners)
@@ -57,7 +87,7 @@ namespace SloVVo.App
             var splash = new Splash();
             splash.Show();
 
-            Task.Delay(3000).ContinueWith(_ =>
+            Task.Delay(7000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -106,6 +136,21 @@ namespace SloVVo.App
         {
             _uploadBookWindow = new UploadBook();
             _uploadBookWindow.Show();
+        }
+
+        private void HandleUpdate(bool success, string message)
+        {
+            _logger.Trace($"{nameof(squirrelApp.CheckForUpdates)} success: {success}, messsage: {message}");
+            if (success)
+                MessageBox.Show("Нова версия на софтуера е налична! За да я използвате, моля рестартирайте SloVVo", "SloVVo", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                _logger.Warn(message);
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            _logger.Trace("Disposing of Squirrel");
+            squirrelApp?.Dispose();
         }
     }
 }

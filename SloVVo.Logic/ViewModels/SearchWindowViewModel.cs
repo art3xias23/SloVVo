@@ -122,10 +122,12 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadBookCollection()
         {
-             ObservableCollection<Book> books = new ObservableCollection<Book>(Cache.DefaultCache["AllBooks"] as List<Book>);
-             BooksList = books?.Count > 0
-                 ? books
-                 : new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
+            //ObservableCollection<Book> books = new ObservableCollection<Book>(Cache.DefaultCache["AllBooks"] as List<Book>);
+            //BooksList = books?.Count > 0
+            //    ? books
+            //    : new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
+
+            BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
         }
     }
 }
