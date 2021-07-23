@@ -46,21 +46,6 @@ namespace SloVVo.Logic.ViewModels
             set { _isAuthorChecked = value; OnPropertyChanged(nameof(IsAuthorChecked)); }
         }
 
-        private bool _isYearChecked;
-
-        public bool IsYearChecked
-        {
-            get { return _isYearChecked; }
-            set { _isYearChecked = value; OnPropertyChanged(nameof(IsYearChecked)); }
-        }
-
-        private bool _isSectionChecked;
-
-        public bool IsSectionChecked
-        {
-            get { return _isSectionChecked; }
-            set { _isSectionChecked = value; OnPropertyChanged(nameof(IsSectionChecked)); }
-        }
         public ICommand LoadBookCollectionCommand { get; set; }
         public ICommand ShowUploadScreenCommand { get; set; }
         public ICommand SearchCommand { get; set; }
@@ -95,16 +80,6 @@ namespace SloVVo.Logic.ViewModels
             {
                 return booksList = _uow.BookRepository.GetAll()
                     .Where(x => x.Author.AuthorName.ToLower().Contains(SearchText.ToLower())).ToList();
-            }
-            else if (IsSectionChecked)
-            {
-                return booksList = _uow.BookRepository.GetAll()
-                    .Where(x => x.Section.SectionName.ToLower().Contains(SearchText.ToLower())).ToList();
-            }
-            else if (IsYearChecked)
-            {
-                return booksList = _uow.BookRepository.GetAll()
-                    .Where(x => x.YearOfPublication.ToLower().Contains(SearchText.ToLower())).ToList();
             }
 
             return booksList;

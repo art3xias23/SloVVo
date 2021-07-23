@@ -22,7 +22,7 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <StackPanel Name="MainStackPanel" Orientation="Horizontal" Width="400" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" >
-                <Button Content="Качи" VerticalAlignment="Top"  Name="SearchButton">
+                <Button Content="Качи Книга" VerticalAlignment="Top"  Name="SearchButton">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ShowUploadScreenCommand}"></i:InvokeCommandAction>
@@ -46,15 +46,11 @@
                     </TextBox.Style>
                 </TextBox>
             </StackPanel>
-            <StackPanel Name="RadioPanelOne" Margin="20,0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="140" >
+            <StackPanel Name="RadioPanelOne" Margin="20,0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130" >
                 <CheckBox Content="Име на книга" IsChecked="{Binding IsBookChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox Content="Автор" Margin="0,10" IsChecked="{Binding IsAuthorChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <StackPanel Name="RadioPanelTwo" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="120">
-                <CheckBox Content="Година" IsChecked="{Binding IsYearChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Раздел" IsChecked="{Binding IsSectionChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Margin="0,10"/>
-            </StackPanel>
-            <StackPanel  HorizontalAlignment="Left">
+            <StackPanel  HorizontalAlignment="Left" Margin="160,0">
                 <Button Content="Търси" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">

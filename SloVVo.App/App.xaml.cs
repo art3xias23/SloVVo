@@ -88,7 +88,7 @@ namespace SloVVo.App
             var splash = new Splash();
             splash.Show();
 
-            Task.Delay(7000).ContinueWith(_ =>
+            Task.Delay(3000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {
