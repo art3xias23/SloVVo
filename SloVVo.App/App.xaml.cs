@@ -8,6 +8,7 @@ using SloVVo.Logic.Event;
 using System.Runtime.Caching;
 using SloVVo.Logic.Caching;
 using System.Configuration;
+using System.Net;
 using System.Windows.Navigation;
 using SloVVo.Logic.Squirrel;
 using NLog;
@@ -33,7 +34,7 @@ namespace SloVVo.App
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             _logger.Debug("Starting App");
-//#if !DEBUG 
+#if !DEBUG 
             var squirrelUpdateLocation = ConfigurationManager.AppSettings["SquirrelUpdateLocation"];
             squirrelApp = new SquirrelApplication(squirrelUpdateLocation);
             SquirrelUpdateInProgress = squirrelApp.CheckForUpdates();
@@ -50,7 +51,7 @@ namespace SloVVo.App
                     HandleUpdate(result.success, result.message);
                 })); 
 
-//#endif 
+#endif 
             _logger.Debug("Passes Squirrel Check Update");
             Task.Run(CacheBooksData);
 
