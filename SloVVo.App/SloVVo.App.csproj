@@ -4,19 +4,16 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>1.7.0</Version>
-    <AssemblyVersion>1.8.0</AssemblyVersion>
-    <FileVersion>1.8.0</FileVersion>
+    <Version>2.2.0</Version>
+    <AssemblyVersion>2.2.0</AssemblyVersion>
+    <FileVersion>2.2.0</FileVersion>
     <Authors>Konstantin Milchev</Authors>
-    <PackageIcon>AppIcon.JPG</PackageIcon>
+    <PackageIcon></PackageIcon>
+    <ApplicationIcon>Images\SloVVo_Logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Images\SloVVo_Logo.JPG" />
-    <None Include="..\..\SloVVoNotes\Icon\AppIcon.JPG">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +45,12 @@
 
   <ItemGroup>
     <Folder Include="bin\Debug\netcoreapp3.1\bin\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\SloVVo_Logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

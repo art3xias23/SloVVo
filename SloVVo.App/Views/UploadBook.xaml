@@ -29,16 +29,16 @@
         <viewModels:UploadBookViewModel/>
     </Window.DataContext>
     <StackPanel Orientation="Vertical">
-        <TextBlock HorizontalAlignment="Center" Background="#8c4427" FontStyle="Italic" FontWeight="Bold">Добавяне на Книга</TextBlock>
+        <TextBlock HorizontalAlignment="Center" Background="#27898C" FontStyle="Italic" FontWeight="Bold" FontSize="30">Добавяне на Книга</TextBlock>
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical" >
-                <TextBlock Text="Номер на Библиотека" Height="17.96"></TextBlock>
-                <TextBlock Text="Номер на Рафт" Height="17.96"></TextBlock>
-                <TextBlock Text="Номер на Книга" Height="17.96"></TextBlock>
-                <TextBlock Text="Име на Книга" Height="17.96"></TextBlock>
-                <TextBlock Text="Автор" Height="17.96"></TextBlock>
-                <TextBlock Text="Раздел" Height="17.96"></TextBlock>
-                <TextBlock Text="Година" Height="17.96"></TextBlock>
+                <TextBlock Text="Номер на Библиотека" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
+                <TextBlock Text="Номер на Рафт" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
+                <TextBlock Text="Номер на Книга" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
+                <TextBlock Text="Име на Книга" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
+                <TextBlock Text="Автор" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
+                <TextBlock Text="Раздел" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
+                <TextBlock Text="Година" Height="17.96" FontSize="15" Background="#27898C"></TextBlock>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Margin="0,10" >
@@ -98,7 +98,7 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <Button Content="Добави Книга" Background="#538c27" FontWeight="Medium">
+        <Button Content="Добави Книга" FontWeight="Medium">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <i:InvokeCommandAction Command="{Binding UploadBookCommand}"></i:InvokeCommandAction>

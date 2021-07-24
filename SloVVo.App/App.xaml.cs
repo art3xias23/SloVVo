@@ -34,22 +34,22 @@ namespace SloVVo.App
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             _logger.Debug("Starting App");
-#if !DEBUG 
-            var squirrelUpdateLocation = ConfigurationManager.AppSettings["SquirrelUpdateLocation"];
-            squirrelApp = new SquirrelApplication(squirrelUpdateLocation);
-            SquirrelUpdateInProgress = squirrelApp.CheckForUpdates();
-            SquirrelUpdateInProgress.ContinueWith(
-                //Sub(x)
-                //    Dim result As(success As Boolean, message As String) = x.Result
-                //    HandleUpdate(result.success, result.message)
-                //End Sub)
-                (x =>
-                {
-                    _logger.Trace("Checking for squirrel result");
-                    var result = x.Result;
-                    _logger.Trace("Got squirrel result");
-                    HandleUpdate(result.success, result.message);
-                })); 
+#if !DEBUG
+                var squirrelUpdateLocation = ConfigurationManager.AppSettings["SquirrelUpdateLocation"];
+                squirrelApp = new SquirrelApplication(squirrelUpdateLocation);
+                SquirrelUpdateInProgress = squirrelApp.CheckForUpdates();
+                SquirrelUpdateInProgress.ContinueWith(
+                    //Sub(x)
+                    //    Dim result As(success As Boolean, message As String) = x.Result
+                    //    HandleUpdate(result.success, result.message)
+                    //End Sub)
+                    (x =>
+                    {
+                        _logger.Trace("Checking for squirrel result");
+                        var result = x.Result;
+                        _logger.Trace("Got squirrel result");
+                        HandleUpdate(result.success, result.message);
+                    }));
 
 #endif 
             _logger.Debug("Passes Squirrel Check Update");
@@ -101,9 +101,9 @@ namespace SloVVo.App
 
         private void CacheBooksData()
         {
-            var books =  new UnitOfWork().BookRepository.GetAll();
+            var books = new UnitOfWork().BookRepository.GetAll();
             //var books = Task.Run(() =>  new UnitOfWork().BookRepository.GetAll());
-            Cache.DefaultCache.Set("AllBooks", books, new CacheItemPolicy() {AbsoluteExpiration = DateTimeOffset.MaxValue});
+            Cache.DefaultCache.Set("AllBooks", books, new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.MaxValue });
         }
 
         private void CloseUplaodScreen(object sender, EventArgs e)
