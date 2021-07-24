@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:SloVVo.App"
              xmlns:viewModels1="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="850" Background="#8C2A27">
+             d:DesignHeight="500" d:DesignWidth="850" Background="#8C2A27">
     <UserControl.DataContext>
         <viewModels1:SearchWindowViewModel/>
     </UserControl.DataContext>
@@ -60,7 +60,7 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <DataGrid Height="500" VerticalAlignment="Top" Margin="0,25" 
+        <DataGrid Height="415" VerticalAlignment="Top" Margin="0,25" 
                   ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" 
                   AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
