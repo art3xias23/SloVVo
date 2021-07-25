@@ -16,9 +16,9 @@
             <i:InvokeCommandAction Command="{Binding LoadBookCollectionCommand}"></i:InvokeCommandAction>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-        <UserControl.InputBindings>
-            <KeyBinding Key="Enter" Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}"/>
-        </UserControl.InputBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}"/>
+    </UserControl.InputBindings>
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <StackPanel Name="MainStackPanel" Orientation="Horizontal"  Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" >
@@ -60,31 +60,51 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Потребители"></Button>
-                <Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="История"></Button>
+                <Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Книги" Name="BooksButton" Command="{Binding BooksClickCommand}"></Button>
+                <Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Потребители" Name="UsersButton" Command="{Binding UsersClickCommand}"></Button>
             </StackPanel>
         </StackPanel>
         <StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"></StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"></StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="Брой Книги" FontSize="15"/>
                 <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalBooks, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
             </StackPanel>
         </StackPanel>
-        <DataGrid Height="440" VerticalAlignment="Top" 
-                  ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" 
-                  AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер на Библиотека" Binding="{Binding BibioId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Номер на Рафт" Binding="{Binding ShelfId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Номер на Книга" Binding="{Binding BookId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Име на Книга" Binding="{Binding BookName}" ></DataGridTextColumn>
-                <DataGridTextColumn Header="Автор" Binding="{Binding Author.AuthorName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Секция" Binding="{Binding Section.SectionName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Година" Binding="{Binding YearOfPublication}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel Orientation="Horizontal">
+            <DataGrid Height="440" Margin="0,0,0,0" 
+                  ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="{Binding IsBooksVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Локация" Binding="{Binding LocationId}"/>
+                    <DataGridTextColumn Header="Номер на Библиотека" Binding="{Binding BibioId}"/>
+                    <DataGridTextColumn Header="Номер на Рафт" Binding="{Binding ShelfId}"/>
+                    <DataGridTextColumn Header="Номер на Книга" Binding="{Binding BookId}"/>
+                    <DataGridTextColumn Header="Име на Книга" Binding="{Binding BookName}" />
+                    <DataGridTextColumn Header="Автор" Binding="{Binding Author.AuthorName}"/>
+                    <DataGridTextColumn Header="Секция" Binding="{Binding Section.SectionName}"/>
+                    <DataGridTextColumn Header="Година" Binding="{Binding YearOfPublication}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Height="440" Margin="-550,0,0,0"
+                  ItemsSource="{Binding UsersList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="{Binding IsUsersVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding LoadUserCollectionCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Потребителски номер" Binding="{Binding UserId}" />
+                    <DataGridTextColumn Header="Име" Binding="{Binding Forename}"/>
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"/>
+                    <DataGridTextColumn Header="Телефон" Binding="{Binding Telephone}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="100"/>
+                    <DataGridTextColumn Header="Местожителство" Binding="{Binding Location}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </StackPanel>
 </UserControl>
 

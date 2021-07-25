@@ -41,6 +41,9 @@
       <SubType>Code</SubType>
       <DependentUpon>AddContentWindow.xaml.cs</DependentUpon>
     </Compile>
+    <Compile Update="Views\User.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +54,13 @@
     <None Update="Images\SloVVo_Logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\User.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

@@ -104,6 +104,7 @@
     <Compile Include="ViewModels\ObservableObject.cs" />
     <Compile Include="ViewModels\SearchWindowViewModel.cs" />
     <Compile Include="ViewModels\UploadBookViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SloVVo.Data\SloVVo.Data.csproj">

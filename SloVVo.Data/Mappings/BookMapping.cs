@@ -15,9 +15,14 @@ namespace SloVVo.Data.Mappings
         {
             ToTable("Books", schema);
 
-            HasKey(item => new {item.BibioId, item.ShelfId, item.BookId});
+            HasKey(item => new {item.BibioId, item.ShelfId, item.BookId, item.LocationId});
 
             Property(x => x.BibioId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
+                .IsRequired()
+                .HasColumnType("int");
+
+            Property(x => x.LocationId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
                 .IsRequired()
                 .HasColumnType("int");

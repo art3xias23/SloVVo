@@ -1,27 +1,33 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
-using SloVVo.Logic.Caching;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
 
 namespace SloVVo.Logic.ViewModels
 {
-    public class SearchWindowViewModel : ObservableObject
+    public class SearchWindowViewModel  : ObservableObject 
     {
         private UnitOfWork _uow;
+
         private ObservableCollection<Book> _booksList;
         public ObservableCollection<Book> BooksList
         {
             get => _booksList;
             set { _booksList = value; OnPropertyChanged(nameof(BooksList)); }
         }
+
+        private ObservableCollection<User> _usersList;
+        public ObservableCollection<User> UsersList
+        {
+            get => _usersList;
+            set { _usersList = value; OnPropertyChanged(nameof(UsersList)); }
+        }
+
 
         private string _searchText;
         public string SearchText
@@ -47,10 +53,14 @@ namespace SloVVo.Logic.ViewModels
         }
 
         public ICommand LoadBookCollectionCommand { get; set; }
+        public ICommand LoadUserCollectionCommand { get; set; }
         public ICommand ShowUploadScreenCommand { get; set; }
         public ICommand SearchCommand { get; set; }
+        public ICommand BooksClickCommand { get; set; }
+        public ICommand UsersClickCommand { get; set; }
 
         private int _totalBooks;
+
         public int TotalBooks
         {
             get { return _totalBooks; }
@@ -58,20 +68,56 @@ namespace SloVVo.Logic.ViewModels
         }
 
 
+        private bool _isBooksVisible;
+        public bool IsBooksVisible
+        {
+            get { return _isBooksVisible; }
+            set { _isBookChecked = value; OnPropertyChanged(nameof(IsBooksVisible)); }
+        }
+
+        private bool _isUsersVisible;
+        public bool IsUsersVisible
+        {
+            get { return _isUsersVisible; }
+            set { _isBookChecked = value; OnPropertyChanged(nameof(IsUsersVisible)); }
+        }
+
+
         public SearchWindowViewModel()
         {
             EventAggregator.BookUpdateTransmitted += BookUpdate;
+
             LoadBookCollectionCommand = new RelayCommandEmpty(LoadBookCollection);
+            LoadUserCollectionCommand = new RelayCommand(LoadUsersCollection);
             ShowUploadScreenCommand = new RelayCommandEmpty(ShowUplaodScreen);
             SearchCommand = new RelayCommand(Search);
-            BooksList = new ObservableCollection<Book>();
+            BooksClickCommand = new RelayCommand(ClickBooks);
+            UsersClickCommand = new RelayCommand(ClickUsers);
+
+            IsBooksVisible = true;
+            IsUsersVisible = false;
 
             _uow = new UnitOfWork();
         }
 
+
+        private void ClickBooks(object obj)
+        {
+            IsBooksVisible = true;
+            IsUsersVisible = false;
+
+        }
+
+        private void ClickUsers(object obj)
+        {
+
+            IsBooksVisible = true;
+            IsUsersVisible = false;
+        }
+
         private void Search(object obj)
         {
-            BooksList=  new ObservableCollection<Book>(GetBooksList());
+            BooksList =  new ObservableCollection<Book>(GetBooksList());
         }
 
         private List<Book> GetBooksList()
@@ -105,13 +151,15 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadBookCollection()
         {
-            //ObservableCollection<Book> books = new ObservableCollection<Book>(Cache.DefaultCache["AllBooks"] as List<Book>);
-            //BooksList = books?.Count > 0
-            //    ? books
-            //    : new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
 
             BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
             SetTotalBookCount();
+        }
+
+
+        private void LoadUsersCollection(object obj)
+        {
+            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable());
         }
 
         private void SetTotalBookCount()
