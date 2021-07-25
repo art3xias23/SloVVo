@@ -7,9 +7,8 @@
         xmlns:views="clr-namespace:SloVVo.App.Views"
         xmlns:viewModels="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="850"
-        WindowStartupLocation="CenterOwner"
-        Left="637">
+        Title="MainWindow" Height="500" Width="900"
+        WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
     </Window.DataContext>

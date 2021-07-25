@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
@@ -10,7 +11,7 @@ using SloVVo.Logic.Event;
 
 namespace SloVVo.Logic.ViewModels
 {
-    public class SearchWindowViewModel  : ObservableObject 
+    public class SearchWindowViewModel : ObservableObject
     {
         private UnitOfWork _uow;
 
@@ -20,6 +21,13 @@ namespace SloVVo.Logic.ViewModels
             get => _booksList;
             set { _booksList = value; OnPropertyChanged(nameof(BooksList)); }
         }
+
+        public ICommand LoadBookCollectionCommand { get; set; }
+        public ICommand LoadUserCollectionCommand { get; set; }
+        public ICommand ShowUploadScreenCommand { get; set; }
+        public ICommand SearchCommand { get; set; }
+        public ICommand BooksClickCommand { get; set; }
+        public ICommand UsersClickCommand { get; set; }
 
         private ObservableCollection<User> _usersList;
         public ObservableCollection<User> UsersList
@@ -32,7 +40,7 @@ namespace SloVVo.Logic.ViewModels
         private string _searchText;
         public string SearchText
         {
-            get { return _searchText; }
+            get => _searchText;
             set { _searchText = value; OnPropertyChanged(nameof(SearchText)); }
         }
 
@@ -40,7 +48,7 @@ namespace SloVVo.Logic.ViewModels
 
         public bool IsBookChecked
         {
-            get { return _isBookChecked; }
+            get => _isBookChecked;
             set { _isBookChecked = value; OnPropertyChanged(nameof(IsBookChecked)); }
         }
 
@@ -48,40 +56,45 @@ namespace SloVVo.Logic.ViewModels
 
         public bool IsAuthorChecked
         {
-            get { return _isAuthorChecked; }
+            get => _isAuthorChecked;
             set { _isAuthorChecked = value; OnPropertyChanged(nameof(IsAuthorChecked)); }
         }
 
-        public ICommand LoadBookCollectionCommand { get; set; }
-        public ICommand LoadUserCollectionCommand { get; set; }
-        public ICommand ShowUploadScreenCommand { get; set; }
-        public ICommand SearchCommand { get; set; }
-        public ICommand BooksClickCommand { get; set; }
-        public ICommand UsersClickCommand { get; set; }
-
-        private int _totalBooks;
-
-        public int TotalBooks
+        private Visibility _isBooksVisible;
+        public Visibility IsBooksVisible
         {
-            get { return _totalBooks; }
-            set { _totalBooks = value; OnPropertyChanged(nameof(TotalBooks)); }
+            get => _isBooksVisible;
+            set { _isBooksVisible = value; OnPropertyChanged(nameof(IsBooksVisible)); }
         }
 
+        private Visibility _isUsersVisible;
 
-        private bool _isBooksVisible;
-        public bool IsBooksVisible
+        public Visibility IsUsersVisible
         {
-            get { return _isBooksVisible; }
-            set { _isBookChecked = value; OnPropertyChanged(nameof(IsBooksVisible)); }
+            get => _isUsersVisible;
+            set { _isUsersVisible = value; OnPropertyChanged(nameof(IsUsersVisible)); }
         }
 
-        private bool _isUsersVisible;
-        public bool IsUsersVisible
+        private int _totalItemsCount;
+
+        public int TotalItemsCount
         {
-            get { return _isUsersVisible; }
-            set { _isBookChecked = value; OnPropertyChanged(nameof(IsUsersVisible)); }
+            get => _totalItemsCount;
+            set
+            {
+                _totalItemsCount = value; OnPropertyChanged(nameof(TotalItemsCount));
+            }
         }
 
+        private string _totalItemsText;
+        public string TotalItemsText
+        {
+            get => _totalItemsText;
+            set
+            {
+                _totalItemsText = value; OnPropertyChanged(nameof(TotalItemsText));
+            }
+        }
 
         public SearchWindowViewModel()
         {
@@ -94,30 +107,31 @@ namespace SloVVo.Logic.ViewModels
             BooksClickCommand = new RelayCommand(ClickBooks);
             UsersClickCommand = new RelayCommand(ClickUsers);
 
-            IsBooksVisible = true;
-            IsUsersVisible = false;
+            IsBooksVisible = Visibility.Visible;
+            IsUsersVisible = Visibility.Hidden;
 
             _uow = new UnitOfWork();
         }
 
 
-        private void ClickBooks(object obj)
+        private void ClickBooks(object obj=null)
         {
-            IsBooksVisible = true;
-            IsUsersVisible = false;
+            IsBooksVisible = Visibility.Visible;
+            IsUsersVisible = Visibility.Hidden;
+            SetTotalItems("Брой Книги", BooksList.Count);
 
         }
 
         private void ClickUsers(object obj)
         {
-
-            IsBooksVisible = true;
-            IsUsersVisible = false;
+            IsBooksVisible = Visibility.Hidden;
+            IsUsersVisible = Visibility.Visible;
+            SetTotalItems("Брой Потребители", UsersList.Count);
         }
 
         private void Search(object obj)
         {
-            BooksList =  new ObservableCollection<Book>(GetBooksList());
+            BooksList = new ObservableCollection<Book>(GetBooksList());
         }
 
         private List<Book> GetBooksList()
@@ -141,7 +155,6 @@ namespace SloVVo.Logic.ViewModels
         private void BookUpdate()
         {
             LoadBookCollection();
-            SetTotalBookCount();
         }
 
         private void ShowUplaodScreen()
@@ -151,9 +164,8 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadBookCollection()
         {
-
             BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
-            SetTotalBookCount();
+            SetTotalItems("Брой Книги", BooksList.Count);
         }
 
 
@@ -162,9 +174,10 @@ namespace SloVVo.Logic.ViewModels
             UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable());
         }
 
-        private void SetTotalBookCount()
+        private void SetTotalItems(string text, int count)
         {
-            TotalBooks = BooksList.Count;
+            TotalItemsText = text;
+            TotalItemsCount = count;
         }
     }
 }

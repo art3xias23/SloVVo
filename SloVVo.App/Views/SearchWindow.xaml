@@ -20,7 +20,7 @@
         <KeyBinding Key="Enter" Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}"/>
     </UserControl.InputBindings>
     <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Height="80">
             <StackPanel Name="MainStackPanel" Orientation="Horizontal"  Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" >
 
                 <TextBox TextAlignment="Center"  Width="250" Height="40" VerticalAlignment="Top"   FontSize="16" BorderBrush="Black" BorderThickness="2" Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
@@ -52,30 +52,34 @@
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Width="350" Margin="49,0,0,0">
-                <Button Content="Качи Книга" VerticalAlignment="Top"  Name="SearchButton" HorizontalAlignment="Left">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ShowUploadScreenCommand}"></i:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Книги" Name="BooksButton" Command="{Binding BooksClickCommand}"></Button>
-                <Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Потребители" Name="UsersButton" Command="{Binding UsersClickCommand}"></Button>
+            <StackPanel Orientation="Vertical" Width="350" Margin="49,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Content="Добави Книга" VerticalAlignment="Top"  Name="SearchButton" HorizontalAlignment="Left">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ShowUploadScreenCommand}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Книги" Name="BooksButton" Command="{Binding BooksClickCommand}"></Button>
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Потребители" Name="UsersButton" Command="{Binding UsersClickCommand}"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Добави Потребител"  Width="165" HorizontalAlignment="Left"></Button>
+                    <Button Content="Принтирай Страница" Width="200" HorizontalAlignment="Right"></Button>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"></StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="Брой Книги" FontSize="15"/>
-                <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalBooks, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25">
+                <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="{Binding TotalItemsText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontSize="15"/>
+                <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalItemsCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <DataGrid Height="440" Margin="0,0,0,0" 
+            <DataGrid  Margin="0,0,0,0" 
                   ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="{Binding IsBooksVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left">
+                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="{Binding IsBooksVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Локация" Binding="{Binding LocationId}"/>
                     <DataGridTextColumn Header="Номер на Библиотека" Binding="{Binding BibioId}"/>
@@ -87,9 +91,9 @@
                     <DataGridTextColumn Header="Година" Binding="{Binding YearOfPublication}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Height="440" Margin="-550,0,0,0"
+            <DataGrid  Margin="-610,0,0,0"
                   ItemsSource="{Binding UsersList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="{Binding IsUsersVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left">
+                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="{Binding IsUsersVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadUserCollectionCommand}"></i:InvokeCommandAction>
