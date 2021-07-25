@@ -50,6 +50,13 @@ namespace SloVVo.Logic.ViewModels
         public ICommand ShowUploadScreenCommand { get; set; }
         public ICommand SearchCommand { get; set; }
 
+        private int _totalBooks;
+        public int TotalBooks
+        {
+            get { return _totalBooks; }
+            set { _totalBooks = value; OnPropertyChanged(nameof(TotalBooks)); }
+        }
+
 
         public SearchWindowViewModel()
         {
@@ -88,6 +95,7 @@ namespace SloVVo.Logic.ViewModels
         private void BookUpdate()
         {
             LoadBookCollection();
+            SetTotalBookCount();
         }
 
         private void ShowUplaodScreen()
@@ -103,6 +111,12 @@ namespace SloVVo.Logic.ViewModels
             //    : new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
 
             BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
+            SetTotalBookCount();
+        }
+
+        private void SetTotalBookCount()
+        {
+            TotalBooks = BooksList.Count;
         }
     }
 }

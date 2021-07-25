@@ -50,7 +50,7 @@
                 <CheckBox Content="Име на книга" IsChecked="{Binding IsBookChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox Content="Автор" Margin="0,10" IsChecked="{Binding IsAuthorChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <StackPanel  HorizontalAlignment="Left" Margin="160,0">
+            <StackPanel  HorizontalAlignment="Left" Margin="160,0" Orientation="Vertical">
                 <Button Content="Търси" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -60,7 +60,22 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <DataGrid Height="415" VerticalAlignment="Top" Margin="0,25" 
+        <StackPanel>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="5" Background="White"  Width="120" Height="30" HorizontalAlignment="Right" Content="Брой Книги" FontSize="15"/>
+                <Label Grid.Column="6" Background="White" Width="40" Height="30" HorizontalAlignment="Right" Content="{Binding TotalBooks, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
+            </Grid>
+        </StackPanel>
+        <DataGrid Height="440" VerticalAlignment="Top" 
                   ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" 
                   AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
