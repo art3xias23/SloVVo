@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:SloVVo.App"
              xmlns:viewModels1="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="850" Background="#8C2A27">
+             d:DesignHeight="500" d:DesignWidth="900" Background="#8C2A27">
     <UserControl.DataContext>
         <viewModels1:SearchWindowViewModel/>
     </UserControl.DataContext>
@@ -21,16 +21,9 @@
         </UserControl.InputBindings>
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <StackPanel Name="MainStackPanel" Orientation="Horizontal" Width="400" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" >
-                <Button Content="Качи Книга" VerticalAlignment="Top"  Name="SearchButton">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ShowUploadScreenCommand}"></i:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
+            <StackPanel Name="MainStackPanel" Orientation="Horizontal"  Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" >
 
-                <TextBox TextAlignment="Center"  Width="250" Height="40" VerticalAlignment="Top"  Margin="30,0,0,0" FontSize="16" BorderBrush="Black" BorderThickness="2" Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox TextAlignment="Center"  Width="250" Height="40" VerticalAlignment="Top"   FontSize="16" BorderBrush="Black" BorderThickness="2" Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="{x:Type TextBox}">
                             <Setter Property="Text" Value="Търсете тук" />
@@ -46,12 +39,12 @@
                     </TextBox.Style>
                 </TextBox>
             </StackPanel>
-            <StackPanel Name="RadioPanelOne" Margin="20,0" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130" >
+            <StackPanel Name="RadioPanelOne"  Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130" >
                 <CheckBox Content="Име на книга" IsChecked="{Binding IsBookChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <CheckBox Content="Автор" Margin="0,10" IsChecked="{Binding IsAuthorChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <StackPanel  HorizontalAlignment="Left" Margin="160,0" Orientation="Vertical">
-                <Button Content="Търси" >
+            <StackPanel  Orientation="Horizontal">
+                <Button Content="Търси" VerticalAlignment="Top" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}"></i:InvokeCommandAction>
@@ -59,21 +52,25 @@
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Width="350" Margin="49,0,0,0">
+                <Button Content="Качи Книга" VerticalAlignment="Top"  Name="SearchButton" HorizontalAlignment="Left">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ShowUploadScreenCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button VerticalAlignment="Top" HorizontalAlignment="Center" Content="Потребители"></Button>
+                <Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="История"></Button>
+            </StackPanel>
         </StackPanel>
         <StackPanel>
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="5" Background="White"  Width="120" Height="30" HorizontalAlignment="Right" Content="Брой Книги" FontSize="15"/>
-                <Label Grid.Column="6" Background="White" Width="40" Height="30" HorizontalAlignment="Right" Content="{Binding TotalBooks, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
-            </Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"></StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="Брой Книги" FontSize="15"/>
+                <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalBooks, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
+            </StackPanel>
         </StackPanel>
         <DataGrid Height="440" VerticalAlignment="Top" 
                   ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" 
