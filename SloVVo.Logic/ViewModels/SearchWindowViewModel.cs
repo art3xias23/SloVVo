@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using NLog;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
@@ -13,6 +14,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class SearchWindowViewModel : ObservableObject
     {
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private UnitOfWork _uow;
 
         private ObservableCollection<Book> _booksList;
@@ -164,6 +166,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadBookCollection()
         {
+            _logger.Trace("Loading Books");
             BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
             SetTotalItems("Брой Книги", BooksList.Count);
         }
@@ -171,6 +174,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadUsersCollection(object obj)
         {
+            _logger.Trace("Loading Users");
             UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable());
         }
 

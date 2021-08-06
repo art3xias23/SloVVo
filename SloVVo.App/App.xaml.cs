@@ -35,6 +35,8 @@ namespace SloVVo.App
         {
             _logger.Debug("Starting App");
 #if !DEBUG
+            try
+            {
                 var squirrelUpdateLocation = ConfigurationManager.AppSettings["SquirrelUpdateLocation"];
                 squirrelApp = new SquirrelApplication(squirrelUpdateLocation);
                 SquirrelUpdateInProgress = squirrelApp.CheckForUpdates();
@@ -50,11 +52,17 @@ namespace SloVVo.App
                         _logger.Trace("Got squirrel result");
                         HandleUpdate(result.success, result.message);
                     }));
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+            }
 
 #endif 
             _logger.Debug("Passes Squirrel Check Update");
             Task.Run(CacheBooksData);
 
+            _logger.Debug("Cached Book Data");
             if (!ViewEventHandler.HasShowUploadScreenEventListeners)
             {
                 ViewEventHandler.ShowUploadScreenEvent += ShowUploadScreen;
@@ -85,25 +93,44 @@ namespace SloVVo.App
                 ViewEventHandler.CloseUploadScreenEvent += CloseUplaodScreen;
             }
 
+            _logger.Debug("Opening splash screen");
+
             var splash = new Splash();
             splash.Show();
-
-            Task.Delay(3000).ContinueWith(_ =>
+            try
             {
-                Dispatcher.Invoke(() =>
+                Task.Delay(3000).ContinueWith(_ =>
                 {
-                    _mainWindow = new MainWindow();
-                    _mainWindow.Show();
-                    splash.Close();
+                    Dispatcher.Invoke(() =>
+                    {
+                        _mainWindow = new MainWindow();
+                        _mainWindow.Show();
+                        _logger.Trace("Closing SplashScreen");
+                        splash.Close();
+                    });
                 });
-            });
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+            }
         }
 
         private void CacheBooksData()
         {
-            var books = new UnitOfWork().BookRepository.GetAll();
-            //var books = Task.Run(() =>  new UnitOfWork().BookRepository.GetAll());
-            Cache.DefaultCache.Set("AllBooks", books, new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.MaxValue });
+            try
+            {
+                _logger.Trace("Start Caching Books");
+                var books = new UnitOfWork().BookRepository.GetAll();
+                //var books = Task.Run(() =>  new UnitOfWork().BookRepository.GetAll());
+                Cache.DefaultCache.Set("AllBooks", books,
+                    new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.MaxValue });
+                _logger.Trace("Finish Caching Books");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+            }
         }
 
         private void CloseUplaodScreen(object sender, EventArgs e)

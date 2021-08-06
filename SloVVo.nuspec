@@ -8,11 +8,17 @@
     <owners>Konstantin Milchev</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Application</description>
-    <dependencies>
-	  <group targetFramework="net45" />
-    </dependencies>
+    <!-- <dependencies> -->
+	  <!-- <group targetFramework=".NETCoreApp3.1" /> -->
+    <!-- </dependencies> -->
+	<!-- <frameworkReferences> -->
+      <!-- <group targetFramework=".NETCoreApp3.1"> -->
+    <!-- <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" /> -->
+      <!-- </group> -->
+    <!-- </frameworkReferences> -->
+	<dependencies />
   </metadata>
   <files>
-    <file src="*\*.*" target="lib\net45\" exclude="*.pdb;*.nupkg;*.vshost.*"/>
+    <file src="bin\Release\netcoreapp3.1\*.*" target="lib\net45" exclude="*.pdb;*.nupkg;*.vshost.*"/>
   </files>
 </package>
