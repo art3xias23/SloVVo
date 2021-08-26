@@ -6,7 +6,6 @@ namespace SloVVo.Logic.Command
     public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
-        private readonly Action _executeNull;
         private readonly Predicate<object> _canExecute;
 
         public RelayCommand(Action<object> execute) : this(execute, null){}

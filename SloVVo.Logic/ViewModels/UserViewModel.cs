@@ -7,8 +7,6 @@ namespace SloVVo.Logic.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
-        private UnitOfWork _uow;
-
         public ICommand LoadUserCommand { get; set; }
 
         private User _user;

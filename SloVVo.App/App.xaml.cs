@@ -5,8 +5,6 @@ using SloVVo.App.Spinners;
 using SloVVo.App.Views;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Event;
-using System.Runtime.Caching;
-using SloVVo.Logic.Caching;
 using System.Configuration;
 using System.Net;
 using System.Windows.Navigation;
@@ -60,9 +58,7 @@ namespace SloVVo.App
 
 #endif 
             _logger.Debug("Passes Squirrel Check Update");
-            Task.Run(CacheBooksData);
 
-            _logger.Debug("Cached Book Data");
             if (!ViewEventHandler.HasShowUploadScreenEventListeners)
             {
                 ViewEventHandler.ShowUploadScreenEvent += ShowUploadScreen;
@@ -123,8 +119,6 @@ namespace SloVVo.App
                 _logger.Trace("Start Caching Books");
                 var books = new UnitOfWork().BookRepository.GetAll();
                 //var books = Task.Run(() =>  new UnitOfWork().BookRepository.GetAll());
-                Cache.DefaultCache.Set("AllBooks", books,
-                    new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.MaxValue });
                 _logger.Trace("Finish Caching Books");
             }
             catch (Exception ex)

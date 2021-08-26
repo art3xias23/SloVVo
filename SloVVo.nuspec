@@ -16,9 +16,11 @@
     <!-- <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" /> -->
       <!-- </group> -->
     <!-- </frameworkReferences> -->
-	<dependencies />
+	<dependencies>
+		<group targetFramework=".NETFramework4.6.1"/>
+	</dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netcoreapp3.1\*.*" target="lib\net45" exclude="*.pdb;*.nupkg;*.vshost.*"/>
+    <file src="**\*.*" target="lib\net461" exclude="*.pdb;*.nupkg;*.vshost.*"/>
   </files>
 </package>

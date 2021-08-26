@@ -19,7 +19,7 @@ namespace SloVVo.App.ValidationRules
             {
                 result = Int32.Parse((string)value);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ValidationResult(false, "Въведената стойност не е цифра.");
             } 

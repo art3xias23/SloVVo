@@ -91,7 +91,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caching\Cache.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Command\RelayCommandEmpty.cs" />
     <Compile Include="Event\EventAggregator.cs" />

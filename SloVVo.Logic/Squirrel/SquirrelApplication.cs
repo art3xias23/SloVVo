@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using NLog;
 using Squirrel;
-using System.Threading.Tasks;
 
 namespace SloVVo.Logic.Squirrel
 {

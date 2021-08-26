@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:SloVVo.App"
-             xmlns:viewModels1="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic"
+             xmlns:viewModels1="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="900" Background="#8C2A27">
     <UserControl.DataContext>
