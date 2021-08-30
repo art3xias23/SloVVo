@@ -5,9 +5,9 @@ namespace SloVVo.Data.Models
     public class User
     {
         public int UserId { get; set; }
-        public string Forename { get; set; }
+        public string Firstname { get; set; }
         public string Surname { get; set; }
-        public int Telephone { get; set; }
+        public int TelephoneNumber { get; set; }
         public string Address { get; set; }
         public string Location { get; set; }
 

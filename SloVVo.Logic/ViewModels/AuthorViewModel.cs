@@ -8,13 +8,13 @@ using SloVVo.Logic.Event;
 
 namespace SloVVo.Logic.ViewModels
 {
-    public class AddAuthorViewModel : ObservableObject
+    public class AuthorViewModel : ObservableObject
     {
         private UnitOfWork _uow;
         public ICommand AddAuthorCommand { get; set; }
         public string AuthorName { get; set; }
 
-        public AddAuthorViewModel()
+        public AuthorViewModel()
         {
             _uow = new UnitOfWork();
             AddAuthorCommand = new RelayCommandEmpty(AddAuthor);

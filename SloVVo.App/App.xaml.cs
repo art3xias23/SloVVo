@@ -24,6 +24,7 @@ namespace SloVVo.App
         private AddAuthorWindow _addAuthorWindow;
         private AddContentWindow _addContentWindow;
         private SquirrelApplication squirrelApp;
+        private User _userWindow;
 
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
@@ -39,10 +40,6 @@ namespace SloVVo.App
                 squirrelApp = new SquirrelApplication(squirrelUpdateLocation);
                 SquirrelUpdateInProgress = squirrelApp.CheckForUpdates();
                 SquirrelUpdateInProgress.ContinueWith(
-                    //Sub(x)
-                    //    Dim result As(success As Boolean, message As String) = x.Result
-                    //    HandleUpdate(result.success, result.message)
-                    //End Sub)
                     (x =>
                     {
                         _logger.Trace("Checking for squirrel result");
@@ -89,6 +86,16 @@ namespace SloVVo.App
                 ViewEventHandler.CloseUploadScreenEvent += CloseUplaodScreen;
             }
 
+            if (!ViewEventHandler.HasAddUserScreenEventListeners)
+            {
+                ViewEventHandler.ShowAddUserEvent += ShowAddUserScreen;
+            }
+
+            if (!ViewEventHandler.HasCloseUserScreenEventListeners)
+            {
+                ViewEventHandler.CloseAddUserEvent += CloseAddUserScreen;
+            }
+
             _logger.Debug("Opening splash screen");
 
             var splash = new Splash();
@@ -112,19 +119,15 @@ namespace SloVVo.App
             }
         }
 
-        private void CacheBooksData()
+        private void CloseAddUserScreen(object sender, EventArgs e)
         {
-            try
-            {
-                _logger.Trace("Start Caching Books");
-                var books = new UnitOfWork().BookRepository.GetAll();
-                //var books = Task.Run(() =>  new UnitOfWork().BookRepository.GetAll());
-                _logger.Trace("Finish Caching Books");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-            }
+            _userWindow.Close();
+        }
+
+        private void ShowAddUserScreen(object sender, EventArgs e)
+        {
+            _userWindow = new User();
+            _userWindow.Show();
         }
 
         private void CloseUplaodScreen(object sender, EventArgs e)

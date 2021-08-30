@@ -69,6 +69,10 @@
     <Compile Include="Migrations\202107251600155_Specifying column names for UserBooks.designer.cs">
       <DependentUpon>202107251600155_Specifying column names for UserBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202108302035212_Change User column names.cs" />
+    <Compile Include="Migrations\202108302035212_Change User column names.designer.cs">
+      <DependentUpon>202108302035212_Change User column names.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Section.cs" />
@@ -103,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202107251600155_Specifying column names for UserBooks.resx">
       <DependentUpon>202107251600155_Specifying column names for UserBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108302035212_Change User column names.resx">
+      <DependentUpon>202108302035212_Change User column names.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

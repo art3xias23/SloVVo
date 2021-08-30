@@ -27,7 +27,7 @@ namespace SloVVo.Data.Mappings
                 .IsRequired()
                 .HasColumnType("int");
 
-            Property(item => item.Forename)
+            Property(item => item.Firstname)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
                 .IsRequired()
                 .HasColumnType("nvarchar");
@@ -37,7 +37,7 @@ namespace SloVVo.Data.Mappings
                 .IsRequired()
                 .HasColumnType("nvarchar");
 
-            Property(item => item.Telephone)
+            Property(item => item.TelephoneNumber)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
                 .IsOptional()
                 .HasColumnType("int");

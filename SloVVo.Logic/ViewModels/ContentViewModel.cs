@@ -7,13 +7,13 @@ using SloVVo.Logic.Event;
 
 namespace SloVVo.Logic.ViewModels
 {
-    public class AddContentViewModel : ObservableObject
+    public class ContentViewModel : ObservableObject
     {
         public ICommand AddContentCommand { get; set; }
         public string SectionName { get; set; }
         private UnitOfWork _uow;
 
-        public AddContentViewModel()
+        public ContentViewModel()
         {
             AddContentCommand = new RelayCommandEmpty(AddContent);
             _uow = new UnitOfWork();

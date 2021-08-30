@@ -30,6 +30,7 @@ namespace SloVVo.Logic.ViewModels
         public ICommand SearchCommand { get; set; }
         public ICommand BooksClickCommand { get; set; }
         public ICommand UsersClickCommand { get; set; }
+        public ICommand AddUserClickCommand { get; set; }
 
         private ObservableCollection<User> _usersList;
         public ObservableCollection<User> UsersList
@@ -98,6 +99,7 @@ namespace SloVVo.Logic.ViewModels
             }
         }
 
+
         public SearchWindowViewModel()
         {
             EventAggregator.BookUpdateTransmitted += BookUpdate;
@@ -108,13 +110,13 @@ namespace SloVVo.Logic.ViewModels
             SearchCommand = new RelayCommand(Search);
             BooksClickCommand = new RelayCommand(ClickBooks);
             UsersClickCommand = new RelayCommand(ClickUsers);
+            AddUserClickCommand = new RelayCommand(AddUser);
 
             IsBooksVisible = Visibility.Visible;
             IsUsersVisible = Visibility.Hidden;
 
             _uow = new UnitOfWork();
         }
-
 
         private void ClickBooks(object obj=null)
         {
@@ -129,6 +131,10 @@ namespace SloVVo.Logic.ViewModels
             IsBooksVisible = Visibility.Hidden;
             IsUsersVisible = Visibility.Visible;
             SetTotalItems("Брой Потребители", UsersList.Count);
+        }
+        private void AddUser(object obj)
+        {
+            ViewEventHandler.RaiseShowAddUserEvent();
         }
 
         private void Search(object obj)

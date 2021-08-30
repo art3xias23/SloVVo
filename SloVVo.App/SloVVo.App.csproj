@@ -103,12 +103,13 @@
     <Compile Include="Spinners\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValidationRules\NumberValidationRule.cs" />
-    <Compile Include="Views\AddAuthorWindow.xaml.cs">
-      <DependentUpon>AddAuthorWindow.xaml</DependentUpon>
+    <Compile Include="ValidationRules\IsNumberValidationRule.cs" />
+    <Compile Include="ValidationRules\StringNotNullValidationRule.cs" />
+    <Compile Include="Views\Author.xaml.cs">
+      <DependentUpon>Author.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddContentWindow.xaml.cs">
-      <DependentUpon>AddContentWindow.xaml</DependentUpon>
+    <Compile Include="Views\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -116,8 +117,8 @@
     <Compile Include="Views\SearchWindow.xaml.cs">
       <DependentUpon>SearchWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UploadBook.xaml.cs">
-      <DependentUpon>UploadBook.xaml</DependentUpon>
+    <Compile Include="Views\Book.xaml.cs">
+      <DependentUpon>Book.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
@@ -142,11 +143,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AddAuthorWindow.xaml">
+    <Page Include="Views\Author.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AddContentWindow.xaml">
+    <Page Include="Views\Content.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -158,7 +159,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UploadBook.xaml">
+    <Page Include="Views\Book.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -65,7 +65,7 @@
                     <Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Потребители" Name="UsersButton" Command="{Binding UsersClickCommand}"></Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Добави Потребител"  Width="165" HorizontalAlignment="Left"></Button>
+                    <Button Content="Добави Потребител"  Width="165" HorizontalAlignment="Left" Command="{Binding AddUserClickCommand}"></Button>
                     <Button Content="Принтирай Страница" Width="200" HorizontalAlignment="Right"></Button>
                 </StackPanel>
             </StackPanel>

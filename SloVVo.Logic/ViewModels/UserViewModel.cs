@@ -7,23 +7,44 @@ namespace SloVVo.Logic.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
+        private UnitOfWork _uow;
+
         public ICommand LoadUserCommand { get; set; }
+        public ICommand SaveUserCommand { get; set; }
 
         private User _user;
+
         public User User
         {
-            get { return _user;}
+            get => _user;
             set { _user = value; OnPropertyChanged(nameof(User)); }
         }
+        //public User User { get; set; }
 
         public UserViewModel()
         {
-                LoadUserCommand = new RelayCommand(LoadUser);
+            _uow = new UnitOfWork();
+            User = new User();
+            LoadUserCommand = new RelayCommand(LoadUser);
+            SaveUserCommand = new RelayCommand(SaveUser);
         }
 
         private void LoadUser(object obj)
         {
-            User = new User();
+        }
+
+        public void SaveUser(object obj)
+        {
+            _uow.UserRepository.Add(new User()
+                {
+                    Address = User.Address,
+                    Firstname = User.Firstname,
+                    Surname = User.Surname,
+                    Location = User.Location,
+                    TelephoneNumber = User.TelephoneNumber
+            });
+
+            _uow.SaveChanges();
         }
     }
 }

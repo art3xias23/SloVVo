@@ -8,14 +8,6 @@
     <owners>Konstantin Milchev</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Application</description>
-    <!-- <dependencies> -->
-	  <!-- <group targetFramework=".NETCoreApp3.1" /> -->
-    <!-- </dependencies> -->
-	<!-- <frameworkReferences> -->
-      <!-- <group targetFramework=".NETCoreApp3.1"> -->
-    <!-- <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" /> -->
-      <!-- </group> -->
-    <!-- </frameworkReferences> -->
 	<dependencies>
 		<group targetFramework=".NETFramework4.6.1"/>
 	</dependencies>

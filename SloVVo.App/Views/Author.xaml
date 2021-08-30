@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="AddItem" Height="150" Width="300" Background="#8C2A27">
     <Window.DataContext>
-        <viewModels:AddAuthorViewModel/>
+        <viewModels:AuthorViewModel/>
     </Window.DataContext>
     <Grid>
         <StackPanel Orientation=" Vertical">

@@ -26,7 +26,7 @@
         </Style>
     </Window.Resources>
     <Window.DataContext>
-        <viewModels:UploadBookViewModel/>
+        <viewModels:BookViewModel/>
     </Window.DataContext>
     <StackPanel Orientation="Vertical">
         <TextBlock HorizontalAlignment="Center" Background="#27898C" FontStyle="Italic" FontWeight="Bold" FontSize="29">Добавяне на Книга</TextBlock>
@@ -46,14 +46,14 @@
                          Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,0,8,15">
                     <Binding Path="Book.BibioId" Mode="OneWayToSource"  UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" FallbackValue="0">
                         <Binding.ValidationRules>
-                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validationRules:IsNumberValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
                 <TextBox x:Name="RaftIdText"  Width="100" Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,7,8,8">
                     <Binding Path="Book.ShelfId" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged" FallbackValue="0">
                         <Binding.ValidationRules>
-                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validationRules:IsNumberValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
 
@@ -61,7 +61,7 @@
                 <TextBox x:Name="BookIdText"  Width="100"  Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,10,8,8">
                     <Binding Path="Book.BookId" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged" FallbackValue="0">
                         <Binding.ValidationRules>
-                            <validationRules:NumberValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validationRules:IsNumberValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>

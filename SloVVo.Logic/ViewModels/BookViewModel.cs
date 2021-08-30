@@ -8,7 +8,7 @@ using SloVVo.Logic.Event;
 
 namespace SloVVo.Logic.ViewModels
 {
-    public class UploadBookViewModel : ObservableObject
+    public class BookViewModel : ObservableObject
     {
         private UnitOfWork _uow;
 
@@ -22,7 +22,7 @@ namespace SloVVo.Logic.ViewModels
         public ICommand AddAuthorCommand { get; set; }
         public ICommand LoadWindowCommand { get; set; }
         public ICommand UploadBookCommand { get; set; }
-        public UploadBookViewModel()
+        public BookViewModel()
         {
             _uow = new UnitOfWork();
 

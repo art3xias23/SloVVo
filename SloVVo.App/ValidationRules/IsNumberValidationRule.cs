@@ -6,9 +6,9 @@ using System.Windows.Controls;
 
 namespace SloVVo.App.ValidationRules
 {
-    public class NumberValidationRule : ValidationRule
+    public class IsNumberValidationRule : ValidationRule
     {
-        public NumberValidationRule()
+        public IsNumberValidationRule()
         {
             
         }
