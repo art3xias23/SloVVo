@@ -1,15 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using SloVVo.App.Spinners;
 using SloVVo.App.Views;
-using SloVVo.Data.Repositories;
-using SloVVo.Logic.Event;
-using System.Configuration;
-using System.Net;
-using System.Windows.Navigation;
 using SloVVo.Logic.Squirrel;
 using NLog;
+using SloVVo.App.IoCKernel;
 using MessageBox = System.Windows.MessageBox;
 
 namespace SloVVo.App
@@ -19,16 +14,12 @@ namespace SloVVo.App
     /// </summary>
     public partial class App : Application
     {
-        private MainWindow _mainWindow;
-        private UploadBook _uploadBookWindow;
-        private AddAuthorWindow _addAuthorWindow;
-        private AddContentWindow _addContentWindow;
         private SquirrelApplication squirrelApp;
-        private User _userWindow;
 
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public Task<(bool success, string message)> SquirrelUpdateInProgress;
+        private MainWindowView _mainWidowView;
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
@@ -53,115 +44,24 @@ namespace SloVVo.App
                 _logger.Error(ex);
             }
 
-#endif 
-            _logger.Debug("Passes Squirrel Check Update");
 
-            if (!ViewEventHandler.HasShowUploadScreenEventListeners)
-            {
-                ViewEventHandler.ShowUploadScreenEvent += ShowUploadScreen;
-            }
 
-            if (!ViewEventHandler.HasShowAddAuthorScreenEventListeners)
-            {
-                ViewEventHandler.ShowAddAuthorScreenEvent += ShowAddAuthorScreenEvent;
-            }
-
-            if (!ViewEventHandler.HasCloseAddAuthorScreenEventListeners)
-            {
-                ViewEventHandler.CloseAddAuthorScreenEvent += CloseAddAuthorScreen;
-            }
-
-            if (!ViewEventHandler.HasShowAddContentScreenEventListeners)
-            {
-                ViewEventHandler.ShowAddContentScreenEvent += ShowAddContentScreenEvent;
-            }
-
-            if (!ViewEventHandler.HasCloseAddContentScreenEventListeners)
-            {
-                ViewEventHandler.CloseAddContentScreenEvent += CloseAddContentScreen;
-            }
-
-            if (!ViewEventHandler.HasCloseUploadScreenEventListeners)
-            {
-                ViewEventHandler.CloseUploadScreenEvent += CloseUplaodScreen;
-            }
-
-            if (!ViewEventHandler.HasAddUserScreenEventListeners)
-            {
-                ViewEventHandler.ShowAddUserEvent += ShowAddUserScreen;
-            }
-
-            if (!ViewEventHandler.HasCloseUserScreenEventListeners)
-            {
-                ViewEventHandler.CloseAddUserEvent += CloseAddUserScreen;
-            }
-
-            _logger.Debug("Opening splash screen");
-
+#endif
+            IocKernel.Initialize(new IocConfiguration());
             var splash = new Splash();
             splash.Show();
-            try
+
+            Task.Delay(3000).ContinueWith(_ =>
             {
-                Task.Delay(3000).ContinueWith(_ =>
+                Dispatcher.Invoke(() =>
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        _mainWindow = new MainWindow();
-                        _mainWindow.Show();
-                        _logger.Trace("Closing SplashScreen");
-                        splash.Close();
-                    });
+                    _mainWidowView = new MainWindowView();
+                    _mainWidowView.Show();
+                    splash.Close();
                 });
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-            }
+            });
         }
 
-        private void CloseAddUserScreen(object sender, EventArgs e)
-        {
-            _userWindow.Close();
-        }
-
-        private void ShowAddUserScreen(object sender, EventArgs e)
-        {
-            _userWindow = new User();
-            _userWindow.Show();
-        }
-
-        private void CloseUplaodScreen(object sender, EventArgs e)
-        {
-            _uploadBookWindow.Close();
-        }
-
-        private void CloseAddContentScreen(object sender, EventArgs e)
-        {
-            _addContentWindow.Close();
-        }
-
-        private void ShowAddContentScreenEvent(object sender, EventArgs e)
-        {
-            _addContentWindow = new AddContentWindow();
-            _addContentWindow.Show();
-        }
-
-        private void ShowAddAuthorScreenEvent(object sender, EventArgs e)
-        {
-            _addAuthorWindow = new AddAuthorWindow();
-            _addAuthorWindow.Show();
-        }
-
-        private void CloseAddAuthorScreen(object sender, EventArgs e)
-        {
-            _addAuthorWindow.Close();
-        }
-
-        private void ShowUploadScreen(object s, EventArgs e)
-        {
-            _uploadBookWindow = new UploadBook();
-            _uploadBookWindow.Show();
-        }
 
         private void HandleUpdate(bool success, string message)
         {

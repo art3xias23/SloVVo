@@ -1,40 +1,13 @@
 ﻿using System;
+using System.Windows.Forms;
+using SloVVo.Data.EventArgs;
+using SloVVo.Data.Models;
 
 namespace SloVVo.Logic.Event
 {
     public class ViewEventHandler
     {
-        #region ShowUploadScreen
-        public static event EventHandler ShowUploadScreenEvent;
 
-        public static void RaiseShowUploadView()
-        {
-            OnRaiseShowUploadView();
-        }
-        private static void OnRaiseShowUploadView()
-        {
-            ShowUploadScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-        public static bool HasShowUploadScreenEventListeners => ShowUploadScreenEvent != null;
-        #endregion
-
-        #region CloseUploadScreen 
-
-
-        public static event EventHandler CloseUploadScreenEvent;
-
-        public static void RaiseCloseUploadView()
-        {
-            OnRaiseCloseUploadView();
-        }
-        private static void OnRaiseCloseUploadView()
-        {
-            CloseUploadScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-
-        public static bool HasCloseUploadScreenEventListeners => CloseUploadScreenEvent != null;
-
-        #endregion
 
 
         #region ShowAddContent
@@ -54,21 +27,6 @@ namespace SloVVo.Logic.Event
         public static bool HasShowAddContentScreenEventListeners => ShowAddContentScreenEvent != null;
         #endregion
 
-        #region CloseAddContent
-        public static event EventHandler CloseAddContentScreenEvent;
-
-        public static void RaiseCloseAddContentView()
-        {
-            OnRaiseCloseAddContentView();
-        }
-
-        private static void OnRaiseCloseAddContentView()
-        {
-            CloseAddContentScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-
-        public static bool HasCloseAddContentScreenEventListeners => CloseAddContentScreenEvent != null;
-        #endregion
 
         #region ShowAddAuthor
         public static event EventHandler ShowAddAuthorScreenEvent;
@@ -86,55 +44,81 @@ namespace SloVVo.Logic.Event
         public static bool HasShowAddAuthorScreenEventListeners => ShowAddAuthorScreenEvent != null;
         #endregion
 
-        #region CloseAddAuthorScreenEvent 
+        public static Action ShowAddBookScreenAction;
 
-
-        public static event EventHandler CloseAddAuthorScreenEvent;
-
-        public static void RaiseCloseAddAuthorView()
+        public static void RaiseShowAddBookView()
         {
-            OnRaiseCloseAddAuthorView();
+            OnRaiseShowAddBookView();
         }
 
-        private static void OnRaiseCloseAddAuthorView()
+        private static void OnRaiseShowAddBookView()
         {
-            CloseAddAuthorScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
+            ShowAddBookScreenAction?.Invoke();
         }
 
-        public static bool HasCloseAddAuthorScreenEventListeners => CloseAddAuthorScreenEvent != null;
 
-        #endregion
 
-        #region AddUser 
-        public static event EventHandler ShowAddUserEvent;
+        public static event EventHandler ShowBooksEvent;
 
-        public static void RaiseShowAddUserEvent()
+        public static void RaiseShowBooksEvent()
         {
-            OnRaiseShowAddUserEvent();
+            OnRaiseShowBooksEvent();
         }
 
-        private static void OnRaiseShowAddUserEvent()
+        private static void OnRaiseShowBooksEvent()
         {
-            ShowAddUserEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-        public static bool HasAddUserScreenEventListeners => ShowAddUserEvent != null;
-
-        #endregion
-
-        #region CloseAddUser 
-        public static event EventHandler CloseAddUserEvent;
-
-        public static void RaiseCloseAddUserEvent()
-        {
-            OnRaiseCloseAddUserEvent();
+            ShowBooksEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
         }
 
-        private static void OnRaiseCloseAddUserEvent()
-        {
-            CloseAddUserEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-        public static bool HasCloseUserScreenEventListeners => CloseAddUserEvent != null;
 
-        #endregion
+        public static event EventHandler<BookEventArgs> ShowBorrowEvent;
+
+        public static void RaiseShowBorrowEvent(Book selectedItem)
+        {
+            OnRaiseShowBorrowsEvent(selectedItem);
+        }
+
+        private static void OnRaiseShowBorrowsEvent(Book selectedItem)
+        {
+            ShowBorrowEvent?.Invoke(typeof(ViewEventHandler), new BookEventArgs()
+            {
+                Book = selectedItem
+            });
+        }
+
+        public static event EventHandler ShowUsersEvent;
+
+        public static void RaiseShowUsersEvent()
+        {
+            OnRaiseShowUsersEvent();
+        }
+
+        private static void OnRaiseShowUsersEvent()
+        {
+            ShowUsersEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
+        }
+
+        public static event EventHandler<BookEventArgs> ShowBookEvent;
+        public static void RaiseShowBookEvent(Book selectedItem)
+        {
+            OnRaiseShowBookEvent(selectedItem);
+        }
+
+        private static void OnRaiseShowBookEvent(Book selectedItem)
+        {
+            ShowBookEvent?.Invoke(typeof(ViewEventHandler), new BookEventArgs(){Book = selectedItem});
+        }
+
+        public static event EventHandler<UserEventArgs> ShowUserEvent;
+
+        public static void RaiseShowUserEvent(User selectedUser)
+        {
+            OnRaiseShowUserEvent(selectedUser);
+        }
+
+        private static void OnRaiseShowUserEvent(User selectedUser)
+        {
+            ShowUserEvent?.Invoke(typeof(ViewEventHandler), new UserEventArgs(){User = selectedUser});
+        }
     }
 }

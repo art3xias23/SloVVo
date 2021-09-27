@@ -13,7 +13,7 @@ namespace SloVVo.Data.Mappings
         public UserBooksMapping(string schema)
         {
             ToTable("UserBooks", schema);
-            HasKey(x => new { x.BibioId, x.BookId, x.LocationId, x.ShelfId, x.UserId });
+            HasKey(x => new { x.LocationId ,x.BiblioId,x.ShelfId, x.BookId, x.UserId });
 
             HasRequired(x => x.User)
                 .WithMany(x => x.UserBooks)
@@ -21,7 +21,23 @@ namespace SloVVo.Data.Mappings
 
             HasRequired(x => x.Book)
                 .WithMany(x => x.UserBooks)
-                .HasForeignKey(x => new {x.BibioId, x.BookId, x.LocationId, x.ShelfId});
+                .HasForeignKey(x => new { x.LocationId, x.BiblioId, x.ShelfId, x.BookId});
+
+            Property(x => x.DateOfBorrowing)
+                .IsRequired()
+                .HasColumnType("datetime");
+
+            Property(x => x.DateOfScheduledReturning)
+                .IsRequired()
+                .HasColumnType("datetime");
+
+            Property(x => x.DateOfActualReturning)
+                .IsOptional()
+                .HasColumnType("datetime");
+
+            Property(x => x.IsTaken)
+                .IsRequired()
+                .HasColumnType("bit");
         }
 
     }

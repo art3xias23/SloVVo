@@ -1,0 +1,82 @@
+﻿<Page x:Class="SloVVo.App.Views.BooksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SloVVo.App"
+             xmlns:viewModels1="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900" Style="{StaticResource BackgroundColorPageMain}"
+             DataContext="{Binding BooksViewModel, Source={StaticResource ViewModelLocator}}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadBookCollectionCommand}"></i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Page.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}"/>
+    </Page.InputBindings>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Height="80">
+            <TextBox HorizontalAlignment="Center" TextAlignment="Center"  Width="250" Height="40" VerticalAlignment="Top"   FontSize="16" BorderBrush="Black" BorderThickness="2" Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Text" Value="Търсете тук" />
+                        <Setter Property="Foreground" Value="Gray"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Text" Value=""/>
+                                <Setter Property="Foreground" Value="Black"></Setter>
+                            </Trigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <CheckBox Foreground="White" Content="Име на книга" IsChecked="{Binding IsBookChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Foreground="White" Content="Автор" Margin="0,10" IsChecked="{Binding IsAuthorChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel>
+            <Button HorizontalAlignment="Center" Content="Търси" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFlatButton}" Background="#FF5C99D6" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25">
+                <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="{Binding TotalItemsText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontSize="15"/>
+                <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalItemsCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <DataGrid  
+                Name="BooksDataGrid" Margin="0,0,0,0" 
+                  ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                  AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left"
+                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Локация" Binding="{Binding LocationId}"/>
+                    <DataGridTextColumn Header="Номер на Библиотека" Binding="{Binding BiblioId}"/>
+                    <DataGridTextColumn Header="Номер на Рафт" Binding="{Binding ShelfId}"/>
+                    <DataGridTextColumn Header="Номер на Книга" Binding="{Binding BookId}"/>
+                    <DataGridTextColumn Header="Име на Книга" Binding="{Binding BookName}" />
+                    <DataGridTextColumn Header="Автор" Binding="{Binding Author.AuthorName}"/>
+                    <DataGridTextColumn Header="Секция" Binding="{Binding Section.SectionName}"/>
+                    <DataGridTextColumn Header="Година" Binding="{Binding YearOfPublication}"/>
+                </DataGrid.Columns>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding EditRowCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DataGrid>
+        </StackPanel>
+    </StackPanel>
+</Page>
+

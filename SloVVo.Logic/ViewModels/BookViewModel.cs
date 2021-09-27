@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using SloVVo.Data.Models;
@@ -14,55 +15,138 @@ namespace SloVVo.Logic.ViewModels
 
         private ObservableCollection<Author> _authors;
         private ObservableCollection<Section> _sections;
+        private ObservableCollection<Location> _locations;
+        private Book _book;
+        private ObservableCollection<UserBooks> _userBooks;
 
-        public Book  Book { get; set; }
-        
+        private bool _isFieldEnabled;
+        private string _editButtonContent;
+        private string _borrowButtonContent;
 
-        public ICommand AddContentCommand { get; set; }
-        public ICommand AddAuthorCommand { get; set; }
+        public string BorrowButtonContent
+        {
+            get => _borrowButtonContent;
+            set { _borrowButtonContent = value; OnPropertyChanged(nameof(BorrowButtonContent)); }
+        }
+
         public ICommand LoadWindowCommand { get; set; }
-        public ICommand UploadBookCommand { get; set; }
-        public BookViewModel()
+        public ICommand EditRecordCommand { get; set; }
+        public ICommand ShowBorrowCommand { get; set; }
+
+        public Book Book
+        {
+            get => _book;
+            set { _book = value; OnPropertyChanged(nameof(Book)); }
+        }
+
+        public Book CurrentBook { private get; set; }
+        public BookViewModel(Book book)
         {
             _uow = new UnitOfWork();
-
-            Book = new Book();
-            AddAuthorCommand = new RelayCommandEmpty(AddAuthor);
-            AddContentCommand = new RelayCommandEmpty(AddContent);
+            CurrentBook = new Book();
+            CurrentBook.LocationId = book.LocationId;
+            CurrentBook.BookId = book.BookId;
+            CurrentBook.ShelfId = book.ShelfId;
+            CurrentBook.BiblioId = book.BiblioId;
+            Book = book;
             LoadWindowCommand = new RelayCommandEmpty(LoadWindow);
-            UploadBookCommand = new RelayCommandEmpty(UploadBook);
+            EditRecordCommand = new RelayCommandEmpty(EditRecord);
+            ShowBorrowCommand = new RelayCommandEmpty(ShowBorrow);
+            SetEditButtonContent();
+            SetBorrowButtonContent(book);
 
             EventAggregator.AuthorUpdateTransmitted += OnAuthorUpdateTransmitted;
             EventAggregator.SectionUpdateTransmitted += OnSectionUpdateTransmitted;
         }
 
-        private void UploadBook()
+        private void SetBorrowButtonContent(Book book)
         {
-            AddBookItem();
-
-            ViewEventHandler.RaiseCloseUploadView();
-
-            EventAggregator.UpdateBookCollection();
+            BorrowButtonContent = _uow.UserBookRepository.Any(x =>
+                x.BiblioId == CurrentBook.BiblioId && x.LocationId == CurrentBook.LocationId && x.ShelfId == CurrentBook.ShelfId &&
+                x.BookId == CurrentBook.BookId && x.IsTaken == true) ? "Връщане" : "Наемане";
         }
 
-        private void AddBookItem()
+        private void ShowBorrow()
         {
-            var recordExists = _uow.BookRepository.GetAll().Exists(x=>x.BibioId == Book.BibioId && x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
-            if (!recordExists)
+            if (BorrowButtonContent == "Наемане")
             {
-                _uow.BookRepository.Add(new Book()
-                {
-                    BibioId = Book.BibioId,
-                    ShelfId = Book.ShelfId,
-                    BookId = Book.BookId,
-                    BookName = Book.BookName,
-                    Author = Book.Author,
-                    Section = Book.Section,
-                    YearOfPublication = Book.YearOfPublication
-                });
 
-                _uow.SaveChanges();
+                ViewEventHandler.RaiseShowBorrowEvent(Book);
             }
+            else
+            {
+                var userBook = _uow.UserBookRepository.GetById(x =>
+                    x.BiblioId == Book.BiblioId && x.BookId == Book.BookId && x.ShelfId == Book.ShelfId &&
+                    x.LocationId == Book.LocationId && x.IsTaken == true);
+
+                userBook.IsTaken = false;
+                userBook.DateOfActualReturning = DateTime.Now;
+                _uow.SaveChanges();
+
+                ViewEventHandler.RaiseShowBookEvent(Book);
+            }
+        }
+
+        private void EditRecord()
+        {
+            if (EditButtonContent == "Запази")
+            {
+                DeleteRecord();
+                InsertRecord();
+            }
+            SetEditButtonContent();
+        }
+
+        private void DeleteRecord()
+        {
+            _uow.BookRepository.Delete(x =>
+                x.LocationId == CurrentBook.LocationId && x.BiblioId == CurrentBook.BiblioId && x.ShelfId == CurrentBook.ShelfId &&
+                x.BookId == CurrentBook.BookId);
+            _uow.SaveChanges();
+        }
+
+        private void SetEditButtonContent()
+        {
+            if (EditButtonContent == "Промени")
+            {
+                IsFieldEnabled = true;
+                EditButtonContent = "Запази";
+            }
+            else
+            {
+                IsFieldEnabled = false;
+                EditButtonContent = "Промени";
+            }
+        }
+
+        private void InsertRecord()
+        {
+            var newBook = new Book()
+            {
+                Location = Book.Location,
+                BiblioId = Book.BiblioId,
+                ShelfId = Book.ShelfId,
+                Author = Book.Author,
+                Section = Book.Section,
+                BookName = Book.BookName,
+                BookId = Book.BookId,
+                YearOfPublication = Book.YearOfPublication
+            };
+            _uow.BookRepository.Add(newBook);
+            _uow.SaveChanges();
+            CurrentBook = newBook;
+        }
+
+        public string EditButtonContent
+        {
+            get => _editButtonContent;
+            set { _editButtonContent = value; OnPropertyChanged(nameof(EditButtonContent)); }
+        }
+
+        public ObservableCollection<UserBooks> UserBooks
+        {
+            get => _userBooks;
+            set { _userBooks = value; OnPropertyChanged(nameof(UserBooks)); }
         }
 
         public ObservableCollection<Author> Authors
@@ -78,7 +162,26 @@ namespace SloVVo.Logic.ViewModels
         public ObservableCollection<Section> Sections
         {
             get => _sections;
-            set { _sections = value; OnPropertyChanged(nameof(Sections));}
+            set { _sections = value; OnPropertyChanged(nameof(Sections)); }
+        }
+
+        public ObservableCollection<Location> Locations
+        {
+            get => _locations;
+            set { _locations = value; OnPropertyChanged(nameof(Locations)); }
+        }
+
+        private Location _selectedLocation;
+        public Location SelectedLocation
+        {
+            get => _selectedLocation;
+            set { _selectedLocation = value; OnPropertyChanged(nameof(SelectedLocation)); }
+        }
+
+        public bool IsFieldEnabled
+        {
+            get => _isFieldEnabled;
+            set { _isFieldEnabled = value; OnPropertyChanged(nameof(IsFieldEnabled)); }
         }
 
         private void OnSectionUpdateTransmitted()
@@ -94,6 +197,25 @@ namespace SloVVo.Logic.ViewModels
         {
             LoadAuthorsCollection();
             LoadSectionsCollection();
+            LoadLocationsCollection();
+            LoadUserBooks();
+            DisableFields();
+        }
+
+        private void LoadUserBooks()
+        {
+            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
+                x.BiblioId == Book.BiblioId && x.LocationId == Book.LocationId && x.ShelfId == Book.ShelfId).ToList());
+        }
+
+        private void DisableFields()
+        {
+            IsFieldEnabled = false;
+        }
+
+        private void LoadLocationsCollection()
+        {
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
         }
 
         private void LoadSectionsCollection()
@@ -104,16 +226,6 @@ namespace SloVVo.Logic.ViewModels
         private void LoadAuthorsCollection()
         {
             Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAll());
-        }
-
-        private void AddContent()
-        {
-            Event.ViewEventHandler.RaiseShowAddContentView();
-        }
-
-        private void AddAuthor()
-        {
-            Event.ViewEventHandler.RaiseShowAddAuthorView();
         }
     }
 }

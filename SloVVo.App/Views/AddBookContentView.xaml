@@ -1,0 +1,25 @@
+﻿<Page x:Class="SloVVo.App.Views.AddContentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SloVVo.App.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:viewModels="clr-namespace:SloVVo.Logic.ViewModels;assembly=SloVVo.Logic"
+        mc:Ignorable="d"
+        Title="AddItem" Height="150" Width="300" Background="Blue"
+        DataContext="{Binding AddContentViewModel, Source={StaticResource ViewModelLocator}}">
+    <Grid>
+       <StackPanel Orientation=" Vertical">
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="29">Добави Раздел</TextBlock>
+            <TextBox Width="200" Margin="0,20,0,20" Text="{Binding SectionName, UpdateSourceTrigger=PropertyChanged}" Background="White"/>
+            <Button Content="Добави Раздел" Height="30" Style="{StaticResource MaterialDesignFlatButton}" Background="#FF5C99D6">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AddContentCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+       </StackPanel> 
+    </Grid>
+</Page>

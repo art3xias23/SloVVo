@@ -44,13 +44,16 @@ namespace SloVVo.Data.Mappings
 
             Property(item => item.Address)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
-                .IsRequired()
+                .IsOptional()
                 .HasColumnType("nvarchar");
 
-            Property(item => item.Location)
+            Property(item => item.Town)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
-                .IsRequired()
+                .IsOptional()
                 .HasColumnType("nvarchar");
+
+            HasMany(x => x.UserBooks)
+                .WithRequired(x => x.User);
         }
     }
 }

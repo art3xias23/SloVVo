@@ -15,6 +15,7 @@ namespace SloVVo.Data.Context
         public DbSet<Section> Sections { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserBooks> UserBooks { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

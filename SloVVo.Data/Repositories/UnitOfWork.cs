@@ -17,6 +17,8 @@ namespace SloVVo.Data.Repositories
         private SectionRepository _sectionRepository;
         private BookRepository _bookRepository;
         private UserRepository _userRepository;
+        private LocationRepository _locationRepository;
+        private UserBookRepository _userBookRepository;
 
         public UnitOfWork()
         {
@@ -26,7 +28,10 @@ namespace SloVVo.Data.Repositories
         public AuthorRepository AuthorRepository => _authorRepository ?? (_authorRepository = new AuthorRepository(_context));
         public SectionRepository SectionRepository => _sectionRepository ?? ( _sectionRepository = new SectionRepository(_context));
         public BookRepository BookRepository => _bookRepository ?? (_bookRepository = new BookRepository(_context));
+        public UserBookRepository UserBookRepository => _userBookRepository ?? (_userBookRepository = new UserBookRepository(_context));
         public UserRepository UserRepository => _userRepository ?? (_userRepository = new UserRepository(_context));
+
+        public LocationRepository LocationRepository => _locationRepository ?? (_locationRepository = new LocationRepository(_context));
 
         public void SaveChanges()
         {

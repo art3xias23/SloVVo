@@ -15,9 +15,9 @@ namespace SloVVo.Data.Mappings
         {
             ToTable("Books", schema);
 
-            HasKey(item => new {item.BibioId, item.ShelfId, item.BookId, item.LocationId});
+            HasKey(item => new { item.LocationId, item.BiblioId, item.ShelfId, item.BookId });
 
-            Property(x => x.BibioId)
+            Property(x => x.BiblioId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
                 .IsRequired()
                 .HasColumnType("int");
@@ -59,6 +59,12 @@ namespace SloVVo.Data.Mappings
 
             HasOptional(x => x.Section)
                 .WithMany(x => x.Books);
+
+            HasRequired(x => x.Location)
+                .WithMany(x => x.Books);
+
+            HasMany(x => x.UserBooks)
+                .WithRequired(x => x.Book);
         }   
     }
 }

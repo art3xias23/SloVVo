@@ -28,5 +28,11 @@ namespace SloVVo.Logic.Event
         }
 
         public static Action BookUpdateTransmitted;
+        public static void UpdateUserCollection()
+        {
+            UserUpdateTransmitted?.Invoke();
+        }
+
+        public static Action UserUpdateTransmitted;
     }
 }

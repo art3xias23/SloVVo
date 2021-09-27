@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace SloVVo.Logic.Command
 {
-    class RelayCommandEmpty : ICommand
+    public class RelayCommandEmpty : ICommand
     {
         private readonly Action _execute;
         private readonly Predicate<object> _canExecute;

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity.Migrations;
 using SloVVo.Data.Context;
+using SloVVo.Data.Models;
 
 namespace SloVVo.Data.Migrations
 {
@@ -12,10 +13,12 @@ namespace SloVVo.Data.Migrations
 
         protected override void Seed(SloVVoDataContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            context.Locations.AddOrUpdate(x=>x.LocationId,
+                new Location(){LocationId = 1, LocationName = "Основна"},
+                new Location() { LocationId = 2, LocationName = "Дарителска" },
+            new Location() { LocationId = 3, LocationName = "Коридор" });
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            base.Seed(context);
         }
     }
 }

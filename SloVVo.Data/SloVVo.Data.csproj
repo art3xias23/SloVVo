@@ -51,30 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventArgs\BookEventArgs.cs" />
+    <Compile Include="EventArgs\UserEventArgs.cs" />
+    <Compile Include="Mappings\LocationMapping.cs" />
     <Compile Include="Mappings\UserBooksMapping.cs" />
     <Compile Include="Mappings\UserMapping.cs" />
-    <Compile Include="Migrations\202103030019479_01.Initial.cs" />
-    <Compile Include="Migrations\202103030019479_01.Initial.designer.cs">
-      <DependentUpon>202103030019479_01.Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202109261634532_Initial.cs" />
+    <Compile Include="Migrations\202109261634532_Initial.designer.cs">
+      <DependentUpon>202109261634532_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202103030021202_02. Change YearOfPublication to Nvarchar.cs" />
-    <Compile Include="Migrations\202103030021202_02. Change YearOfPublication to Nvarchar.designer.cs">
-      <DependentUpon>202103030021202_02. Change YearOfPublication to Nvarchar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202107251534432_Adding User And LocationId.cs" />
-    <Compile Include="Migrations\202107251534432_Adding User And LocationId.designer.cs">
-      <DependentUpon>202107251534432_Adding User And LocationId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202107251600155_Specifying column names for UserBooks.cs" />
-    <Compile Include="Migrations\202107251600155_Specifying column names for UserBooks.designer.cs">
-      <DependentUpon>202107251600155_Specifying column names for UserBooks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202108302035212_Change User column names.cs" />
-    <Compile Include="Migrations\202108302035212_Change User column names.designer.cs">
-      <DependentUpon>202108302035212_Change User column names.cs</DependentUpon>
+    <Compile Include="Migrations\202109271924104_UserMappingsChanges.cs" />
+    <Compile Include="Migrations\202109271924104_UserMappingsChanges.designer.cs">
+      <DependentUpon>202109271924104_UserMappingsChanges.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Context\SloVVoDataContext.cs" />
     <Compile Include="Mappings\AuthorMapping.cs" />
@@ -82,13 +74,15 @@
     <Compile Include="Mappings\SectionMapping.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserBook.cs" />
+    <Compile Include="Models\UserBooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuthorRepository.cs" />
     <Compile Include="Repositories\BookRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\SectionRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
+    <Compile Include="Repositories\UserBookRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,20 +90,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202103030019479_01.Initial.resx">
-      <DependentUpon>202103030019479_01.Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202109261634532_Initial.resx">
+      <DependentUpon>202109261634532_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103030021202_02. Change YearOfPublication to Nvarchar.resx">
-      <DependentUpon>202103030021202_02. Change YearOfPublication to Nvarchar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202107251534432_Adding User And LocationId.resx">
-      <DependentUpon>202107251534432_Adding User And LocationId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202107251600155_Specifying column names for UserBooks.resx">
-      <DependentUpon>202107251600155_Specifying column names for UserBooks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202108302035212_Change User column names.resx">
-      <DependentUpon>202108302035212_Change User column names.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202109271924104_UserMappingsChanges.resx">
+      <DependentUpon>202109271924104_UserMappingsChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
