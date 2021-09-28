@@ -11,7 +11,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class BookViewModel : ObservableObject
     {
-        private IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
 
         private ObservableCollection<Author> _authors;
         private ObservableCollection<Section> _sections;

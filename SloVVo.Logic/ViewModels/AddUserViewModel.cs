@@ -8,7 +8,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class AddUserViewModel : ObservableObject
     {
-        private IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
 
         public ICommand LoadUserCommand { get; set; }
         public ICommand SaveUserCommand { get; set; }
@@ -20,8 +20,6 @@ namespace SloVVo.Logic.ViewModels
             get => _user;
             set { _user = value; OnPropertyChanged(nameof(User)); }
         }
-        //public User User { get; set; }
-
         public AddUserViewModel(IUnitOfWork uow)
         {
             _uow = uow;

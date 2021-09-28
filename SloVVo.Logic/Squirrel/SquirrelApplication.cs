@@ -91,7 +91,6 @@ namespace SloVVo.Logic.Squirrel
             await _updateManager.DownloadReleases(updateInfo.ReleasesToApply);
             _logger.Debug("Applying updates.");
             await _updateManager.ApplyReleases(updateInfo);
-            // Below Will update Release Version in control Penal
             await _updateManager.CreateUninstallerRegistryEntry();
         }
 

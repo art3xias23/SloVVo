@@ -15,7 +15,7 @@ namespace SloVVo.Logic.ViewModels
     public class UsersViewModel : ObservableObject
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-        private IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
         private User _selectedUser;
 
         private ObservableCollection<User> _UsersList;

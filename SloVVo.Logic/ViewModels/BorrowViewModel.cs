@@ -11,7 +11,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class BorrowViewModel : ObservableObject
     {
-        private IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
 
         private Book _book;
         private User _selectedUser;

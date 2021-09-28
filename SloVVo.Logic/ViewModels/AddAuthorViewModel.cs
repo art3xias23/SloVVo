@@ -10,7 +10,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class AddAuthorViewModel : ObservableObject
     {
-        private IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
         public ICommand AddAuthorCommand { get; set; }
         public string AuthorName { get; set; }
 
