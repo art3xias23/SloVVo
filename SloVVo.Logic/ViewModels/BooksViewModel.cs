@@ -14,7 +14,7 @@ namespace SloVVo.Logic.ViewModels
     public class BooksViewModel : ObservableObject
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-        private UnitOfWork _uow;
+        private UnitOfWork UnitOfWork;
 
 
         public ICommand LoadBookCollectionCommand { get; set; }
@@ -90,7 +90,6 @@ namespace SloVVo.Logic.ViewModels
             SearchCommand = new RelayCommandEmpty(Search);
             EditRowCommand = new RelayCommandEmpty(EditRow);
 
-            _uow = new UnitOfWork();
         }
 
         private void EditRow()
@@ -110,23 +109,23 @@ namespace SloVVo.Logic.ViewModels
             {
                 if (IsBookChecked)
                 {
-                    var books = _uow.BookRepository.GetAll();
+                    var books = UnitOfWork.BookRepository.GetAll();
 
                     return books.Where(x => x.BookName != null && x.BookName.ToLower().Contains(SearchText.ToLower())).ToList();
                 }
                 else if (IsAuthorChecked)
                 {
-                    var books = _uow.BookRepository.GetAll();
+                    var books = UnitOfWork.BookRepository.GetAll();
                     return books.Where(x => x.Author != null && x.Author.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
                 }
                 else
                 {
-                    var books = _uow.BookRepository.GetAll();
+                    var books = UnitOfWork.BookRepository.GetAll();
                     return books.ToList();
                 }
             }
 
-            return _uow.BookRepository.GetAll().ToList();
+            return UnitOfWork.BookRepository.GetAll().ToList();
         }
 
         private void BookUpdate()
@@ -137,7 +136,7 @@ namespace SloVVo.Logic.ViewModels
         private void LoadBooksCollection()
         {
             _logger.Trace("Loading Books");
-            BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable().ToList());
+            BooksList = new ObservableCollection<Book>(UnitOfWork.BookRepository.GetAllQueryable().ToList());
             SetTotalItems("Брой Книги", BooksList.Count);
         }
 

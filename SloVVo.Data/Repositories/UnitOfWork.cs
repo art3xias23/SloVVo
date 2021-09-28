@@ -1,39 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using SloVVo.Data.Context;
 
 namespace SloVVo.Data.Repositories
 {
 
-    public class UnitOfWork 
+    public  class UnitOfWork 
     {
-        private DbContext _context;
-        private AuthorRepository _authorRepository;
-        private SectionRepository _sectionRepository;
-        private BookRepository _bookRepository;
-        private UserRepository _userRepository;
-        private LocationRepository _locationRepository;
-        private UserBookRepository _userBookRepository;
+        private static DbContext _context;
+        private static AuthorRepository _authorRepository;
+        private static SectionRepository _sectionRepository;
+        private static BookRepository _bookRepository;
+        private static UserRepository _userRepository;
+        private static LocationRepository _locationRepository;
+        private static UserBookRepository _userBookRepository;
 
-        public UnitOfWork()
-        {
-           _context = new SloVVoDataContext(); 
-        }
+        public static AuthorRepository AuthorRepository => _authorRepository ?? (_authorRepository = new AuthorRepository(DbContext));
+        public static SectionRepository SectionRepository => _sectionRepository ?? ( _sectionRepository = new SectionRepository(DbContext));
+        public static BookRepository BookRepository => _bookRepository ?? (_bookRepository = new BookRepository(DbContext));
+        public static UserBookRepository UserBookRepository => _userBookRepository ?? (_userBookRepository = new UserBookRepository(DbContext));
+        public static UserRepository UserRepository => _userRepository ?? (_userRepository = new UserRepository(DbContext));
 
-        public AuthorRepository AuthorRepository => _authorRepository ?? (_authorRepository = new AuthorRepository(_context));
-        public SectionRepository SectionRepository => _sectionRepository ?? ( _sectionRepository = new SectionRepository(_context));
-        public BookRepository BookRepository => _bookRepository ?? (_bookRepository = new BookRepository(_context));
-        public UserBookRepository UserBookRepository => _userBookRepository ?? (_userBookRepository = new UserBookRepository(_context));
-        public UserRepository UserRepository => _userRepository ?? (_userRepository = new UserRepository(_context));
+        public static LocationRepository LocationRepository => _locationRepository ?? (_locationRepository = new LocationRepository(DbContext));
 
-        public LocationRepository LocationRepository => _locationRepository ?? (_locationRepository = new LocationRepository(_context));
+        public static DbContext DbContext => _context ?? (_context = new SloVVoDataContext());
 
-        public void SaveChanges()
+        public static void SaveChanges()
         {
             _context.SaveChanges();
         }

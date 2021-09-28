@@ -10,13 +10,12 @@ namespace SloVVo.Logic.ViewModels
 {
     public class AddAuthorViewModel : ObservableObject
     {
-        private UnitOfWork _uow;
+        private UnitOfWork UnitOfWork;
         public ICommand AddAuthorCommand { get; set; }
         public string AuthorName { get; set; }
 
         public AddAuthorViewModel()
         {
-            _uow = new UnitOfWork();
             AddAuthorCommand = new RelayCommandEmpty(AddAuthor);
         }
 
@@ -31,16 +30,16 @@ namespace SloVVo.Logic.ViewModels
 
         private void AddAuthorItem()
         {
-            var recordExists = _uow.AuthorRepository.GetAll()
+            var recordExists = UnitOfWork.AuthorRepository.GetAll()
                 .Any(x => x.AuthorName.ToLower() == AuthorName.ToLower());
             if (!recordExists)
             {
-                _uow.AuthorRepository.Add(new Author()
+                UnitOfWork.AuthorRepository.Add(new Author()
                 {
                     AuthorName = AuthorName
                 });
 
-                _uow.SaveChanges();
+                UnitOfWork.SaveChanges();
             }
         }
     }

@@ -10,7 +10,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
-        private UnitOfWork _uow;
+        private UnitOfWork UnitOfWork;
 
         public ICommand LoadUserCommand { get; set; }
         public ICommand EditUserCommand { get; set; }
@@ -49,7 +49,6 @@ namespace SloVVo.Logic.ViewModels
 
         public UserViewModel(User user)
         {
-            _uow = new UnitOfWork();
             User = user;
             CurrentUser = new User();
             if (user != null)
@@ -61,7 +60,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void GetUserBooks()
         {
-            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
+            UserBooks = new ObservableCollection<UserBooks>(UnitOfWork.UserBookRepository.GetAll().Where(x =>
                x.UserId == User.UserId).ToList());
         }
 
@@ -69,16 +68,14 @@ namespace SloVVo.Logic.ViewModels
         {
             if (EditButtonContent == "Запази")
             {
-                DeleteRecord();
-                InsertRecord();
+                UpdateRecord();
             }
             SetEditButtonContent();
         }
 
-        private void DeleteRecord()
+        private void UpdateRecord()
         {
-            _uow.UserRepository.Delete(x => x.UserId == CurrentUser.UserId);
-            _uow.SaveChanges();
+            UnitOfWork.UserRepository.Update(User);
         }
 
         private void SetEditButtonContent()
@@ -93,23 +90,6 @@ namespace SloVVo.Logic.ViewModels
                 IsFieldEnabled = false;
                 EditButtonContent = "Промени";
             }
-        }
-
-        private void InsertRecord()
-        {
-            if (_uow.UserRepository.Any(x => x.Firstname == User.Firstname && x.Surname == User.Surname)) return;
-            var newUser = new User()
-            {
-                Address = User.Address,
-                Firstname = User.Firstname,
-                Surname = User.Surname,
-                Town = User.Town,
-                TelephoneNumber = User.TelephoneNumber
-            };
-             _uow.UserRepository.Add(newUser);
-
-            _uow.SaveChanges();
-            CurrentUser = newUser;
         }
     }
 }

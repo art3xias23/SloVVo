@@ -1,5 +1,6 @@
 ﻿using Ninject.Modules;
 using SloVVo.Data.Models;
+using SloVVo.Data.Repositories;
 using SloVVo.Logic.ViewModels;
 
 namespace SloVVo.App.IoCKernel
@@ -14,7 +15,7 @@ namespace SloVVo.App.IoCKernel
             Bind<AddContentViewModel>().ToSelf().InTransientScope();
             Bind<UsersViewModel>().ToSelf().InTransientScope();
             Bind<AddUserViewModel>().ToSelf().InTransientScope();
-            Bind<BookViewModel>().ToSelf().WithConstructorArgument("book");
+            Bind<UnitOfWork>().ToSelf().InSingletonScope();
         }
     }
 }
