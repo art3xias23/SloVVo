@@ -10,10 +10,9 @@ namespace SloVVo.Logic.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
-        private UnitOfWork UnitOfWork;
 
-        public ICommand LoadUserCommand { get; set; }
         public ICommand EditUserCommand { get; set; }
+        private readonly IUnitOfWork _uow;
 
         private User _user;
         private string _editButtonContent;
@@ -47,8 +46,9 @@ namespace SloVVo.Logic.ViewModels
             set { _user = value; OnPropertyChanged(nameof(User)); }
         }
 
-        public UserViewModel(User user)
+        public UserViewModel(User user, IUnitOfWork uow)
         {
+            _uow = uow;
             User = user;
             CurrentUser = new User();
             if (user != null)
@@ -60,7 +60,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void GetUserBooks()
         {
-            UserBooks = new ObservableCollection<UserBooks>(UnitOfWork.UserBookRepository.GetAll().Where(x =>
+            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
                x.UserId == User.UserId).ToList());
         }
 
@@ -75,7 +75,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void UpdateRecord()
         {
-            UnitOfWork.UserRepository.Update(User);
+            _uow.UserRepository.Update(User);
         }
 
         private void SetEditButtonContent()

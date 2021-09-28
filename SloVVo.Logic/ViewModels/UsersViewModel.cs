@@ -15,7 +15,7 @@ namespace SloVVo.Logic.ViewModels
     public class UsersViewModel : ObservableObject
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-        private UnitOfWork UnitOfWork;
+        private IUnitOfWork _uow;
         private User _selectedUser;
 
         private ObservableCollection<User> _UsersList;
@@ -87,8 +87,9 @@ namespace SloVVo.Logic.ViewModels
             }
         }
 
-        public UsersViewModel()
+        public UsersViewModel(IUnitOfWork uow)
         {
+            _uow = uow;
             EventAggregator.UserUpdateTransmitted += UserUpdate;
 
             LoadUserCollectionCommand = new RelayCommandEmpty(LoadUserCollection);
@@ -122,30 +123,30 @@ namespace SloVVo.Logic.ViewModels
 
                 if (IsFirstNameChecked && !IsSurnameChecked)
                 {
-                    var Users = UnitOfWork.UserRepository.GetAll();
+                    var Users = _uow.UserRepository.GetAll();
 
                     return Users.Where(x => x.Firstname != null && x.Firstname.ToLower().Contains(SearchText.ToLower())).ToList();
                 }
                 else if (IsSurnameChecked && !IsFirstNameChecked)
                 {
-                    var Users = UnitOfWork.UserRepository.GetAll();
+                    var Users = _uow.UserRepository.GetAll();
                     return Users.Where(x => x.Surname != null && x.Surname.ToLower().Contains(SearchText.ToLower()))?.ToList();
                 }
                 else
                 {
-                    var Users = UnitOfWork.UserRepository.GetAll();
+                    var Users = _uow.UserRepository.GetAll();
                     return Users.ToList();
                 }
 
             }
 
-            return UnitOfWork.UserRepository.GetAll().ToList();
+            return _uow.UserRepository.GetAll().ToList();
         }
 
         private void LoadUserCollection()
         {
             _logger.Trace("Loading Users");
-            UsersList = new ObservableCollection<User>(UnitOfWork.UserRepository.GetAllQueryable().ToList());
+            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable().ToList());
             SetTotalItems("Брой Потребители", UsersList.Count);
         }
 
@@ -153,7 +154,7 @@ namespace SloVVo.Logic.ViewModels
         private void LoadUsersCollection()
         {
             _logger.Trace("Loading Users");
-            UsersList = new ObservableCollection<User>(UnitOfWork.UserRepository.GetAllQueryable());
+            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable());
         }
 
         private void SetTotalItems(string text, int count)

@@ -11,7 +11,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class BookViewModel : ObservableObject
     {
-        private UnitOfWork UnitOfWork;
+        private IUnitOfWork _uow;
 
         private ObservableCollection<Author> _authors;
         private ObservableCollection<Section> _sections;
@@ -40,8 +40,9 @@ namespace SloVVo.Logic.ViewModels
         }
 
         public Book CurrentBook { private get; set; }
-        public BookViewModel(Book book)
+        public BookViewModel(Book book, IUnitOfWork uow)
         {
+            _uow = uow;
             CurrentBook = new Book();
             CurrentBook.LocationId = book.LocationId;
             CurrentBook.BookId = book.BookId;
@@ -60,7 +61,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void SetBorrowButtonContent(Book book)
         {
-            BorrowButtonContent = UnitOfWork.UserBookRepository.Any(x =>
+            BorrowButtonContent = _uow.UserBookRepository.Any(x =>
                 x.BiblioId == CurrentBook.BiblioId && x.LocationId == CurrentBook.LocationId && x.ShelfId == CurrentBook.ShelfId &&
                 x.BookId == CurrentBook.BookId && x.IsTaken == true) ? "Връщане" : "Наемане";
         }
@@ -74,13 +75,13 @@ namespace SloVVo.Logic.ViewModels
             }
             else
             {
-                var userBook = UnitOfWork.UserBookRepository.GetById(x =>
+                var userBook = _uow.UserBookRepository.GetById(x =>
                     x.BiblioId == Book.BiblioId && x.BookId == Book.BookId && x.ShelfId == Book.ShelfId &&
                     x.LocationId == Book.LocationId && x.IsTaken == true);
 
                 userBook.IsTaken = false;
                 userBook.DateOfActualReturning = DateTime.Now;
-                UnitOfWork.SaveChanges();
+                _uow.SaveChanges();
 
                 ViewEventHandler.RaiseShowBookEvent(Book);
             }
@@ -98,10 +99,10 @@ namespace SloVVo.Logic.ViewModels
 
         private void DeleteRecord()
         {
-            UnitOfWork.BookRepository.Delete(x =>
+            _uow.BookRepository.Delete(x =>
                 x.LocationId == CurrentBook.LocationId && x.BiblioId == CurrentBook.BiblioId && x.ShelfId == CurrentBook.ShelfId &&
                 x.BookId == CurrentBook.BookId);
-            UnitOfWork.SaveChanges();
+            _uow.SaveChanges();
         }
 
         private void SetEditButtonContent()
@@ -131,8 +132,8 @@ namespace SloVVo.Logic.ViewModels
                 BookId = Book.BookId,
                 YearOfPublication = Book.YearOfPublication
             };
-            UnitOfWork.BookRepository.Add(newBook);
-            UnitOfWork.SaveChanges();
+            _uow.BookRepository.Add(newBook);
+            _uow.SaveChanges();
             CurrentBook = newBook;
         }
 
@@ -203,7 +204,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadUserBooks()
         {
-            UserBooks = new ObservableCollection<UserBooks>(UnitOfWork.UserBookRepository.GetAll().Where(x =>
+            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
                 x.BiblioId == Book.BiblioId && x.LocationId == Book.LocationId && x.ShelfId == Book.ShelfId).ToList());
         }
 
@@ -214,17 +215,17 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadLocationsCollection()
         {
-            Locations = new ObservableCollection<Location>(UnitOfWork.LocationRepository.GetAll());
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
         }
 
         private void LoadSectionsCollection()
         {
-            Sections = new ObservableCollection<Section>(UnitOfWork.SectionRepository.GetAll());
+            Sections = new ObservableCollection<Section>(_uow.SectionRepository.GetAll());
         }
 
         private void LoadAuthorsCollection()
         {
-            Authors = new ObservableCollection<Author>(UnitOfWork.AuthorRepository.GetAll());
+            Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAll());
         }
     }
 }

@@ -8,8 +8,7 @@ using SloVVo.Data.Models;
 
 namespace SloVVo.Data.Repositories
 {
-    public class AuthorRepository : GenericRepository<Author>
-    {
+    public class AuthorRepository : GenericRepository<Author>    {
         public AuthorRepository(DbContext context) : base(context)
         {
         }

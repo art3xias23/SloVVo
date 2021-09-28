@@ -11,10 +11,11 @@ namespace SloVVo.Logic.ViewModels
     {
         public ICommand AddContentCommand { get; set; }
         public string SectionName { get; set; }
-        private UnitOfWork UnitOfWork;
+        private readonly IUnitOfWork _uow;
 
-        public AddContentViewModel()
+        public AddContentViewModel(IUnitOfWork uow)
         {
+            _uow = uow;
             AddContentCommand = new RelayCommandEmpty(AddContent);
         }
 
@@ -29,16 +30,16 @@ namespace SloVVo.Logic.ViewModels
 
         private void AddContentItem()
         {
-            var recordExists = UnitOfWork.SectionRepository.GetAll()
+            var recordExists = _uow.SectionRepository.GetAll()
                 .Any(x => x.SectionName.ToLower() == SectionName.ToLower());
             if (!recordExists)
             {
-                UnitOfWork.SectionRepository.Add(new Section()
+                _uow.SectionRepository.Add(new Section()
                 {
                     SectionName = SectionName
                 });
 
-                UnitOfWork.SaveChanges();
+                _uow.SaveChanges();
             }
         }
     }

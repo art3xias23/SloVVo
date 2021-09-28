@@ -9,13 +9,15 @@ namespace SloVVo.App.IoCKernel
     {
         public override void Load()
         {
+            Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
             Bind<MainWindowViewModel.MainWindowViewModel>().ToSelf().InTransientScope();
+
             Bind<AddAuthorViewModel>().ToSelf().InTransientScope();
             Bind<AddBookViewModel>().ToSelf().InSingletonScope();
             Bind<AddContentViewModel>().ToSelf().InTransientScope();
-            Bind<UsersViewModel>().ToSelf().InTransientScope();
             Bind<AddUserViewModel>().ToSelf().InTransientScope();
-            Bind<UnitOfWork>().ToSelf().InSingletonScope();
+            Bind<UsersViewModel>().ToSelf().InTransientScope();
+            Bind<BooksViewModel>().ToSelf().InTransientScope();
         }
     }
 }

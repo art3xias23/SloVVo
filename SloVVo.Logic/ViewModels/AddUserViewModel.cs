@@ -8,7 +8,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class AddUserViewModel : ObservableObject
     {
-        private UnitOfWork UnitOfWork;
+        private IUnitOfWork _uow;
 
         public ICommand LoadUserCommand { get; set; }
         public ICommand SaveUserCommand { get; set; }
@@ -22,8 +22,9 @@ namespace SloVVo.Logic.ViewModels
         }
         //public User User { get; set; }
 
-        public AddUserViewModel()
+        public AddUserViewModel(IUnitOfWork uow)
         {
+            _uow = uow;
             User = new User();
             LoadUserCommand = new RelayCommand(LoadUser);
             SaveUserCommand = new RelayCommand(SaveUser);
@@ -42,8 +43,8 @@ namespace SloVVo.Logic.ViewModels
 
         private void AddUser()
         {
-            if (UnitOfWork.UserRepository.Any(x => x.Firstname == User.Firstname && x.Surname == User.Surname)) return;
-            UnitOfWork.UserRepository.Add(new User()
+            if (_uow.UserRepository.Any(x => x.Firstname == User.Firstname && x.Surname == User.Surname)) return;
+            _uow.UserRepository.Add(new User()
             {
                 Address = User.Address,
                 Firstname = User.Firstname,
@@ -52,7 +53,7 @@ namespace SloVVo.Logic.ViewModels
                 TelephoneNumber = User.TelephoneNumber
             });
 
-            UnitOfWork.SaveChanges();
+            _uow.SaveChanges();
         }
     }
 }

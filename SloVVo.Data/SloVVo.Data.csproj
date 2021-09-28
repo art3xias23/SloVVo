@@ -79,6 +79,8 @@
     <Compile Include="Repositories\AuthorRepository.cs" />
     <Compile Include="Repositories\BookRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\SectionRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />

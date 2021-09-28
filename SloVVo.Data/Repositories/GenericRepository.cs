@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace SloVVo.Data.Repositories
 {
-    public abstract class GenericRepository<T> where T : class
+   
+
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private DbContext _context;
 
-        public GenericRepository(DbContext context)
+        protected GenericRepository(DbContext context)
         {
             _context = context;
         }
@@ -67,4 +69,4 @@ namespace SloVVo.Data.Repositories
             return _context.Set<T>().Any(predicate);
         }
     }
-}
+ }

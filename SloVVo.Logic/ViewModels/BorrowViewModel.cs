@@ -11,7 +11,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class BorrowViewModel : ObservableObject
     {
-        private UnitOfWork UnitOfWork;
+        private IUnitOfWork _uow;
 
         private Book _book;
         private User _selectedUser;
@@ -21,8 +21,9 @@ namespace SloVVo.Logic.ViewModels
         private bool _isFieldEnabled;
 
         public ICommand BorrowCommand { get; set; }
-        public BorrowViewModel(Book book)
+        public BorrowViewModel(Book book, IUnitOfWork uow)
         {
+            _uow = uow;
             Book = book;
             DisableFields();
             UserList = GetUsers();
@@ -33,7 +34,7 @@ namespace SloVVo.Logic.ViewModels
 
         private ObservableCollection<User> GetUsers()
         {
-            return new ObservableCollection<User>(UnitOfWork.UserRepository.GetAll());
+            return new ObservableCollection<User>(_uow.UserRepository.GetAll());
         }
 
         public DateTime SelectedDateOfReturning
@@ -45,7 +46,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void Borrow()
         {
-            UnitOfWork.UserBookRepository.Add(new UserBooks()
+            _uow.UserBookRepository.Add(new UserBooks()
             {
                 BiblioId = Book.BiblioId,
                 BookId = Book.BookId,
@@ -57,7 +58,7 @@ namespace SloVVo.Logic.ViewModels
                 IsTaken = true
             });
 
-            UnitOfWork.SaveChanges();
+            _uow.SaveChanges();
 
             ViewEventHandler.RaiseShowBookEvent(Book);
         }

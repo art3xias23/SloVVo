@@ -10,7 +10,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class AddBookViewModel : ObservableObject
     {
-        private UnitOfWork UnitOfWork;
+        private IUnitOfWork _uow;
 
         private ObservableCollection<Author> _authors;
         private ObservableCollection<Section> _sections;
@@ -23,9 +23,9 @@ namespace SloVVo.Logic.ViewModels
         public ICommand AddAuthorCommand { get; set; }
         public ICommand LoadWindowCommand { get; set; }
         public ICommand UploadBookCommand { get; set; }
-        public AddBookViewModel()
+        public AddBookViewModel(IUnitOfWork uow)
         {
-
+            _uow = uow;
             Book = new Book();
             AddAuthorCommand = new RelayCommandEmpty(AddAuthor);
             AddContentCommand = new RelayCommandEmpty(AddContent);
@@ -46,10 +46,10 @@ namespace SloVVo.Logic.ViewModels
 
         private void AddBookItem()
         {
-            var recordExists = UnitOfWork.BookRepository.GetAll().Exists(x=>x.LocationId == Book.Location.LocationId && x.BiblioId == Book.BiblioId && x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
+            var recordExists = _uow.BookRepository.GetAll().Exists(x=>x.LocationId == Book.Location.LocationId && x.BiblioId == Book.BiblioId && x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
             if (!recordExists)
             {
-                UnitOfWork.BookRepository.Add(new Book()
+                _uow.BookRepository.Add(new Book()
                 {
                     LocationId = Book.Location.LocationId,
                     BiblioId = Book.BiblioId,
@@ -61,7 +61,7 @@ namespace SloVVo.Logic.ViewModels
                     YearOfPublication = Book.YearOfPublication
                 });
 
-                UnitOfWork.SaveChanges();
+                _uow.SaveChanges();
                 Book=new Book();
             }
         }
@@ -113,17 +113,17 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadLocationsCollection()
         {
-            Locations = new ObservableCollection<Location>(UnitOfWork.LocationRepository.GetAll());
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
         }
 
         private void LoadSectionsCollection()
         {
-            Sections = new ObservableCollection<Section>(UnitOfWork.SectionRepository.GetAll());
+            Sections = new ObservableCollection<Section>(_uow.SectionRepository.GetAll());
         }
 
         private void LoadAuthorsCollection()
         {
-            Authors = new ObservableCollection<Author>(UnitOfWork.AuthorRepository.GetAll());
+            Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAll());
         }
 
         private void AddContent()

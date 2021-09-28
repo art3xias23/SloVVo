@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using SloVVo.App.Views;
 using SloVVo.Data.EventArgs;
+using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
 using SloVVo.Logic.ViewModels;
@@ -24,6 +25,7 @@ namespace SloVVo.App.MainWindowViewModel
 
         private Visibility _buttonOpenMenuVisibility;
         private Visibility _buttonCloseMenuVisibility;
+        private readonly IUnitOfWork _uow;
 
         public Visibility ButtonOpenMenuVisibility
         {
@@ -39,6 +41,7 @@ namespace SloVVo.App.MainWindowViewModel
 
         public MainWindowViewModel()
         {
+            _uow = IoCKernel.IocKernel.Get<IUnitOfWork>();
             LogoutCommand = new RelayCommandEmpty(Logout);
             CloseMenuCommand = new RelayCommandEmpty(CloseMenu);
             OpenMenuCommand = new RelayCommandEmpty(OpenMenu);
@@ -64,19 +67,19 @@ namespace SloVVo.App.MainWindowViewModel
 
         private void ShowUserEventMethod(object sender, UserEventArgs e)
         {
-            var viewModel = new UserViewModel(e.User);
+            var viewModel = new UserViewModel(e.User, _uow);
             PageContent = new UserView(viewModel);
         }
 
         private void ShowBorrowEventMethod(object sender, BookEventArgs e)
         {
-            var viewModel = new BorrowViewModel(e.Book);
+            var viewModel = new BorrowViewModel(e.Book, _uow);
             PageContent = new BorrowView(viewModel);
         }
 
         private void ShowBookEventMethod(object sender, BookEventArgs e)
         {
-            var viewModel = new BookViewModel(e.Book);
+            var viewModel = new BookViewModel(e.Book, _uow);
             PageContent = new BookView(viewModel);
         }
 
