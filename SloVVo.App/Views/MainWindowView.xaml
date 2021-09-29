@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
         mc:Ignorable="d" Height="600" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}" ResizeMode="NoResize"  Foreground="White"
         >
@@ -33,7 +34,7 @@
     <Grid Style="{StaticResource BackgroundColorGridTop}">
         <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="1010">
             <Frame Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"  Content="{Binding Path=PageContent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-            
+            <notifications:NotificationArea x:Name="WindowArea" Position="BottomRight" MaxItems="3"/>
         </Grid>
         <Grid Height="60" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>

@@ -1,10 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
+using Notification.Wpf;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
+using SloVVo.Logic.Response;
 
 namespace SloVVo.Logic.ViewModels
 {
@@ -15,6 +19,7 @@ namespace SloVVo.Logic.ViewModels
         private ObservableCollection<Author> _authors;
         private ObservableCollection<Section> _sections;
         private ObservableCollection<Location> _locations;
+        private readonly NotificationManager _notificationManager;
 
         public Book  Book { get; set; }
         
@@ -25,6 +30,7 @@ namespace SloVVo.Logic.ViewModels
         public ICommand UploadBookCommand { get; set; }
         public AddBookViewModel(IUnitOfWork uow)
         {
+            _notificationManager = new NotificationManager();
             _uow = uow;
             Book = new Book();
             AddAuthorCommand = new RelayCommandEmpty(AddAuthor);
@@ -44,7 +50,7 @@ namespace SloVVo.Logic.ViewModels
             ViewEventHandler.RaiseShowBooksEvent();
         }
 
-        private void AddBookItem()
+        private IResponse AddBookItem()
         {
             var recordExists = _uow.BookRepository.GetAll().Exists(x=>x.LocationId == Book.Location.LocationId && x.BiblioId == Book.BiblioId && x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
             if (!recordExists)
@@ -63,7 +69,12 @@ namespace SloVVo.Logic.ViewModels
 
                 _uow.SaveChanges();
                 Book=new Book();
+
+                _notificationManager.Show(new NotificationContent() { Background = Brushes.Green, Foreground = Brushes.White, Title = "Книга", Message = "Книга успешно добавена", Type = NotificationType.Success }, "WindowArea", TimeSpan.FromSeconds(3));
+                return new Response.Response(true);
             }
+            _notificationManager.Show(new NotificationContent() { Background = Brushes.Red, Foreground = Brushes.White, Title = "Раздел", Message = "Книгата вече съществува", Type = NotificationType.Error }, "WindowArea", TimeSpan.FromSeconds(3));
+            return new Response.Response(false);
         }
 
         public ObservableCollection<Author> Authors
