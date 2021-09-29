@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
+using Notification.Wpf;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
@@ -17,12 +19,14 @@ namespace SloVVo.Logic.ViewModels
         private User _selectedUser;
         private DateTime _selectedDateOfReturning;
         private ObservableCollection<User> _userList;
+        private readonly NotificationManager _notificationManager;
 
         private bool _isFieldEnabled;
 
         public ICommand BorrowCommand { get; set; }
         public BorrowViewModel(Book book, IUnitOfWork uow)
         {
+            _notificationManager = new NotificationManager();
             _uow = uow;
             Book = book;
             DisableFields();
@@ -61,6 +65,16 @@ namespace SloVVo.Logic.ViewModels
             _uow.SaveChanges();
 
             ViewEventHandler.RaiseShowBookEvent(Book);
+
+            _notificationManager.Show(
+                new NotificationContent()
+                {
+                    Background = Brushes.Green,
+                    Foreground = Brushes.White,
+                    Title = "Наемане",
+                    Message = "Книгата успешно наета",
+                    Type = NotificationType.Success
+                }, "WindowArea", TimeSpan.FromSeconds(3));
         }
 
         public Book Book

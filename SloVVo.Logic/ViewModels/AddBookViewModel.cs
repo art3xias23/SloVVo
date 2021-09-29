@@ -21,8 +21,8 @@ namespace SloVVo.Logic.ViewModels
         private ObservableCollection<Location> _locations;
         private readonly NotificationManager _notificationManager;
 
-        public Book  Book { get; set; }
-        
+        public Book Book { get; set; }
+
 
         public ICommand AddContentCommand { get; set; }
         public ICommand AddAuthorCommand { get; set; }
@@ -44,15 +44,16 @@ namespace SloVVo.Logic.ViewModels
 
         private void UploadBook()
         {
-            AddBookItem();
-
-            EventAggregator.UpdateBookCollection();
-            ViewEventHandler.RaiseShowBooksEvent();
+            if (AddBookItem().Success)
+            {
+                EventAggregator.UpdateBookCollection();
+                ViewEventHandler.RaiseShowBooksEvent();
+            }
         }
 
         private IResponse AddBookItem()
         {
-            var recordExists = _uow.BookRepository.GetAll().Exists(x=>x.LocationId == Book.Location.LocationId && x.BiblioId == Book.BiblioId && x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
+            var recordExists = _uow.BookRepository.GetAll().Exists(x => x.LocationId == Book.Location.LocationId && x.BiblioId == Book.BiblioId && x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
             if (!recordExists)
             {
                 _uow.BookRepository.Add(new Book()
@@ -68,12 +69,12 @@ namespace SloVVo.Logic.ViewModels
                 });
 
                 _uow.SaveChanges();
-                Book=new Book();
+                Book = new Book();
 
                 _notificationManager.Show(new NotificationContent() { Background = Brushes.Green, Foreground = Brushes.White, Title = "Книга", Message = "Книга успешно добавена", Type = NotificationType.Success }, "WindowArea", TimeSpan.FromSeconds(3));
                 return new Response.Response(true);
             }
-            _notificationManager.Show(new NotificationContent() { Background = Brushes.Red, Foreground = Brushes.White, Title = "Раздел", Message = "Книгата вече съществува", Type = NotificationType.Error }, "WindowArea", TimeSpan.FromSeconds(3));
+            _notificationManager.Show(new NotificationContent() { Background = Brushes.Red, Foreground = Brushes.White, Title = "Книга", Message = "Книгата вече съществува", Type = NotificationType.Error }, "WindowArea", TimeSpan.FromSeconds(3));
             return new Response.Response(false);
         }
 
@@ -90,20 +91,20 @@ namespace SloVVo.Logic.ViewModels
         public ObservableCollection<Section> Sections
         {
             get => _sections;
-            set { _sections = value; OnPropertyChanged(nameof(Sections));}
+            set { _sections = value; OnPropertyChanged(nameof(Sections)); }
         }
 
-        public ObservableCollection<Location> Locations 
+        public ObservableCollection<Location> Locations
         {
             get => _locations;
-            set { _locations = value;OnPropertyChanged(nameof(Locations)); }
+            set { _locations = value; OnPropertyChanged(nameof(Locations)); }
         }
 
         private Location _selectedLocation;
         public Location SelectedLocation
         {
             get => _selectedLocation;
-            set { _selectedLocation = value;OnPropertyChanged(nameof(SelectedLocation)); }
+            set { _selectedLocation = value; OnPropertyChanged(nameof(SelectedLocation)); }
         }
 
         private void OnSectionUpdateTransmitted()

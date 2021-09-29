@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
+using Notification.Wpf;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
@@ -13,6 +16,7 @@ namespace SloVVo.Logic.ViewModels
 
         public ICommand EditUserCommand { get; set; }
         private readonly IUnitOfWork _uow;
+        private readonly NotificationManager _notificationManager;
 
         private User _user;
         private string _editButtonContent;
@@ -48,6 +52,7 @@ namespace SloVVo.Logic.ViewModels
 
         public UserViewModel(User user, IUnitOfWork uow)
         {
+            _notificationManager = new NotificationManager();
             _uow = uow;
             User = user;
             CurrentUser = new User();
@@ -69,6 +74,15 @@ namespace SloVVo.Logic.ViewModels
             if (EditButtonContent == "Запази")
             {
                 UpdateRecord();
+                _notificationManager.Show(
+                    new NotificationContent()
+                    {
+                        Background = Brushes.Green,
+                        Foreground = Brushes.White,
+                        Title = "Потребител",
+                        Message = "Потребителят успешно променен",
+                        Type = NotificationType.Success
+                    }, "WindowArea", TimeSpan.FromSeconds(3));
             }
             SetEditButtonContent();
         }

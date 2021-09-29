@@ -1,16 +1,20 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
+using System.Windows.Media;
+using Notification.Wpf;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
+using SloVVo.Logic.Response;
 
 namespace SloVVo.Logic.ViewModels
 {
     public class AddUserViewModel : ObservableObject
     {
         private readonly IUnitOfWork _uow;
+        private readonly NotificationManager _notificationManager;
 
-        public ICommand LoadUserCommand { get; set; }
         public ICommand SaveUserCommand { get; set; }
 
         private User _user;
@@ -18,18 +22,19 @@ namespace SloVVo.Logic.ViewModels
         public User User
         {
             get => _user;
-            set { _user = value; OnPropertyChanged(nameof(User)); }
+            set
+            {
+                _user = value;
+                OnPropertyChanged(nameof(User));
+            }
         }
+
         public AddUserViewModel(IUnitOfWork uow)
         {
             _uow = uow;
             User = new User();
-            LoadUserCommand = new RelayCommand(LoadUser);
+            _notificationManager = new NotificationManager();
             SaveUserCommand = new RelayCommand(SaveUser);
-        }
-
-        private void LoadUser(object obj)
-        {
         }
 
         public void SaveUser(object obj)
@@ -39,19 +44,38 @@ namespace SloVVo.Logic.ViewModels
             ViewEventHandler.RaiseShowUsersEvent();
         }
 
-        private void AddUser()
+        private IResponse AddUser()
         {
-            if (_uow.UserRepository.Any(x => x.Firstname == User.Firstname && x.Surname == User.Surname)) return;
-            _uow.UserRepository.Add(new User()
+            var userExists = _uow.UserRepository.Any(x => x.Firstname == User.Firstname && x.Surname == User.Surname);
+            if (!userExists)
             {
-                Address = User.Address,
-                Firstname = User.Firstname,
-                Surname = User.Surname,
-                Town = User.Town,
-                TelephoneNumber = User.TelephoneNumber
-            });
 
-            _uow.SaveChanges();
+                _uow.UserRepository.Add(new User()
+                {
+                    Address = User.Address,
+                    Firstname = User.Firstname,
+                    Surname = User.Surname,
+                    Town = User.Town,
+                    TelephoneNumber = User.TelephoneNumber
+                });
+
+                _uow.SaveChanges();
+                _notificationManager.Show(
+                    new NotificationContent()
+                    {
+                        Background = Brushes.Green, Foreground = Brushes.White, Title = "Потребител",
+                        Message = "Потребителят успешно добавена", Type = NotificationType.Success
+                    }, "WindowArea", TimeSpan.FromSeconds(3));
+                return new Response.Response(true);
+            }
+
+            _notificationManager.Show(
+                new NotificationContent()
+                {
+                    Background = Brushes.Red, Foreground = Brushes.White, Title = "Потребител",
+                    Message = "Потребителят вече съществува", Type = NotificationType.Error
+                }, "WindowArea", TimeSpan.FromSeconds(3));
+            return new Response.Response(false);
         }
     }
 }

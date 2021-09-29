@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
+using Notification.Wpf;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
@@ -18,6 +20,7 @@ namespace SloVVo.Logic.ViewModels
         private ObservableCollection<Location> _locations;
         private Book _book;
         private ObservableCollection<UserBooks> _userBooks;
+        private readonly NotificationManager _notificationManager;
 
         private bool _isFieldEnabled;
         private string _editButtonContent;
@@ -42,6 +45,7 @@ namespace SloVVo.Logic.ViewModels
         public Book CurrentBook { private get; set; }
         public BookViewModel(Book book, IUnitOfWork uow)
         {
+            _notificationManager = new NotificationManager();
             _uow = uow;
             CurrentBook = new Book();
             CurrentBook.LocationId = book.LocationId;
@@ -84,6 +88,16 @@ namespace SloVVo.Logic.ViewModels
                 _uow.SaveChanges();
 
                 ViewEventHandler.RaiseShowBookEvent(Book);
+
+                _notificationManager.Show(
+                    new NotificationContent()
+                    {
+                        Background = Brushes.Green,
+                        Foreground = Brushes.White,
+                        Title = "Книга",
+                        Message = "Книга успешно върната",
+                        Type = NotificationType.Success
+                    }, "WindowArea", TimeSpan.FromSeconds(3));
             }
         }
 
@@ -93,6 +107,15 @@ namespace SloVVo.Logic.ViewModels
             {
                 DeleteRecord();
                 InsertRecord();
+                _notificationManager.Show(
+                    new NotificationContent()
+                    {
+                        Background = Brushes.Green,
+                        Foreground = Brushes.White,
+                        Title = "Книга",
+                        Message = "Книга успешно променена",
+                        Type = NotificationType.Success
+                    }, "WindowArea", TimeSpan.FromSeconds(3));
             }
             SetEditButtonContent();
         }
