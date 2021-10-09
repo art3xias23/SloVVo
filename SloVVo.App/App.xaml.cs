@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Windows;
+using InfoBox;
 using SloVVo.App.Spinners;
 using SloVVo.App.Views;
 using SloVVo.Logic.Squirrel;
@@ -69,7 +70,11 @@ namespace SloVVo.App
         {
             _logger.Trace($"{nameof(squirrelApp.CheckForUpdates)} success: {success}, messsage: {message}");
             if (success)
-                MessageBox.Show("Нова версия на софтуера е налична! За да я използвате, моля рестартирайте SloVVo", "SloVVo", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Нова версия на софтуера е налична! За да я използвате, моля рестартирайте SloVVo", "SloVVo", MessageBoxButton.OK, MessageBoxImage.Information);
+                InformationBox.Show(
+                    "Нова версия на Slovvo беше инсталирана, за да я използвате, моля рестартирайте Slovvo", "Ъпдейт",
+                    "", "", "", InformationBoxButtons.OK, InformationBoxIcon.Success, "",
+                    InformationBoxDefaultButton.Button1);
             else
                 _logger.Warn(message);
         }

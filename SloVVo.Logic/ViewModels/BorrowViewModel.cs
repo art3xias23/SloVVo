@@ -50,6 +50,19 @@ namespace SloVVo.Logic.ViewModels
 
         private void Borrow()
         {
+            if(SelectedUser == null)
+            {
+                _notificationManager.Show(
+                    new NotificationContent()
+                    {
+                        Background = Brushes.Goldenrod,
+                        Foreground = Brushes.White,
+                        Title = "Наемане",
+                        Message ="Моля изберете наемател",
+                        Type = NotificationType.Warning
+                    }, "WindowArea", TimeSpan.FromSeconds(3));
+                return;
+            }
             _uow.UserBookRepository.Add(new UserBooks()
             {
                 BiblioId = Book.BiblioId,

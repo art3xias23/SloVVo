@@ -51,6 +51,8 @@ namespace SloVVo.App.MainWindowViewModel
             ShowAddUserCommand = new RelayCommandEmpty(ShowAddUser);
             ShowBooksCommand = new RelayCommandEmpty(ShowBooks);
             ShowUsersCommand = new RelayCommandEmpty(ShowUsers);
+            SlovvoNameAndVersion =
+                $"Slovvo - {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Substring(0,5)}";
 
             ButtonCloseMenuVisibility = Visibility.Collapsed;
             ButtonOpenMenuVisibility = Visibility.Visible;
@@ -160,6 +162,14 @@ namespace SloVVo.App.MainWindowViewModel
         {
             get => _pageContent;
             set { _pageContent = value; OnPropertyChanged(nameof(PageContent)); }
+        }
+
+        private string _slovvoNameAndVersion;
+
+        public string SlovvoNameAndVersion
+        {
+            get => _slovvoNameAndVersion;
+            set { _slovvoNameAndVersion = value;OnPropertyChanged(nameof(SlovvoNameAndVersion)); }
         }
     }
 }

@@ -31,7 +31,7 @@
             <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
         </EventTrigger>
     </Window.Triggers>
-    <Grid Style="{StaticResource BackgroundColorGridTop}">
+       <Grid Style="{StaticResource BackgroundColorGridTop}">
         <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="1010">
             <Frame Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"  Content="{Binding Path=PageContent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             <notifications:NotificationArea x:Name="WindowArea" Position="BottomRight" MaxItems="3"/>
@@ -53,7 +53,7 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Grid.Column="1" Margin="350.2,15,457,15">SloVVo</TextBlock>
+            <TextBlock Text="{Binding SlovvoNameAndVersion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Grid.Column="1" Margin="350.2,15,457,15"/>
         </Grid>
         <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#FF31577E">
             <Grid.Effect>
