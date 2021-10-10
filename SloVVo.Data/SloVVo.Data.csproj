@@ -64,6 +64,10 @@
     <Compile Include="Migrations\202109271924104_UserMappingsChanges.designer.cs">
       <DependentUpon>202109271924104_UserMappingsChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110102101041_ChangingTelephoneToString.cs" />
+    <Compile Include="Migrations\202110102101041_ChangingTelephoneToString.designer.cs">
+      <DependentUpon>202110102101041_ChangingTelephoneToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Location.cs" />
@@ -97,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109271924104_UserMappingsChanges.resx">
       <DependentUpon>202109271924104_UserMappingsChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110102101041_ChangingTelephoneToString.resx">
+      <DependentUpon>202110102101041_ChangingTelephoneToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

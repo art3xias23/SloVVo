@@ -50,8 +50,8 @@
                           Margin="8,0,8,15" 
                          DisplayMemberPath="LocationName"
                          SelectedValuePath="LocationId" 
-                         ItemsSource="{Binding Locations, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedItem="{Binding Book.Location, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding Locations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding SelectedLocation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                          IsSynchronizedWithCurrentItem="True">
                 </ComboBox>
@@ -72,15 +72,15 @@
                          Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <ComboBox x:Name="AuthorText"  Width="100" Margin="10,12,10,10"
                           Background="White"
-                          ItemsSource="{Binding Authors, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Book.Author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding Authors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           DisplayMemberPath="AuthorName"
                           SelectedValuePath="AuthorId" 
                           IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                           IsSynchronizedWithCurrentItem="True"/>
                 <ComboBox x:Name="SectionText" Width="100" Margin="0,8,0,0" IsEditable="false"
-                    ItemsSource="{Binding Sections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding Book.Section, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding Sections, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayMemberPath="SectionName"
                     SelectedValuePath="SectionId" 
                     Background="White"

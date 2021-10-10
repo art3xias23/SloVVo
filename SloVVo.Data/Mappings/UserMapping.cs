@@ -40,7 +40,7 @@ namespace SloVVo.Data.Mappings
             Property(item => item.TelephoneNumber)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
                 .IsOptional()
-                .HasColumnType("int");
+                .HasColumnType("nvarchar");
 
             Property(item => item.Address)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None)
