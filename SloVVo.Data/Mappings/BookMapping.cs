@@ -42,23 +42,13 @@ namespace SloVVo.Data.Mappings
                 .HasMaxLength(200)
                 .IsOptional();
 
-            Property(x => x.AuthorId)
-                .IsOptional()
-                .HasColumnType("int");
-
-            Property(x => x.SectionId)
-                .IsOptional()
-                .HasColumnType("int");
-
-            Property(x => x.YearOfPublication)
+            Property(x => x.AuthorName)
                 .IsOptional()
                 .HasColumnType("nvarchar");
 
-            HasOptional(x => x.Author)
-                .WithMany(x => x.Books);
-
-            HasOptional(x => x.Section)
-                .WithMany(x => x.Books);
+            Property(x => x.IsTaken)
+                .IsRequired()
+                .HasColumnType("bit");
 
             HasRequired(x => x.Location)
                 .WithMany(x => x.Books);

@@ -6,7 +6,6 @@ namespace SloVVo.Data.Repositories
     public interface IUnitOfWork
     {
         IGenericRepository<Author> AuthorRepository { get; }
-        IGenericRepository<Section> SectionRepository { get; }
         IGenericRepository<Book> BookRepository { get; }
         IGenericRepository<UserBooks> UserBookRepository { get; }
         IGenericRepository<User> UserRepository { get; }

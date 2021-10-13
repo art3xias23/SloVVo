@@ -35,8 +35,8 @@
                 </TextBox.Style>
             </TextBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <CheckBox Foreground="White" Content="Име на книга" IsChecked="{Binding IsBookChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <CheckBox Foreground="White" Content="Автор" Margin="0,10" IsChecked="{Binding IsAuthorChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Background="White"  Foreground="White" FontSize="20" Content="Име на книга" IsChecked="{Binding IsBookChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Foreground="White" FontSize="20" Content="Автор" Margin="0,10" IsChecked="{Binding IsAuthorChecked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </StackPanel>
         <StackPanel>
@@ -52,23 +52,35 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25">
                 <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="{Binding TotalItemsText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontSize="15"/>
                 <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalItemsCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
+                <Button HorizontalAlignment="Right" Background="CornflowerBlue" Content="Принтирай" Margin="-200,0" Command="{Binding PrintCommand}"></Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <DataGrid  
                 Name="BooksDataGrid" Margin="0,0,0,0" 
                   ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left"
                   SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Background" Value="Aquamarine"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsTaken,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Background" Value="Firebrick"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsTaken,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                <Setter Property="Background" Value="Aquamarine"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Локация" Binding="{Binding LocationId}"/>
+                    <DataGridTextColumn Header="Локация" Binding="{Binding Location.LocationName}"/>
                     <DataGridTextColumn Header="Номер на Библиотека" Binding="{Binding BiblioId}"/>
                     <DataGridTextColumn Header="Номер на Рафт" Binding="{Binding ShelfId}"/>
                     <DataGridTextColumn Header="Номер на Книга" Binding="{Binding BookId}"/>
-                    <DataGridTextColumn Header="Име на Книга" Binding="{Binding BookName}" />
-                    <DataGridTextColumn Header="Автор" Binding="{Binding Author.AuthorName}"/>
-                    <DataGridTextColumn Header="Секция" Binding="{Binding Section.SectionName}"/>
-                    <DataGridTextColumn Header="Година" Binding="{Binding YearOfPublication}"/>
+                    <DataGridTextColumn Header="Име на Книга" Width="200" Binding="{Binding BookName}" />
+                    <DataGridTextColumn Header="Автор" Binding="{Binding AuthorName}"/>
                 </DataGrid.Columns>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">

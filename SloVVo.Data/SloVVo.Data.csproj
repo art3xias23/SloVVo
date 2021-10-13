@@ -68,14 +68,19 @@
     <Compile Include="Migrations\202110102101041_ChangingTelephoneToString.designer.cs">
       <DependentUpon>202110102101041_ChangingTelephoneToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110130757424_Remove Content, year of publication and change author to nvarchar.cs" />
+    <Compile Include="Migrations\202110130757424_Remove Content, year of publication and change author to nvarchar.designer.cs">
+      <DependentUpon>202110130757424_Remove Content, year of publication and change author to nvarchar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110132001407_Change Is Taken.cs" />
+    <Compile Include="Migrations\202110132001407_Change Is Taken.designer.cs">
+      <DependentUpon>202110132001407_Change Is Taken.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\Section.cs" />
     <Compile Include="Context\SloVVoDataContext.cs" />
-    <Compile Include="Mappings\AuthorMapping.cs" />
     <Compile Include="Mappings\BookMapping.cs" />
-    <Compile Include="Mappings\SectionMapping.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserBooks.cs" />
@@ -86,7 +91,6 @@
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
-    <Compile Include="Repositories\SectionRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
     <Compile Include="Repositories\UserBookRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -104,6 +108,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110102101041_ChangingTelephoneToString.resx">
       <DependentUpon>202110102101041_ChangingTelephoneToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110130757424_Remove Content, year of publication and change author to nvarchar.resx">
+      <DependentUpon>202110130757424_Remove Content, year of publication and change author to nvarchar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110132001407_Change Is Taken.resx">
+      <DependentUpon>202110132001407_Change Is Taken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

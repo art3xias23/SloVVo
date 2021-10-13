@@ -10,12 +10,9 @@ namespace SloVVo.Data.Models
         public int ShelfId { get; set; }
         public int BookId { get; set; }
         public string BookName { get; set; }
-        public int? AuthorId { get; set; }
-        public int? SectionId { get; set; }
-        public string YearOfPublication { get; set; }
+        public string AuthorName { get; set; }
+        public bool IsTaken { get; set; }
 
-        public virtual Author Author { get; set; }
-        public virtual Section Section { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<UserBooks> UserBooks { get; set; }
     }

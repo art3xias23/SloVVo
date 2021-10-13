@@ -29,17 +29,40 @@ namespace SloVVo.Logic.ViewModels
             _notificationManager = new NotificationManager();
             _uow = uow;
             Book = book;
-            DisableFields();
+            LoadLocationsCollection();
             UserList = GetUsers();
             SelectedDateOfReturning = DateTime.Now;
+            SelectedLocation = book.Location;
+            DisableFields();
 
             BorrowCommand = new RelayCommandEmpty(Borrow);
+        }
+
+        private Location _selectedLocation;
+
+        public Location SelectedLocation
+        {
+            get => _selectedLocation;
+            set { _selectedLocation = value; OnPropertyChanged(nameof(SelectedLocation)); }
+        }
+
+        private ObservableCollection<Location> _locations;
+
+        public ObservableCollection<Location> Locations
+        {
+            get => _locations;
+            set { _locations = value;OnPropertyChanged(nameof(Locations)); }
         }
 
         private ObservableCollection<User> GetUsers()
         {
             return new ObservableCollection<User>(_uow.UserRepository.GetAll());
         }
+        private void LoadLocationsCollection()
+        {
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
+        }
+
 
         public DateTime SelectedDateOfReturning
         {
@@ -72,10 +95,18 @@ namespace SloVVo.Logic.ViewModels
                 UserId = SelectedUser.UserId,
                 DateOfScheduledReturning = SelectedDateOfReturning,
                 DateOfBorrowing = DateTime.Now,
-                IsTaken = true
             });
 
+            var book = _uow.BookRepository.GetById(x =>
+                x.LocationId == Book.LocationId &&
+                x.BiblioId == Book.BiblioId &&
+                x.ShelfId == Book.ShelfId &&
+                x.BookId == Book.BookId);
+
+            book.IsTaken = true;
+
             _uow.SaveChanges();
+
 
             ViewEventHandler.RaiseShowBookEvent(Book);
 

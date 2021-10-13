@@ -11,8 +11,9 @@ namespace SloVVo.Data.Repositories
     {
         void Add(T item);
         T AddReturn(T item);
-        List<T> GetAll();
+        IEnumerable<T> GetAll();
         IQueryable<T> GetAllQueryable();
+        List<T> GetAllToList();
         T GetById(object id);
         T GetById(Expression<Func<T, bool>> predicate);
         void Update(T item);

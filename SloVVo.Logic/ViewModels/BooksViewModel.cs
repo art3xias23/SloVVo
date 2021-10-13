@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using NLog;
+using NLog.LayoutRenderers.Wrappers;
 using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
+using SloVVo.Logic.PdfLogic;
+using Document = Mono.Cecil.Cil.Document;
 
 namespace SloVVo.Logic.ViewModels
 {
@@ -15,9 +22,11 @@ namespace SloVVo.Logic.ViewModels
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly IUnitOfWork _uow;
+        private readonly IPdf<Book> _ipdf;
         public ICommand LoadBookCollectionCommand { get; set; }
         public ICommand SearchCommand { get; set; }
         public ICommand EditRowCommand { get; set; }
+        public ICommand PrintCommand { get; set; }
 
         private ObservableCollection<Book> _booksList;
 
@@ -83,12 +92,19 @@ namespace SloVVo.Logic.ViewModels
         public BooksViewModel(IUnitOfWork uow)
         {
             _uow = uow;
+            _ipdf = new Pdf<Book>();
             EventAggregator.BookUpdateTransmitted += BookUpdate;
 
             LoadBookCollectionCommand = new RelayCommandEmpty(LoadBooksCollection);
             SearchCommand = new RelayCommandEmpty(Search);
             EditRowCommand = new RelayCommandEmpty(EditRow);
+            PrintCommand = new RelayCommandEmpty(Print);
 
+        }
+
+        private void Print()
+        {
+            _ipdf.ExportToPdf(BooksList);
         }
 
         private void EditRow()
@@ -115,7 +131,7 @@ namespace SloVVo.Logic.ViewModels
                 else if (IsAuthorChecked)
                 {
                     var books = _uow.BookRepository.GetAll();
-                    return books.Where(x => x.Author != null && x.Author.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
+                    return books.Where(x => x.AuthorName != null && x.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
                 }
                 else
                 {
@@ -129,14 +145,27 @@ namespace SloVVo.Logic.ViewModels
 
         private void BookUpdate()
         {
+            _logger.Trace("Started update book collection");
             LoadBooksCollection();
+            _logger.Trace("Finished update book collection");
         }
 
         private void LoadBooksCollection()
         {
-            _logger.Trace("Loading Books");
-            BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable().ToList());
-            SetTotalItems("Брой Книги", BooksList.Count);
+            try
+            {
+                //BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
+                BooksList = new ObservableCollection<Book>(AppCache.Cache.BooksList);
+
+                //BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
+                _logger.Trace("Finished Loading Books");
+                SetTotalItems("Брой Книги", BooksList.Count);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+                throw;
+            }
         }
 
         private void SetTotalItems(string text, int count)

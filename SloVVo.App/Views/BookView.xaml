@@ -40,8 +40,6 @@
                 <TextBlock Text="Книга Nº" Height="17.96" FontSize="15" Background="White"></TextBlock>
                 <TextBlock Text="Книга име" Height="17.96" FontSize="15" Background="White"></TextBlock>
                 <TextBlock Text="Автор" Height="17.96" FontSize="15" Background="White"></TextBlock>
-                <TextBlock Text="Раздел" Height="17.96" FontSize="15" Background="White"></TextBlock>
-                <TextBlock Text="Година" Height="17.96" FontSize="15" Background="White"></TextBlock>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Margin="0,10" >
@@ -70,25 +68,8 @@
                 </TextBox>
                 <TextBox x:Name="BookNameText" Width="100" Text="{Binding Book.BookName,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <ComboBox x:Name="AuthorText"  Width="100" Margin="10,12,10,10"
-                          Background="White"
-                          ItemsSource="{Binding Authors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          DisplayMemberPath="AuthorName"
-                          SelectedValuePath="AuthorId" 
-                          IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          IsSynchronizedWithCurrentItem="True"/>
-                <ComboBox x:Name="SectionText" Width="100" Margin="0,8,0,0" IsEditable="false"
-                    ItemsSource="{Binding Sections, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayMemberPath="SectionName"
-                    SelectedValuePath="SectionId" 
-                    Background="White"
-                    IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsSynchronizedWithCurrentItem="True"/>
-                <TextBox x:Name="YearText" Width="100" Margin="10,17,10,10" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    <Binding Path="Book.YearOfPublication" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                </TextBox>
+                <TextBox x:Name="AuthorNameText" Width="100" Text="{Binding Book.AuthorName,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <DataGrid HorizontalAlignment="Right" Width="500" Margin="150,0,0,0" ItemsSource="{Binding UserBooks, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>

@@ -16,7 +16,6 @@ namespace SloVVo.Logic.ViewModels
         private readonly IUnitOfWork _uow;
 
         private ObservableCollection<Author> _authors;
-        private ObservableCollection<Section> _sections;
         private ObservableCollection<Location> _locations;
         private Book _book;
         private ObservableCollection<UserBooks> _userBooks;
@@ -40,22 +39,6 @@ namespace SloVVo.Logic.ViewModels
             set { _selectedLocation = value;OnPropertyChanged(nameof(SelectedLocation)); }
         }
 
-        private Section _selectedSection;
-
-        public Section SelectedSection
-        {
-            get => _selectedSection;
-            set { _selectedSection = value;OnPropertyChanged((nameof(SelectedSection))); }
-        }
-
-        private Author _selectedAuthor;
-
-        public Author SelectedAuthor
-        {
-            get => _selectedAuthor;
-            set { _selectedAuthor = value;OnPropertyChanged(nameof(SelectedAuthor)); }
-        }
-
         public ICommand LoadWindowCommand { get; set; }
         public ICommand EditRecordCommand { get; set; }
         public ICommand ShowBorrowCommand { get; set; }
@@ -67,6 +50,7 @@ namespace SloVVo.Logic.ViewModels
         }
 
         private Book _currentBook;
+
         public BookViewModel(Book book, IUnitOfWork uow)
         {
             _notificationManager = new NotificationManager();
@@ -78,25 +62,19 @@ namespace SloVVo.Logic.ViewModels
             _currentBook.BiblioId = book.BiblioId;
             Book = book;
 
-            SelectedAuthor = book.Author;
             SelectedLocation = book.Location;
-            SelectedSection = book.Section;
 
             LoadWindowCommand = new RelayCommandEmpty(LoadWindow);
             EditRecordCommand = new RelayCommandEmpty(EditRecord);
             ShowBorrowCommand = new RelayCommandEmpty(ShowBorrow);
             SetEditButtonContent();
             SetBorrowButtonContent();
-
-            EventAggregator.AuthorUpdateTransmitted += OnAuthorUpdateTransmitted;
-            EventAggregator.SectionUpdateTransmitted += OnSectionUpdateTransmitted;
         }
-
         private void SetBorrowButtonContent()
         {
             BorrowButtonContent = _uow.UserBookRepository.Any(x =>
                 x.BiblioId == _currentBook.BiblioId && x.LocationId == _currentBook.LocationId && x.ShelfId == _currentBook.ShelfId &&
-                x.BookId == _currentBook.BookId && x.IsTaken) ? "Връщане" : "Наемане";
+                x.BookId == _currentBook.BookId && x.Book.IsTaken) ? "Връщане" : "Наемане";
         }
 
         private void ShowBorrow()
@@ -109,11 +87,19 @@ namespace SloVVo.Logic.ViewModels
             else
             {
                 var userBook = _uow.UserBookRepository.GetById(x =>
-                    x.BiblioId == Book.BiblioId && x.BookId == Book.BookId && x.ShelfId == Book.ShelfId &&
-                    x.LocationId == Book.LocationId && x.IsTaken);
+                    x.BiblioId == Book.BiblioId &&
+                    x.BookId == Book.BookId && 
+                    x.ShelfId == Book.ShelfId &&
+                    x.LocationId == Book.LocationId && x.Book.IsTaken);
 
-                userBook.IsTaken = false;
                 userBook.DateOfActualReturning = DateTime.Now;
+
+                var book = _uow.BookRepository.GetById(x => x.BiblioId == Book.BiblioId &&
+                                                            x.BookId == Book.BookId &&
+                                                            x.ShelfId == Book.ShelfId &&
+                                                            x.LocationId == Book.LocationId);
+                book.IsTaken = false;
+
                 _uow.SaveChanges();
 
                 ViewEventHandler.RaiseShowBookEvent(Book);
@@ -178,11 +164,9 @@ namespace SloVVo.Logic.ViewModels
                 Location = SelectedLocation,
                 BiblioId = Book.BiblioId,
                 ShelfId = Book.ShelfId,
-                Author = SelectedAuthor,
-                Section = SelectedSection,
+                AuthorName = Book.AuthorName,
                 BookName = Book.BookName,
                 BookId = Book.BookId,
-                YearOfPublication = Book.YearOfPublication
             };
             _uow.BookRepository.Add(newBook);
             _uow.SaveChanges();
@@ -211,12 +195,6 @@ namespace SloVVo.Logic.ViewModels
             }
         }
 
-        public ObservableCollection<Section> Sections
-        {
-            get => _sections;
-            set { _sections = value; OnPropertyChanged(nameof(Sections)); }
-        }
-
         public ObservableCollection<Location> Locations
         {
             get => _locations;
@@ -229,19 +207,8 @@ namespace SloVVo.Logic.ViewModels
             set { _isFieldEnabled = value; OnPropertyChanged(nameof(IsFieldEnabled)); }
         }
 
-        private void OnSectionUpdateTransmitted()
-        {
-            LoadSectionsCollection();
-        }
-
-        private void OnAuthorUpdateTransmitted()
-        {
-            LoadAuthorsCollection();
-        }
         private void LoadWindow()
         {
-            LoadAuthorsCollection();
-            LoadSectionsCollection();
             LoadLocationsCollection();
             LoadUserBooks();
             DisableFields();
@@ -250,7 +217,10 @@ namespace SloVVo.Logic.ViewModels
         private void LoadUserBooks()
         {
             UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
-                x.BiblioId == Book.BiblioId && x.LocationId == Book.LocationId && x.ShelfId == Book.ShelfId).ToList());
+                x.BiblioId == Book.BiblioId && 
+                x.LocationId == Book.LocationId && 
+                x.ShelfId == Book.ShelfId &&
+                x.BookId == Book.BookId).ToList());
         }
 
         private void DisableFields()
@@ -261,11 +231,6 @@ namespace SloVVo.Logic.ViewModels
         private void LoadLocationsCollection()
         {
             Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
-        }
-
-        private void LoadSectionsCollection()
-        {
-            Sections = new ObservableCollection<Section>(_uow.SectionRepository.GetAll());
         }
 
         private void LoadAuthorsCollection()

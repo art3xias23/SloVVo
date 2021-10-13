@@ -5,9 +5,7 @@ namespace SloVVo.App.Locator
 {
     public class ViewLocator
     {
-        public static AddAuthorView AddAuthorView => IocKernel.Get<AddAuthorView>();
         public static AddBookView AddBookView => IocKernel.Get<AddBookView>();
-        public static AddContentView AddContentView => IocKernel.Get<AddContentView>();
         public static BooksView BooksView => IocKernel.Get<BooksView>();
         public static AddUserView AddUserView => IocKernel.Get<AddUserView>();
         public static SearchUserView UsersView  => IocKernel.Get<SearchUserView>();

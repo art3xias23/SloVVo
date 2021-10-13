@@ -8,20 +8,6 @@ namespace SloVVo.Logic.Event
 {
     public static class EventAggregator
     {
-        public static void UpdateAuthorCollection()
-        {
-            AuthorUpdateTransmitted?.Invoke();
-        }
-
-        public static Action AuthorUpdateTransmitted;
-
-        public static void UpdateSectionCollection()
-        {
-            SectionUpdateTransmitted?.Invoke();
-        }
-
-        public static Action SectionUpdateTransmitted;
-
         public static void UpdateBookCollection()
         {
             BookUpdateTransmitted?.Invoke();

@@ -7,43 +7,6 @@ namespace SloVVo.Logic.Event
 {
     public class ViewEventHandler
     {
-
-
-
-        #region ShowAddContent
-
-        public static event EventHandler ShowAddContentScreenEvent;
-
-        public static void RaiseShowAddContentView()
-        {
-            OnRaiseShowAddContentView();
-        }
-
-        private static void OnRaiseShowAddContentView()
-        {
-            ShowAddContentScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-
-        public static bool HasShowAddContentScreenEventListeners => ShowAddContentScreenEvent != null;
-        #endregion
-
-
-        #region ShowAddAuthor
-        public static event EventHandler ShowAddAuthorScreenEvent;
-
-        public static void RaiseShowAddAuthorView()
-        {
-            OnRaiseShowAddAuthorView();
-        }
-
-        private static void OnRaiseShowAddAuthorView()
-        {
-            ShowAddAuthorScreenEvent?.Invoke(typeof(ViewEventHandler), EventArgs.Empty);
-        }
-
-        public static bool HasShowAddAuthorScreenEventListeners => ShowAddAuthorScreenEvent != null;
-        #endregion
-
         public static Action ShowAddBookScreenAction;
 
         public static void RaiseShowAddBookView()

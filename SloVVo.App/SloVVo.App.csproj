@@ -56,6 +56,9 @@
     <StartupObject>SloVVo.App.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -73,6 +76,9 @@
     </Reference>
     <Reference Include="InfoBox, Version=1.2.0.91, Culture=neutral, PublicKeyToken=6f5edd306b0cc770, processorArchitecture=MSIL">
       <HintPath>..\packages\InformationBox.1.2.0.91\lib\net45\InfoBox.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=2.0.1.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.0.1\lib\net452\MaterialDesignColors.dll</HintPath>
@@ -142,12 +148,6 @@
     <Compile Include="ValidationRules\NumberIsNot0ValidationRule.cs" />
     <Compile Include="ValidationRules\StringIsValidValidationRule.cs" />
     <Compile Include="ValidationRules\StringNotNullValidationRule.cs" />
-    <Compile Include="Views\AddAuthorWindow.cs">
-      <DependentUpon>AddAuthorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddBookContentView.xaml.cs">
-      <DependentUpon>AddBookContentView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
@@ -181,14 +181,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Spinners\Splash.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AddAuthorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AddBookContentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

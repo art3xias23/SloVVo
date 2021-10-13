@@ -37,18 +37,16 @@
                 <TextBlock Text="Книга Nº" Height="17.96" FontSize="15" Background="White"></TextBlock>
                 <TextBlock Text="Книга име" Height="17.96" FontSize="15" Background="White"></TextBlock>
                 <TextBlock Text="Автор" Height="17.96" FontSize="15" Background="White"></TextBlock>
-                <TextBlock Text="Раздел" Height="17.96" FontSize="15" Background="White"></TextBlock>
-                <TextBlock Text="Година" Height="17.96" FontSize="15" Background="White"></TextBlock>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Margin="0,10" >
                 <ComboBox Name="LocationItem"  Width="100" 
                 Background="White"
                           Margin="8,0,8,15" 
-                         DisplayMemberPath="LocationName"
-                         SelectedValuePath="LocationId" 
-                         ItemsSource="{Binding Locations, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedItem="{Binding Book.Location, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                            DisplayMemberPath="LocationName"
+                            SelectedValuePath="LocationId" 
+                         ItemsSource="{Binding Locations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding SelectedLocation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                          IsSynchronizedWithCurrentItem="True">
                 </ComboBox>
@@ -67,32 +65,15 @@
                 </TextBox>
                 <TextBox x:Name="BookNameText" Width="100" Text="{Binding Book.BookName,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <ComboBox x:Name="AuthorText"  Width="100" Margin="10,12,10,10"
-                          Background="White"
-                          ItemsSource="{Binding Authors, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Book.Author, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          DisplayMemberPath="AuthorName"
-                          SelectedValuePath="AuthorId" 
-                          IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          IsSynchronizedWithCurrentItem="True"/>
-                <ComboBox x:Name="SectionText" Width="100" Margin="0,8,0,0" IsEditable="false"
-                    ItemsSource="{Binding Sections, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding Book.Section, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayMemberPath="SectionName"
-                    SelectedValuePath="SectionId" 
-                    Background="White"
-                    IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsSynchronizedWithCurrentItem="True"/>
-                <TextBox x:Name="YearText" Width="100" Margin="10,17,10,10" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    <Binding Path="Book.YearOfPublication" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
-                </TextBox>
+                <TextBox x:Name="AuthorNameText" Width="100" Text="{Binding Book.BookName,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8" IsEnabled="{Binding Book.AuthorName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <TextBlock Margin="50,10,60,0" Text="Потребител" Height="25" FontSize="15" Background="White"></TextBlock>
                 <TextBlock Margin="50,10,60,0" Text="Дата на връщане" Height="25" FontSize="15" Background="White"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Vertical">
-                <ComboBox Margin="0,10,60,0" Width="150" Height="25" FontSize="15" Background="White"
+                <ComboBox Margin="0,10,60,0" Width="250" Height="25" FontSize="15" Background="White"
                           ItemsSource="{Binding UserList,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding SelectedUser}"
                           SelectedValuePath="UserId"
@@ -101,7 +82,7 @@
                         <DataTemplate>
                             <TextBlock>
                                 <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                    <MultiBinding StringFormat="{}{0} {1}">
                                         <Binding Path="Firstname"/>
                                         <Binding Path="Surname"/>
                                     </MultiBinding>
@@ -111,16 +92,15 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <DatePicker Margin="0,10,60,0" Height="30" FontSize="15" SelectedDate="{Binding SelectedDateOfReturning, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                    <DatePicker.CalendarStyle>
-                        <Style TargetType="{x:Type Calendar}">
-                            <Setter Property="Background" Value="White" />
+                    <DatePicker.Style>
+                        <Style TargetType="{x:Type DatePicker}">
+                            <Style.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Background" Value="White"/>
+                            </Style>
+                            </Style.Resources>
                         </Style>
-                    </DatePicker.CalendarStyle>
-                    <DatePicker.Resources>
-                        <Style TargetType="DatePickerTextBox">
-                            <Setter Property="Background" Value="Black" />
-                        </Style>
-                    </DatePicker.Resources>
+                    </DatePicker.Style>
                 </DatePicker>
             </StackPanel>
         </StackPanel>

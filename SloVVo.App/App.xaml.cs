@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using InfoBox;
@@ -51,10 +52,20 @@ namespace SloVVo.App
 
 #endif
             IocKernel.Initialize(new IocConfiguration());
+
+
+            InitialStart();
+        }
+
+        private void InitialStart()
+        {
             var splash = new Splash();
             splash.Show();
 
-            Task.Delay(3000).ContinueWith(_ =>
+            Task.Run(Logic.AppCache.Cache.LoadBooks);
+
+            Task.Run(() =>
+            Task.Delay(4000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -62,7 +73,7 @@ namespace SloVVo.App
                     _mainWidowView.Show();
                     splash.Close();
                 });
-            });
+            }));
         }
 
 

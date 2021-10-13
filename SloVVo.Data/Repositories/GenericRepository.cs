@@ -27,7 +27,7 @@ namespace SloVVo.Data.Repositories
             return _context.Set<T>().Add(item);
         }
 
-        public List<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
             return _context.Set<T>().ToList();
         }
@@ -35,6 +35,11 @@ namespace SloVVo.Data.Repositories
         public IQueryable<T> GetAllQueryable()
         {
             return _context.Set<T>();
+        }
+
+        public List<T> GetAllToList()
+        {
+            return _context.Set<T>().ToList();
         }
 
         public T GetById(object id)

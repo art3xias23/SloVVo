@@ -12,7 +12,6 @@ namespace SloVVo.Data.Context
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
-        public DbSet<Section> Sections { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserBooks> UserBooks { get; set; }
         public DbSet<Location> Locations { get; set; }
@@ -21,8 +20,6 @@ namespace SloVVo.Data.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new BookMapping());
-            modelBuilder.Configurations.Add(new AuthorMapping());
-            modelBuilder.Configurations.Add(new SectionMapping());
             modelBuilder.Configurations.Add(new UserMapping());
             modelBuilder.Configurations.Add(new UserBooksMapping());
         }

@@ -9,7 +9,6 @@ namespace SloVVo.Data.Repositories
     {
         private  DbContext _context;
         private  AuthorRepository _authorRepository;
-        private  SectionRepository _sectionRepository;
         private  BookRepository _bookRepository;
         private  UserRepository _userRepository;
         private  LocationRepository _locationRepository;
@@ -17,7 +16,6 @@ namespace SloVVo.Data.Repositories
         public  DbContext DbContext => _context ?? (_context = new SloVVoDataContext());
 
         IGenericRepository<Author> IUnitOfWork.AuthorRepository => _authorRepository ?? (_authorRepository = new AuthorRepository(DbContext));
-        IGenericRepository<Section> IUnitOfWork.SectionRepository => _sectionRepository ?? (_sectionRepository = new SectionRepository(DbContext));
         IGenericRepository<Book> IUnitOfWork.BookRepository => _bookRepository ?? (_bookRepository = new BookRepository(DbContext));
         IGenericRepository<UserBooks> IUnitOfWork.UserBookRepository => _userBookRepository ?? (_userBookRepository = new UserBookRepository(DbContext));
         IGenericRepository<User> IUnitOfWork.UserRepository => _userRepository ?? (_userRepository = new UserRepository(DbContext));

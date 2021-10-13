@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using SloVVo.App.Views;
@@ -13,7 +14,6 @@ namespace SloVVo.App.MainWindowViewModel
 {
     public class MainWindowViewModel : ObservableObject
     {
-        public ICommand ShowAddContentCommand { get; set; }
         public ICommand ShowAddBookCommand { get; set; }
         public ICommand ShowAddUserCommand { get; set; }
         public ICommand ShowBooksCommand { get; set; }
@@ -41,12 +41,12 @@ namespace SloVVo.App.MainWindowViewModel
 
         public MainWindowViewModel()
         {
+            ShowBooks();
             _uow = IoCKernel.IocKernel.Get<IUnitOfWork>();
             LogoutCommand = new RelayCommandEmpty(Logout);
             CloseMenuCommand = new RelayCommandEmpty(CloseMenu);
             OpenMenuCommand = new RelayCommandEmpty(OpenMenu);
 
-            ShowAddContentCommand = new RelayCommandEmpty(ShowAddContent);
             ShowAddBookCommand = new RelayCommandEmpty(ShowAddBookScreen);
             ShowAddUserCommand = new RelayCommandEmpty(ShowAddUser);
             ShowBooksCommand = new RelayCommandEmpty(ShowBooks);
@@ -58,8 +58,6 @@ namespace SloVVo.App.MainWindowViewModel
             ButtonOpenMenuVisibility = Visibility.Visible;
 
             ViewEventHandler.ShowAddBookScreenAction = ShowAddBookActionMethod;
-            ViewEventHandler.ShowAddAuthorScreenEvent += ShowAddAuthorEvent;
-            ViewEventHandler.ShowAddContentScreenEvent += ShowAddContentEvent;
             ViewEventHandler.ShowBooksEvent += ShowBooksEventMethod;
             ViewEventHandler.ShowUsersEvent += ShowUsersEventMethod;
             ViewEventHandler.ShowBookEvent += ShowBookEventMethod;
@@ -95,17 +93,6 @@ namespace SloVVo.App.MainWindowViewModel
             ShowBooks();
         }
 
-        private void ShowAddContentEvent(object sender, EventArgs e)
-        {
-            ShowAddContent();
-        }
-
-        private void ShowAddAuthorEvent(object sender, EventArgs e)
-        {
-            ShowAddAuthor();
-        }
-
-
         private void ShowAddBookActionMethod()
         {
             ShowAddBookScreen();
@@ -128,16 +115,6 @@ namespace SloVVo.App.MainWindowViewModel
         private void ShowAddBookScreen()
         {
             PageContent = ViewLocator.AddBookView;
-        }
-
-        private void ShowAddContent()
-        {
-            PageContent = ViewLocator.AddContentView;
-        }
-
-        public void ShowAddAuthor()
-        {
-            PageContent = ViewLocator.AddAuthorView;
         }
 
         private void OpenMenu()

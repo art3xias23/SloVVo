@@ -11,7 +11,6 @@ namespace SloVVo.Data.Models
         public DateTime DateOfBorrowing { get; set; }
         public DateTime DateOfScheduledReturning { get; set; }
         public DateTime? DateOfActualReturning { get; set; }
-        public bool IsTaken { get; set; }
         public int UserId { get; set; }
         public virtual Book Book { get; set; }
         public virtual User User { get; set; }

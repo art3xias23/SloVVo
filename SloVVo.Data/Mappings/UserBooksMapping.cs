@@ -34,10 +34,6 @@ namespace SloVVo.Data.Mappings
             Property(x => x.DateOfActualReturning)
                 .IsOptional()
                 .HasColumnType("datetime");
-
-            Property(x => x.IsTaken)
-                .IsRequired()
-                .HasColumnType("bit");
         }
 
     }
