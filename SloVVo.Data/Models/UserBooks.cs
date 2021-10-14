@@ -4,6 +4,7 @@ namespace SloVVo.Data.Models
 {
     public class UserBooks
     {
+        public int BorrowId { get; set; }
         public int LocationId { get; set; }
         public int BiblioId { get; set; }
         public int ShelfId { get; set; }

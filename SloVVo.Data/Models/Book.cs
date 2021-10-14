@@ -3,7 +3,7 @@ using SloVVo.Data.Migrations;
 
 namespace SloVVo.Data.Models
 {
-    public class Book
+    public class Book 
     {
         public int LocationId { get; set; }
         public int BiblioId { get; set; }

@@ -65,7 +65,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void GetUserBooks()
         {
-            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
+            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAllEnumerable().Where(x =>
                x.UserId == User.UserId).ToList());
         }
 

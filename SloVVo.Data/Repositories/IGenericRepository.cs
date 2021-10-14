@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace SloVVo.Data.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> : IGenericRepositoryAsync<T> where T : class
     {
         void Add(T item);
         T AddReturn(T item);
-        IEnumerable<T> GetAll();
-        IQueryable<T> GetAllQueryable();
+        IEnumerable<T> GetAllEnumerable();
         List<T> GetAllToList();
         T GetById(object id);
         T GetById(Expression<Func<T, bool>> predicate);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ using SloVVo.Data.Models;
 using SloVVo.Data.Repositories;
 using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
+using SloVVo.Logic.ObservableModels;
 using SloVVo.Logic.PdfLogic;
 using Document = Mono.Cecil.Cil.Document;
 
@@ -22,22 +24,22 @@ namespace SloVVo.Logic.ViewModels
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly IUnitOfWork _uow;
-        private readonly IPdf<Book> _ipdf;
+        private readonly IPdf<ObservableBook> _ipdf;
         public ICommand LoadBookCollectionCommand { get; set; }
         public ICommand SearchCommand { get; set; }
         public ICommand EditRowCommand { get; set; }
         public ICommand PrintCommand { get; set; }
 
-        private ObservableCollection<Book> _booksList;
+        private ObservableCollection<ObservableBook> _booksList;
 
-        private Book _selectedItem;
+        private ObservableBook _selectedItem;
 
-        public Book SelectedItem
+        public ObservableBook SelectedItem
         {
             get => _selectedItem;
             set { _selectedItem = value; OnPropertyChanged(nameof(SelectedItem)); }
         }
-        public ObservableCollection<Book> BooksList
+        public ObservableCollection<ObservableBook> BooksList
         {
             get => _booksList;
             set { _booksList = value; OnPropertyChanged(nameof(BooksList)); }
@@ -92,8 +94,8 @@ namespace SloVVo.Logic.ViewModels
         public BooksViewModel(IUnitOfWork uow)
         {
             _uow = uow;
-            _ipdf = new Pdf<Book>();
-            EventAggregator.BookUpdateTransmitted += BookUpdate;
+            _ipdf = new Pdf<ObservableBook>();
+            BooksList = new ObservableCollection<ObservableBook>();
 
             LoadBookCollectionCommand = new RelayCommandEmpty(LoadBooksCollection);
             SearchCommand = new RelayCommandEmpty(Search);
@@ -110,43 +112,103 @@ namespace SloVVo.Logic.ViewModels
         private void EditRow()
         {
             if (SelectedItem != null)
-                ViewEventHandler.RaiseShowBookEvent(SelectedItem);
+                ViewEventHandler.RaiseShowBookEvent(MapToBook(SelectedItem));
         }
 
-        private void Search()
+        private async void Search()
         {
-            BooksList = new ObservableCollection<Book>(GetBooksList());
+            await SetBooksList();
         }
 
-        private List<Book> GetBooksList()
+        public IEnumerable<ObservableBook> MapToObservables(IEnumerable<Book> books)
         {
+            var returnEnumerable = new ObservableCollection<ObservableBook>();
+
+            foreach (var book in books)
+            {
+                var observableBook = new ObservableBook();
+                observableBook.LocationId = book.LocationId;
+                observableBook.BiblioId = book.BiblioId;
+                observableBook.BookId = book.BiblioId;
+                observableBook.ShelfId = book.ShelfId;
+                observableBook.AuthorName = book.AuthorName;
+                observableBook.IsTaken = book.IsTaken;
+                observableBook.Location = book.Location;
+                returnEnumerable.Add(observableBook);
+            }
+
+            return returnEnumerable;
+        }
+
+        public ObservableBook MapToObservable(Book book)
+        {
+            var observableBook = new ObservableBook();
+            observableBook.LocationId = book.LocationId;
+            observableBook.BiblioId = book.BiblioId;
+            observableBook.BookId = book.BiblioId;
+            observableBook.ShelfId = book.ShelfId;
+            observableBook.AuthorName = book.AuthorName;
+            observableBook.IsTaken = book.IsTaken;
+            observableBook.Location = book.Location;
+
+            return observableBook;
+        }
+
+        public Book MapToBook(ObservableBook book)
+        {
+            var observableBook = new Book();
+            observableBook.LocationId = book.LocationId;
+            observableBook.BiblioId = book.BiblioId;
+            observableBook.BookId = book.BiblioId;
+            observableBook.ShelfId = book.ShelfId;
+            observableBook.AuthorName = book.AuthorName;
+            observableBook.IsTaken = book.IsTaken;
+            observableBook.Location = book.Location;
+
+            return observableBook;
+        }
+
+        public IEnumerable<Book> MapToBooks(IEnumerable<ObservableBook> books)
+        {
+            var returnEnumerable = new ObservableCollection<Book>();
+
+            foreach (var book in books)
+            {
+                var observableBook = new Book();
+                observableBook.LocationId = book.LocationId;
+                observableBook.BiblioId = book.BiblioId;
+                observableBook.BookId = book.BiblioId;
+                observableBook.ShelfId = book.ShelfId;
+                observableBook.AuthorName = book.AuthorName;
+                observableBook.IsTaken = book.IsTaken;
+                observableBook.Location = book.Location;
+                returnEnumerable.Add(observableBook);
+            }
+
+            return returnEnumerable;
+        }
+        private async Task SetBooksList()
+        {
+            var books = await _uow.BookRepository.GetAllEnumerableAsync();
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 if (IsBookChecked)
                 {
-                    var books = _uow.BookRepository.GetAll();
-
-                    return books.Where(x => x.BookName != null && x.BookName.ToLower().Contains(SearchText.ToLower())).ToList();
+                     books = books.Where(x => x.BookName != null && x.BookName.ToLower().Contains(SearchText.ToLower())).ToList();
                 }
                 else if (IsAuthorChecked)
                 {
-                    var books = _uow.BookRepository.GetAll();
-                    return books.Where(x => x.AuthorName != null && x.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
-                }
-                else
-                {
-                    var books = _uow.BookRepository.GetAll();
-                    return books.ToList();
+                     books = books.Where(x => x.AuthorName != null && x.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
                 }
             }
 
-            return _uow.BookRepository.GetAll().ToList();
+            BooksList =  new ObservableCollection<ObservableBook>(MapToObservables(books));
         }
 
-        private void BookUpdate()
+        public async Task BookUpdate()
         {
             _logger.Trace("Started update book collection");
-            LoadBooksCollection();
+            await SetBooksList();
             _logger.Trace("Finished update book collection");
         }
 
@@ -155,9 +217,7 @@ namespace SloVVo.Logic.ViewModels
             try
             {
                 //BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
-                BooksList = new ObservableCollection<Book>(AppCache.Cache.BooksList);
-
-                //BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
+                Task.Run(BookUpdate); 
                 _logger.Trace("Finished Loading Books");
                 SetTotalItems("Брой Книги", BooksList.Count);
             }

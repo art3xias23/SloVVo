@@ -60,15 +60,14 @@
                 Name="BooksDataGrid" Margin="0,0,0,0" 
                   ItemsSource="{Binding BooksList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left"
-                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
-                        <Setter Property="Background" Value="Aquamarine"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsTaken,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                            <DataTrigger Binding="{Binding IsTaken,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
                                 <Setter Property="Background" Value="Firebrick"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding IsTaken,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                            <DataTrigger Binding="{Binding IsTaken,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
                                 <Setter Property="Background" Value="Aquamarine"></Setter>
                             </DataTrigger>
                         </Style.Triggers>

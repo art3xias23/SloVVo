@@ -16,7 +16,7 @@ namespace SloVVo.Logic.AppCache
         public static void LoadBooks()
         {
             _uow = new UnitOfWork();
-            BooksList = _uow.BookRepository.GetAllToList();
+            BooksList = _uow.BookRepository.GetAllEnumerable().ToList();
         }
     }
 }

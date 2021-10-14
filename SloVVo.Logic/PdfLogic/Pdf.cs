@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
@@ -19,7 +21,14 @@ namespace SloVVo.Logic.PdfLogic
                 XStringFormat.Center);
             var filename = @"C:\temp\testPdf.pdf";
 
-            pdfDocument.Save(filename);
+            Table table = new Table();
+
+            table.Borders.Width = 0.75;
+            var properties = items.First().GetType().GetProperties();
+
+            var i = table.AddColumn()
+
+
         }
     }
 }

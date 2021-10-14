@@ -10,7 +10,7 @@ namespace SloVVo.Data.Repositories
 {
    
 
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
+    public abstract class GenericRepository<T> : IGenericRepository<T>  where T : class
     {
         private DbContext _context;
 
@@ -27,14 +27,13 @@ namespace SloVVo.Data.Repositories
             return _context.Set<T>().Add(item);
         }
 
-        public IEnumerable<T> GetAll()
-        {
-            return _context.Set<T>().ToList();
-        }
-
-        public IQueryable<T> GetAllQueryable()
+        public IEnumerable<T> GetAllEnumerable()
         {
             return _context.Set<T>();
+        }
+        public async Task<IEnumerable<T>> GetAllEnumerableAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
         }
 
         public List<T> GetAllToList()
@@ -49,7 +48,8 @@ namespace SloVVo.Data.Repositories
 
         public T GetById(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().SingleOrDefault(predicate);
+            var something = _context.Set<T>().Where(predicate).ToList();
+            return something.SingleOrDefault();
         }
 
         public void Update(T item)

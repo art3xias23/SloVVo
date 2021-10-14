@@ -90,16 +90,17 @@ namespace SloVVo.Logic.ViewModels
                     x.BiblioId == Book.BiblioId &&
                     x.BookId == Book.BookId && 
                     x.ShelfId == Book.ShelfId &&
-                    x.LocationId == Book.LocationId && x.Book.IsTaken);
+                    x.LocationId == Book.LocationId && x.Book.IsTaken && x.DateOfActualReturning == null);
 
                 userBook.DateOfActualReturning = DateTime.Now;
+
+                _uow.SaveChanges();
 
                 var book = _uow.BookRepository.GetById(x => x.BiblioId == Book.BiblioId &&
                                                             x.BookId == Book.BookId &&
                                                             x.ShelfId == Book.ShelfId &&
                                                             x.LocationId == Book.LocationId);
                 book.IsTaken = false;
-
                 _uow.SaveChanges();
 
                 ViewEventHandler.RaiseShowBookEvent(Book);
@@ -216,7 +217,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadUserBooks()
         {
-            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAll().Where(x =>
+            UserBooks = new ObservableCollection<UserBooks>(_uow.UserBookRepository.GetAllEnumerable().Where(x =>
                 x.BiblioId == Book.BiblioId && 
                 x.LocationId == Book.LocationId && 
                 x.ShelfId == Book.ShelfId &&
@@ -230,12 +231,12 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadLocationsCollection()
         {
-            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAllEnumerable());
         }
 
         private void LoadAuthorsCollection()
         {
-            Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAll());
+            Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAllEnumerable());
         }
     }
 }

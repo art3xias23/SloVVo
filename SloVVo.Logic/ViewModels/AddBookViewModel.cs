@@ -40,7 +40,6 @@ namespace SloVVo.Logic.ViewModels
         {
             if (AddBookItem().Success)
             {
-                EventAggregator.UpdateBookCollection();
                 ViewEventHandler.RaiseShowBooksEvent();
             }
         }
@@ -50,7 +49,7 @@ namespace SloVVo.Logic.ViewModels
             try
             {
 
-                var recordExists = _uow.BookRepository.GetAllToList().Exists(x =>
+                var recordExists = _uow.BookRepository.GetAllEnumerable().ToList().Exists(x =>
                     x.LocationId == Book.Location.LocationId && x.BiblioId == Book.BiblioId &&
                     x.ShelfId == Book.ShelfId && x.BookId == Book.BookId);
 
@@ -134,7 +133,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void LoadLocationsCollection()
         {
-            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAllEnumerable());
         }
 
         private void LoadAuthorsCollection()
@@ -142,7 +141,7 @@ namespace SloVVo.Logic.ViewModels
             try
             {
                 _logger.Trace("Started Getting Authors");
-                Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAll());
+                Authors = new ObservableCollection<Author>(_uow.AuthorRepository.GetAllEnumerable());
                 _logger.Trace("Finished Getting Authors");
             }
             catch (Exception e)

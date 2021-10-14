@@ -56,11 +56,11 @@ namespace SloVVo.Logic.ViewModels
 
         private ObservableCollection<User> GetUsers()
         {
-            return new ObservableCollection<User>(_uow.UserRepository.GetAll());
+            return new ObservableCollection<User>(_uow.UserRepository.GetAllEnumerable());
         }
         private void LoadLocationsCollection()
         {
-            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAll());
+            Locations = new ObservableCollection<Location>(_uow.LocationRepository.GetAllEnumerable());
         }
 
 

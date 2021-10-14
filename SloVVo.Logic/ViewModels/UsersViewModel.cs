@@ -123,30 +123,30 @@ namespace SloVVo.Logic.ViewModels
 
                 if (IsFirstNameChecked && !IsSurnameChecked)
                 {
-                    var Users = _uow.UserRepository.GetAll();
+                    var Users = _uow.UserRepository.GetAllEnumerable();
 
                     return Users.Where(x => x.Firstname != null && x.Firstname.ToLower().Contains(SearchText.ToLower())).ToList();
                 }
                 else if (IsSurnameChecked && !IsFirstNameChecked)
                 {
-                    var Users = _uow.UserRepository.GetAll();
+                    var Users = _uow.UserRepository.GetAllEnumerable();
                     return Users.Where(x => x.Surname != null && x.Surname.ToLower().Contains(SearchText.ToLower()))?.ToList();
                 }
                 else
                 {
-                    var Users = _uow.UserRepository.GetAll();
+                    var Users = _uow.UserRepository.GetAllEnumerable();
                     return Users.ToList();
                 }
 
             }
 
-            return _uow.UserRepository.GetAll().ToList();
+            return _uow.UserRepository.GetAllEnumerable().ToList();
         }
 
         private void LoadUserCollection()
         {
             _logger.Trace("Loading Users");
-            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable().ToList());
+            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllEnumerable().ToList());
             SetTotalItems("Брой Потребители", UsersList.Count);
         }
 
@@ -154,7 +154,7 @@ namespace SloVVo.Logic.ViewModels
         private void LoadUsersCollection()
         {
             _logger.Trace("Loading Users");
-            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllQueryable());
+            UsersList = new ObservableCollection<User>(_uow.UserRepository.GetAllEnumerable());
         }
 
         private void SetTotalItems(string text, int count)

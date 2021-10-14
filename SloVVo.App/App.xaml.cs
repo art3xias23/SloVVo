@@ -9,6 +9,7 @@ using SloVVo.App.Views;
 using SloVVo.Logic.Squirrel;
 using NLog;
 using SloVVo.App.IoCKernel;
+using SloVVo.Logic.ViewModels;
 using MessageBox = System.Windows.MessageBox;
 
 namespace SloVVo.App
@@ -62,10 +63,11 @@ namespace SloVVo.App
             var splash = new Splash();
             splash.Show();
 
-            Task.Run(Logic.AppCache.Cache.LoadBooks);
+            var booksViewModel = IocKernel.Get<BooksViewModel>();
+            Task.Run(booksViewModel.BookUpdate);
 
             Task.Run(() =>
-            Task.Delay(4000).ContinueWith(_ =>
+            Task.Delay(5000).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {

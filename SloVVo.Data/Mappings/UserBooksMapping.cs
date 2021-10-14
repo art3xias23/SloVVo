@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 using SloVVo.Data.Models;
 
 namespace SloVVo.Data.Mappings
@@ -13,7 +14,12 @@ namespace SloVVo.Data.Mappings
         public UserBooksMapping(string schema)
         {
             ToTable("UserBooks", schema);
-            HasKey(x => new { x.LocationId ,x.BiblioId,x.ShelfId, x.BookId, x.UserId });
+            HasKey(x => new { x.BorrowId,x.LocationId ,x.BiblioId,x.ShelfId, x.BookId, x.UserId});
+
+            Property(x => x.BorrowId)
+                .HasColumnType("int")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
+                .IsRequired();
 
             HasRequired(x => x.User)
                 .WithMany(x => x.UserBooks)

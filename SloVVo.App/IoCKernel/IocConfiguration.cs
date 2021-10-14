@@ -12,7 +12,7 @@ namespace SloVVo.App.IoCKernel
     {
         public override void Load() 
         {
-            Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
+            Bind<IUnitOfWork>().To<UnitOfWork>().InTransientScope();
             Bind<MainWindowViewModel.MainWindowViewModel>().ToSelf().InTransientScope();
 
             Bind<AddBookViewModel>().ToSelf().InTransientScope();

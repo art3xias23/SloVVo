@@ -76,6 +76,14 @@
     <Compile Include="Migrations\202110132001407_Change Is Taken.designer.cs">
       <DependentUpon>202110132001407_Change Is Taken.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110141955593_Add DateOfBorrowing to primary key.cs" />
+    <Compile Include="Migrations\202110141955593_Add DateOfBorrowing to primary key.designer.cs">
+      <DependentUpon>202110141955593_Add DateOfBorrowing to primary key.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110142011553_Add BorrowId to userbook primary key.cs" />
+    <Compile Include="Migrations\202110142011553_Add BorrowId to userbook primary key.designer.cs">
+      <DependentUpon>202110142011553_Add BorrowId to userbook primary key.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Location.cs" />
@@ -89,6 +97,7 @@
     <Compile Include="Repositories\BookRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\IGenericRepositoryAsync.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
@@ -115,7 +124,14 @@
     <EmbeddedResource Include="Migrations\202110132001407_Change Is Taken.resx">
       <DependentUpon>202110132001407_Change Is Taken.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110141955593_Add DateOfBorrowing to primary key.resx">
+      <DependentUpon>202110141955593_Add DateOfBorrowing to primary key.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110142011553_Add BorrowId to userbook primary key.resx">
+      <DependentUpon>202110142011553_Add BorrowId to userbook primary key.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

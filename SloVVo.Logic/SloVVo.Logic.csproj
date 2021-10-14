@@ -121,6 +121,7 @@
     <Compile Include="Command\RelayCommandEmpty.cs" />
     <Compile Include="Event\EventAggregator.cs" />
     <Compile Include="Event\ViewEventHandler.cs" />
+    <Compile Include="ObservableModels\ObservableBook.cs" />
     <Compile Include="PdfLogic\IPdf.cs" />
     <Compile Include="PdfLogic\Pdf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

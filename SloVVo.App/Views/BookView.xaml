@@ -71,7 +71,7 @@
                 <TextBox x:Name="AuthorNameText" Width="100" Text="{Binding Book.AuthorName,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource CustomErrorControlOnErrorStyle}" Margin="8,12,8,8" IsEnabled="{Binding IsFieldEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <DataGrid HorizontalAlignment="Right" Width="500" Margin="150,0,0,0" ItemsSource="{Binding UserBooks, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid HorizontalAlignment="Right" Width="500" Margin="150,0,0,0" ItemsSource="{Binding UserBooks, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"  MaxHeight="238">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Име" Binding="{Binding User.Firstname}"/>
                     <DataGridTextColumn Header="Фамилия" Binding="{Binding User.Surname}"/>
