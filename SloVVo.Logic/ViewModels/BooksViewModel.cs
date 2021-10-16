@@ -94,7 +94,7 @@ namespace SloVVo.Logic.ViewModels
         public BooksViewModel(IUnitOfWork uow)
         {
             _uow = uow;
-            _ipdf = new Pdf<ObservableBook>();
+            //_ipdf = new Pdf();
             BooksList = new ObservableCollection<ObservableBook>();
 
             LoadBookCollectionCommand = new RelayCommandEmpty(LoadBooksCollection);
@@ -106,7 +106,7 @@ namespace SloVVo.Logic.ViewModels
 
         private void Print()
         {
-            _ipdf.ExportToPdf(BooksList);
+            //_ipdf.ExportToPdf(BooksList);
         }
 
         private void EditRow()
