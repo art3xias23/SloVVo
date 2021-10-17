@@ -13,9 +13,11 @@ using Bogus;
 using Bogus.DataSets;
 using Bogus.Extensions;
 using SloVVo.Data.Models;
+using SloVVo.Logic.ObservableModels;
 using FontStyle = System.Drawing.FontStyle;
 using FontStyles = Aspose.Pdf.Text.FontStyles;
 using HorizontalAlignment = Aspose.Pdf.HorizontalAlignment;
+using Table = Aspose.Pdf.Table;
 
 namespace SloVVo.Logic.PdfLogic
 {
@@ -36,7 +38,7 @@ namespace SloVVo.Logic.PdfLogic
                 var pdfPage = doc.Pages.First();
 
                 //Set page size
-                pdfPage.SetPageSize(750, 842);
+                pdfPage.SetPageSize(1000, 842);
                 var secondaryParagraphText = string.Empty;
 
                 var mainParagraphText1 = @"Библиотека";
@@ -62,43 +64,29 @@ namespace SloVVo.Logic.PdfLogic
                 //Add values to the columns
                 AddValuesToColumns(items, properties, listOfColumnsStartingWithName);
 
-
-                //Get Dictionary of column names and sizes
-
-                //var dictOfColumnNamesAndSizes = new Dictionary<int, int>();
-                //for (int columnNumber = 0; columnNumber < listOfColumnsStartingWithName.Count; columnNumber++)
-                //{
-                //    dictOfColumnNamesAndSizes.Add(columnNumber, listOfColumnsStartingWithName[columnNumber].OrderByDescending(x => x.Length).First().Length);
-                //}
-                //for (int columnNumber = 1; columnNumber < listOfColumnsStartingWithName.Count+1; columnNumber++)
-                //{
-                //    for (int rowNumber = 0; rowNumber < columnNumber-1; rowNumber++)
-                //    {
-                //        var cell = new Cell(new Rectangle(0, 0, Convert.ToDouble(dictOfColumnNamesAndSizes[columnNumber].ToString()), 12f));
-                //        cell.Paragraphs.Add(new TextFragment(listOfColumnsStartingWithName[columnNumber][rowNumber].ToString()));
-                //        row.Cells.Add(cell);
-                //    }
-                //}
-
-                for (int rowNumber = 0; rowNumber < listOfColumnsStartingWithName.First().Count; rowNumber++)
-                {
-                    var row = table.Rows.Add();
-                    for (int columnNumber = 0; columnNumber < listOfColumnsStartingWithName.Count - 1; columnNumber++)
-                    {
-                        if (rowNumber == 0)
-                        {
-                            row.DefaultCellTextState.FontStyle = FontStyles.Bold;
-                            row.DefaultCellTextState.FontSize = 12;
-                        }
-                        row.DefaultCellTextState.FontSize = 12;
-                        //var cell = new Cell(new Rectangle(20, 20, 100f, 2f));
-                        //cell.Paragraphs.Add(new TextFragment(listOfColumnsStartingWithName[columnNumber][rowNumber].ToString()));
-                        row.Cells.Add(listOfColumnsStartingWithName[columnNumber][rowNumber].ToString());
-                    }
-                }
+                PopulateTableInPdf(listOfColumnsStartingWithName, table);
 
                 doc.Pages[1].Paragraphs.Add(table);
                 doc.Save(filePath);
+            }
+        }
+
+        private static void PopulateTableInPdf(List<List<string>> listOfColumnsStartingWithName, Table table)
+        {
+            for (int rowNumber = 0; rowNumber < listOfColumnsStartingWithName.First().Count; rowNumber++)
+            {
+                var row = table.Rows.Add();
+                for (int columnNumber = 0; columnNumber < listOfColumnsStartingWithName.Count - 1; columnNumber++)
+                {
+                    if (rowNumber == 0)
+                    {
+                        row.DefaultCellTextState.FontStyle = FontStyles.Bold;
+                        row.DefaultCellTextState.FontSize = 12;
+                    }
+
+                    row.DefaultCellTextState.FontSize = 12;
+                    row.Cells.Add(listOfColumnsStartingWithName[columnNumber][rowNumber]?.ToString() ?? string.Empty);
+                }
             }
         }
 
@@ -108,7 +96,7 @@ namespace SloVVo.Logic.PdfLogic
             {
                 return "Списък с пробни данни";
             }
-            else if (firstItem.GetType() == typeof(Book))
+            else if (firstItem.GetType() == typeof(ObservableBook))
             {
                 return "Списък с книги";
             }
@@ -150,11 +138,16 @@ namespace SloVVo.Logic.PdfLogic
                 {
                     var propTypeInfo = item?.GetType();
                     var property = propTypeInfo.GetProperty(prop.Name);
-                    var propValue = property.GetValue(item).ToString();
+                    var propValue = GetPropertyValue(property, item);
                     listOfColumnsStartingWithName[count].Add(propValue);
                     count++;
                 }
             }
+        }
+
+        private static string GetPropertyValue(PropertyInfo property, T item)
+        {
+            return property?.GetValue(item)?.ToString();
         }
 
         private static List<List<string>> GetListOfColumnsStartingWithName(IEnumerable<T> items, out PropertyInfo[] properties)
@@ -201,7 +194,15 @@ namespace SloVVo.Logic.PdfLogic
 
         }
 
+        public void CreateDirectoryIfNotExist(string directoryPath)
+        {
+            System.IO.Directory.CreateDirectory(directoryPath);
+        }
 
+        public int GetCountOfDirectoryItems(string directoryPath)
+        {
+            return System.IO.Directory.GetFiles(directoryPath).Count();
+        }
     }
 
     public class Someclass

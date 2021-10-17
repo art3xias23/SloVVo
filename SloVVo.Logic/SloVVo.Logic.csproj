@@ -124,6 +124,7 @@
     <Compile Include="ObservableModels\ObservableBook.cs" />
     <Compile Include="PdfLogic\IPdf.cs" />
     <Compile Include="PdfLogic\Pdf.cs" />
+    <Compile Include="PdfModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\IResponse.cs" />
     <Compile Include="Response\Response.cs" />

@@ -22,6 +22,7 @@ namespace SloVVo.Logic.ViewModels
 {
     public class BooksViewModel : ObservableObject
     {
+        private const string _pdfDirectory = @"C:\PdfDocuments";
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly IUnitOfWork _uow;
         private readonly IPdf<ObservableBook> _ipdf;
@@ -94,19 +95,21 @@ namespace SloVVo.Logic.ViewModels
         public BooksViewModel(IUnitOfWork uow)
         {
             _uow = uow;
-            //_ipdf = new Pdf();
+            _ipdf = new Pdf<ObservableBook>();
             BooksList = new ObservableCollection<ObservableBook>();
 
             LoadBookCollectionCommand = new RelayCommandEmpty(LoadBooksCollection);
             SearchCommand = new RelayCommandEmpty(Search);
             EditRowCommand = new RelayCommandEmpty(EditRow);
-            PrintCommand = new RelayCommandEmpty(Print);
+            PrintCommand = new RelayCommandEmpty(GeneratePdf);
 
         }
 
-        private void Print()
+        private void GeneratePdf()
         {
-            //_ipdf.ExportToPdf(BooksList);
+            _ipdf.CreateDirectoryIfNotExist(_pdfDirectory);
+            var fileCount = _ipdf.GetCountOfDirectoryItems(_pdfDirectory);
+            _ipdf.ExportToPdf(BooksList.ToList(), $@"{_pdfDirectory}\PdfDocument_{fileCount}_{DateTime.Now.ToString("yymmdd")}.pdf");
         }
 
         private void EditRow()

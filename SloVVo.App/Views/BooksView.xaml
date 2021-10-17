@@ -52,7 +52,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25">
                 <Label  Background="White" Margin="0,0,10,0" HorizontalAlignment="Right" Content="{Binding TotalItemsText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontSize="15"/>
                 <Label  Background="White" Width="40" HorizontalAlignment="Right" Content="{Binding TotalItemsCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay }"/>
-                <Button HorizontalAlignment="Right" Background="CornflowerBlue" Content="Принтирай" Margin="-200,0" Command="{Binding PrintCommand}"></Button>
+                <Button HorizontalAlignment="Right" Background="CornflowerBlue" Content="Отвори в Pdf" Margin="-200,0" Command="{Binding PrintCommand}"></Button>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
