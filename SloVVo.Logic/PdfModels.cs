@@ -10,7 +10,8 @@ namespace SloVVo.Logic
     {
         public class PdfBook
         {
-             public int Рафт 
+             //public int Рафт 
+             //public int Рафт 
         }
     }
 }

@@ -168,15 +168,6 @@ namespace SloVVo.Logic.PdfLogic
             return listOfColumns;
         }
 
-        public void OpenDocument(string path)
-        {
-            var fileName = path;
-            using (var pdfDocument = new Aspose.Pdf.Document(fileName))
-            {
-                Console.WriteLine($"Pages {pdfDocument.Pages.Count}");
-            }
-        }
-
         public List<Someclass> GetBogusDataData()
         {
             Randomizer.Seed = new Random(10);
@@ -203,6 +194,11 @@ namespace SloVVo.Logic.PdfLogic
         {
             return System.IO.Directory.GetFiles(directoryPath).Count();
         }
+
+        public void OpenDocument(string filePath)
+        {
+            System.Diagnostics.Process.Start(filePath);
+        }
     }
 
     public class Someclass
@@ -214,6 +210,8 @@ namespace SloVVo.Logic.PdfLogic
         public DateTime DoB { get; set; }
         public string Town { get; set; }
     }
+
+    
 
 
 }

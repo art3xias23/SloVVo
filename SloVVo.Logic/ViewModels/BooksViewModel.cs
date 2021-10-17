@@ -107,9 +107,13 @@ namespace SloVVo.Logic.ViewModels
 
         private void GeneratePdf()
         {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             _ipdf.CreateDirectoryIfNotExist(_pdfDirectory);
             var fileCount = _ipdf.GetCountOfDirectoryItems(_pdfDirectory);
-            _ipdf.ExportToPdf(BooksList.ToList(), $@"{_pdfDirectory}\PdfDocument_{fileCount}_{DateTime.Now.ToString("yymmdd")}.pdf");
+            var fileName = $@"{_pdfDirectory}\PdfDocument_{fileCount}_{DateTime.Now.ToString("yymmdd")}.pdf";
+            _ipdf.ExportToPdf(BooksList.ToList(), fileName);
+            _ipdf.OpenDocument(fileName);
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
 
         private void EditRow()

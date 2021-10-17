@@ -7,5 +7,6 @@ namespace SloVVo.Logic.PdfLogic
         void ExportToPdf(IEnumerable<T> items, string filePath);
         int GetCountOfDirectoryItems(string directoryPath);
         void CreateDirectoryIfNotExist(string directoryPath);
+        void OpenDocument(string filePath);
     }
 }
