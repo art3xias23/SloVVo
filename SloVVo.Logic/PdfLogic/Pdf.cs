@@ -3,10 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using Aspose.Pdf;
 using Aspose.Pdf.Text;
 using Bogus;
@@ -14,7 +10,6 @@ using Bogus.DataSets;
 using Bogus.Extensions;
 using SloVVo.Data.Models;
 using SloVVo.Logic.ObservableModels;
-using FontStyle = System.Drawing.FontStyle;
 using FontStyles = Aspose.Pdf.Text.FontStyles;
 using HorizontalAlignment = Aspose.Pdf.HorizontalAlignment;
 using Table = Aspose.Pdf.Table;
@@ -31,6 +26,7 @@ namespace SloVVo.Logic.PdfLogic
             Aspose.Pdf.Table table = new Aspose.Pdf.Table();
             table.Border = new Aspose.Pdf.BorderInfo(Aspose.Pdf.BorderSide.All, .5f, Aspose.Pdf.Color.FromRgb(System.Drawing.Color.Green));
             table.DefaultCellBorder = new Aspose.Pdf.BorderInfo(Aspose.Pdf.BorderSide.All, .5f, Aspose.Pdf.Color.FromRgb(System.Drawing.Color.Green));
+            table.Alignment = HorizontalAlignment.Center;
             var firstItem = items.FirstOrDefault();
             if (firstItem != null)
             {

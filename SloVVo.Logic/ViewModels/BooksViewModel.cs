@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Bogus;
 using NLog;
 using NLog.LayoutRenderers.Wrappers;
 using SloVVo.Data.Models;
@@ -16,6 +17,7 @@ using SloVVo.Logic.Command;
 using SloVVo.Logic.Event;
 using SloVVo.Logic.ObservableModels;
 using SloVVo.Logic.PdfLogic;
+using SloVVo.Logic.PdfModels;
 using Document = Mono.Cecil.Cil.Document;
 
 namespace SloVVo.Logic.ViewModels
@@ -25,7 +27,7 @@ namespace SloVVo.Logic.ViewModels
         private const string _pdfDirectory = @"C:\PdfDocuments";
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly IUnitOfWork _uow;
-        private readonly IPdf<ObservableBook> _ipdf;
+        private readonly IPdf<PdfBookModel> _ipdf;
         public ICommand LoadBookCollectionCommand { get; set; }
         public ICommand SearchCommand { get; set; }
         public ICommand EditRowCommand { get; set; }
@@ -95,8 +97,9 @@ namespace SloVVo.Logic.ViewModels
         public BooksViewModel(IUnitOfWork uow)
         {
             _uow = uow;
-            _ipdf = new Pdf<ObservableBook>();
+            _ipdf = new Pdf<PdfBookModel>();
             BooksList = new ObservableCollection<ObservableBook>();
+
 
             LoadBookCollectionCommand = new RelayCommandEmpty(LoadBooksCollection);
             SearchCommand = new RelayCommandEmpty(Search);
@@ -104,16 +107,67 @@ namespace SloVVo.Logic.ViewModels
             PrintCommand = new RelayCommandEmpty(GeneratePdf);
 
         }
+        private List<PdfBookModel> GetPdfBooksBogus()
+        {
+            var fakerObject = new Faker<PdfBookModel>()
+                .RuleFor(x => x.Локация, a => a.PickRandom<LocationEnum>().ToString())
+                .RuleFor(x => x.Библиотека, a => a.IndexFaker)
+                .RuleFor(x => x.Рафт, a => a.IndexFaker)
+                .RuleFor(x => x.Книга, a => a.IndexFaker)
+                .RuleFor(x => x.КнигаИме, a => string.Join(" ", a.Lorem.Words()))
+                .RuleFor(x => x.Автор, a => a.Person.FullName)
+                .RuleFor(x => x.Взета, a => a.PickRandom<TakenEnum>().ToString())
+                .FinishWith((f, u) => { System.Console.WriteLine("SomeClass Created! Id={0}", u.Локация); });
+
+            return fakerObject.Generate(1230).ToList();
+        }
+
+        private enum TakenEnum
+        {
+            Да,
+            Не
+        }
+
+        private enum LocationEnum
+        {
+            Основна,
+            Коридор,
+            Дарителска
+        }
 
         private void GeneratePdf()
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
             _ipdf.CreateDirectoryIfNotExist(_pdfDirectory);
             var fileCount = _ipdf.GetCountOfDirectoryItems(_pdfDirectory);
             var fileName = $@"{_pdfDirectory}\PdfDocument_{fileCount}_{DateTime.Now.ToString("yymmdd")}.pdf";
-            _ipdf.ExportToPdf(BooksList.ToList(), fileName);
+            //_ipdf.ExportToPdf(MapToPdfBooks(BooksList.ToList()), fileName);
+            _ipdf.ExportToPdf(GetPdfBooksBogus(), fileName);
             _ipdf.OpenDocument(fileName);
+
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        private IEnumerable<PdfBookModel> MapToPdfBooks(List<ObservableBook> booksList)
+        {
+            var pdfBooksList = new List<PdfBookModel>();
+
+            foreach (var book in booksList)
+            {
+                var pdfBook = new PdfBookModel();
+                pdfBook.Локация = book.Location.LocationName;
+                pdfBook.Библиотека = book.BiblioId;
+                pdfBook.Рафт = book.ShelfId;
+                pdfBook.Книга = book.BookId;
+                pdfBook.КнигаИме = book.BookName;
+                pdfBook.Автор = book.AuthorName;
+                pdfBook.Взета = book.IsTaken == true ? "Да" : "Не";
+
+                pdfBooksList.Add(pdfBook);
+            }
+
+            return pdfBooksList;
         }
 
         private void EditRow()
@@ -201,15 +255,15 @@ namespace SloVVo.Logic.ViewModels
             {
                 if (IsBookChecked)
                 {
-                     books = books.Where(x => x.BookName != null && x.BookName.ToLower().Contains(SearchText.ToLower())).ToList();
+                    books = books.Where(x => x.BookName != null && x.BookName.ToLower().Contains(SearchText.ToLower())).ToList();
                 }
                 else if (IsAuthorChecked)
                 {
-                     books = books.Where(x => x.AuthorName != null && x.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
+                    books = books.Where(x => x.AuthorName != null && x.AuthorName.ToLower().Contains(SearchText.ToLower()))?.ToList();
                 }
             }
 
-            BooksList =  new ObservableCollection<ObservableBook>(MapToObservables(books));
+            BooksList = new ObservableCollection<ObservableBook>(MapToObservables(books));
         }
 
         public async Task BookUpdate()
@@ -224,7 +278,7 @@ namespace SloVVo.Logic.ViewModels
             try
             {
                 //BooksList = new ObservableCollection<Book>(_uow.BookRepository.GetAllQueryable());
-                Task.Run(BookUpdate); 
+                Task.Run(BookUpdate);
                 _logger.Trace("Finished Loading Books");
                 SetTotalItems("Брой Книги", BooksList.Count);
             }
